@@ -34,7 +34,9 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final String TAG = null;
 	private static final String TUTORIALS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-			+ "/" + TUTORIALS_BASE_PATH);
+			+ "/" + TUTORIALS_BASE_PATH );
+	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
+			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH+ "/list");
 	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/mt-vfs";
 	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
