@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -220,16 +219,15 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = {
-						"/data/data/com.manager.boot.free/bin/tune2fs -l ", vspath,
-						"/cache.img", "" };
+						"/data/data/com.manager.boot.free/bin/tune2fs -l ",
+						vspath, "/cache.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(
 						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String chuuid = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"),
-						0);
+				scanner.findWithinHorizon(Pattern
+						.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
 				String chmagicnumber = scanner.match().group(1);
 				scanner.findWithinHorizon(
 						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
@@ -259,16 +257,15 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = {
-						"/data/data/com.manager.boot.free/bin/tune2fs -l ", vspath,
-						"/data.img", "" };
+						"/data/data/com.manager.boot.free/bin/tune2fs -l ",
+						vspath, "/data.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(
 						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String dauuid = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"),
-						0);
+				scanner.findWithinHorizon(Pattern
+						.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
 				String damagicnumber = scanner.match().group(1);
 				scanner.findWithinHorizon(
 						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
@@ -298,16 +295,15 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = {
-						"/data/data/com.manager.boot.free/bin/tune2fs -l ", vspath,
-						"/system.img", "" };
+						"/data/data/com.manager.boot.free/bin/tune2fs -l ",
+						vspath, "/system.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(
 						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String syuuid = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"),
-						0);
+				scanner.findWithinHorizon(Pattern
+						.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
 				String symagicnumber = scanner.match().group(1);
 				scanner.findWithinHorizon(
 						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
@@ -336,8 +332,8 @@ public class VibhinnaProvider extends ContentProvider {
 						+ vspath + "/system.img");
 			}
 			String key[] = new String[29];
-			for (int i = 0; i < key.length;i++){
-				key[i] = "key"+i;
+			for (int i = 0; i < key.length; i++) {
+				key[i] = "key" + i;
 			}
 			MatrixCursor matcursor = new MatrixCursor(key);
 			matcursor.addRow(vsinfo);
