@@ -60,6 +60,8 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		// ---- magic lines starting here -----
 		// call this to re-connect with an existing
 		// loader (after screen configuration changes for e.g!)
+		setHasOptionsMenu(true) ;
+		
 		setListShown(false);
 		LoaderManager lm = getLoaderManager();
 		if (lm.getLoader(0) != null) {
@@ -388,4 +390,5 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		inflater.inflate(R.menu.options_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
+	
 }
