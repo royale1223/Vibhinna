@@ -143,9 +143,9 @@ public class VibhinnaProvider extends ContentProvider {
 			// no filter
 			break;
 		case TUTORIAL_LIST:
-
-			Cursor c = query(CONTENT_URI, Constants.allColumns, null, null,
-					null);
+			Log.d(TAG, "get name list");
+			Cursor c = query(CONTENT_URI, projection, selection, selectionArgs,
+					sortOrder);
 			MatrixCursor cursor = new MatrixCursor(
 					Constants.MATRIX_COLUMN_NAMES);
 			if (c.moveToFirst()) {
