@@ -30,6 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			+ VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, "
 			+ VIRTUAL_SYSTEM_COLUMN_TYPE + " INTEGER, "
 			+ VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
+	private static final String TAG = null;
 
 	protected Context context;
 
