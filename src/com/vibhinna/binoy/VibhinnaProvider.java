@@ -24,7 +24,7 @@ public class VibhinnaProvider extends ContentProvider {
 	private DataBaseHelper mDataBaseHelper;
 	private SQLiteDatabase mDB;
 	private Context context;
-	private static final String AUTHORITY = "com.manager.boot.free.MultiBootProvider";
+	private static final String AUTHORITY = "com.vibhinna.binoy.VibhinnaProvider";
 	public static final int TUTORIALS = 0;
 	public static final int TUTORIAL_ID = 1;
 	private static final int TUTORIAL_LIST = 2;
