@@ -14,7 +14,7 @@
     <string name="magic_number">Magic Number\t\t: %1$s</string>
     <string name="vfs_state">VFS State\t\t\t: %1$s</string>
     <string name="free_space_not_available">Free Space \t\t\t: N/A</string>
-    <string name="free_space">Free Space \t\t\t: %1$sMB/%1$sMB free</string>
+    <string name="free_space">Free Space \t\t\t: %1$sMB/%2$sMB free</string>
     <string name="block_count">Block Count\t\t\t: %1$s</string>
     <string name="free_block_count">Free Blocks\t\t\t: %1$s</string>
     <string name="block_size">Block Size\t\t\t: %1$s</string>
@@ -83,7 +83,7 @@
     <string name="menu_backup">Backup</string>
     <string name="menu_restore">Restore</string>
     <string name="menu_scan">Scan</string>
-    <string name="task_message_waiting">Waiting for the previous task to finish.</string>
+    <string name="task_message_waiting">Waiting for the previous task</string>
     <string name="image_content">image content</string>
     <string name="menu_clear">Clear</string>
     <string name="menu_about">About</string>
@@ -94,6 +94,7 @@
     <string name="multiboot_info">Multiboot (%1$s)</string>
     <string name="task_create_vfs">Create %1$s</string>
     <string name="task_format_vfs">Format %1$s</string>
+    <string name="task_resize_vfs">Resize %1$s</string>
     <string name="task_unknown">Unknown task!!</string>
     <string name="clear_tasks_title">Clear tasks</string>
     <string name="clear_tasks_message">Do you want to clear all completed tasks?</string>
@@ -111,5 +112,8 @@
     <string name="clear_all_tasks_message">Do you want to clear all tasks including incomplete ones?</string>
     <string name="no_vfs_found">No virtual system was found. Please create a new one by clicking the + sign.</string>
     <string name="verify_external_storage">Please make sure that SDcard is mounted.</string>
+    <string name="resize">Resize</string>
+    <string name="resizing_message">Resizing %1$s</string>
+    <string name="resizing_complete_message">Resizing %1$s complete.</string>
 
 </resources>

@@ -13,8 +13,6 @@ import com.binoy.vibhinna.R;
 
 public class TasksAdapter extends SimpleCursorAdapter {
 
-	public static final int TASK_TYPE_CREATE = 0;
-	public static final int TASK_TYPE_FORMAT = 1;
 	public static final int TASK_STATUS_RUNNING = 0;
 	public static final int TASK_STATUS_WAITING = 1;
 	public static final int TASK_STATUS_FINISHED = 2;
@@ -66,12 +64,16 @@ public class TasksAdapter extends SimpleCursorAdapter {
 		String title;
 		switch (mCursor
 				.getInt(mCursor.getColumnIndex(DatabaseHelper.TASK_TYPE))) {
-		case TASK_TYPE_CREATE:
+		case VibhinnaService.TASK_TYPE_NEW_VFS:
 			title = mContext.getString(R.string.task_create_vfs, mCursor
 					.getString(mCursor.getColumnIndex(DatabaseHelper.TASK_VS)));
 			break;
-		case TASK_TYPE_FORMAT:
+		case VibhinnaService.TASK_TYPE_FORMAT_VFS:
 			title = mContext.getString(R.string.task_format_vfs, mCursor
+					.getString(mCursor.getColumnIndex(DatabaseHelper.TASK_VS)));
+			break;
+		case VibhinnaService.TASK_TYPE_RESIZE_VFS:
+			title = mContext.getString(R.string.task_resize_vfs, mCursor
 					.getString(mCursor.getColumnIndex(DatabaseHelper.TASK_VS)));
 			break;
 		default:
@@ -115,6 +117,5 @@ public class TasksAdapter extends SimpleCursorAdapter {
 		TextView message;
 		ProgressBar progress;
 		TextView percent;
-
 	}
 }

@@ -23,12 +23,12 @@ public class ProcessManager {
 		for (int i = 0; i < shellinput.length; i++) {
 			command.append(shellinput[i]);
 		}
-		Log.d(TAG, "execute : " + command.toString());
 		try {
-			return convertStreamToString(Runtime.getRuntime()
+			String stderr = convertStreamToString(Runtime.getRuntime()
 					.exec(command.toString()).getErrorStream());
+			return stderr;
 		} catch (IOException e) {
-			Log.d(TAG, "Error!");
+			Log.w(TAG, "Error!");
 			return Constants.EMPTY;
 		}
 	}
@@ -45,12 +45,12 @@ public class ProcessManager {
 		for (int i = 0; i < shellinput.length; i++) {
 			command.append(shellinput[i]);
 		}
-		Log.d(TAG, "execute : " + command.toString());
 		try {
-			return convertStreamToString(Runtime.getRuntime()
+			String stdin = convertStreamToString(Runtime.getRuntime()
 					.exec(command.toString()).getInputStream());
+			return stdin;
 		} catch (IOException e) {
-			Log.d(TAG, "Error!");
+			Log.w(TAG, "Error!");
 			return Constants.EMPTY;
 		}
 	}

@@ -60,13 +60,7 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 				.setTitle(getString(R.string.format_vfs, mName))
 				.setView(formatView)
 				.setPositiveButton(getString(R.string.okay), onClickListener)
-				.setNeutralButton(getString(R.string.cancel),
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(
-									DialogInterface dialogInterface, int i) {
-							}
-						}).show();
+				.setNeutralButton(getString(R.string.cancel), null).show();
 		CheckBox chkCache = (CheckBox) formatView.findViewById(R.id.cache);
 		CheckBox chkData = (CheckBox) formatView.findViewById(R.id.data);
 		CheckBox chkSystem = (CheckBox) formatView.findViewById(R.id.system);

@@ -34,7 +34,6 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.binoy.vibhinna.R;
 
 public class VibhinnaFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -56,7 +55,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		setEmptyText(getString(R.string.no_vfs_found));
 		registerForContextMenu(getListView());
 		if (!Constants.BINARY_FOLDER.exists()
-				|| Constants.BINARY_FOLDER.list().length < 3) {
+				|| Constants.BINARY_FOLDER.list().length < 4) {
 			Constants.BINARY_FOLDER.mkdirs();
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
@@ -241,6 +240,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		case R.id.format:
 			showFormatDialog(this, _id);
 			return true;
+		case R.id.resize:
+			showResizeDialog(this.getActivity(), vPath);
 		default:
 			return super.onContextItemSelected(item);
 		}
@@ -347,5 +348,10 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	private void showEditDialog(VibhinnaFragment vibhinnaFragment, int id) {
 		EditDialogFragment.newInstance(vibhinnaFragment, id).show(
 				getFragmentManager(), "edit_dialog");
+	}
+
+	private void showResizeDialog(Context context, String path) {
+		ResizeDialogFragment.newInstance(context, path).show(
+				getFragmentManager(), "resize_dialog");
 	}
 }

@@ -10,5 +10,8 @@
     <item
         android:id="@+id/format"
         android:title="@string/format"/>
+    <item
+        android:id="@+id/resize"
+        android:title="@string/resize"/>
 
 </menu>

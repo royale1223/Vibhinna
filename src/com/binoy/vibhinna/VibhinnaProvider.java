@@ -215,7 +215,6 @@ public class VibhinnaProvider extends ContentProvider {
 			return cursor;
 		case VFS_DETAILS:
 			String[] vsinfo = new String[29];
-			Log.d(TAG, "Uri : " + uri.toString());
 			Cursor databaseCursor = mDatabase.query(
 					DatabaseHelper.VFS_DATABASE_TABLE, Constants.allColumns,
 					"_id = ?", new String[] { uri.getLastPathSegment() }, null,

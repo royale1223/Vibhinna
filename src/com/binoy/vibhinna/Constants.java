@@ -10,9 +10,12 @@ public class Constants {
 	public static final String CMD_DD_DATA = "/data.img bs=1M count=";
 	public static final String CMD_DD_SYSTEM = "/system.img bs=1M count=";
 	public static final String CMD_MKE2FS_EXT3 = "/data/data/com.binoy.vibhinna/bin/mke2fs -F -t ext3 ";
-	public static final String CACHE_IMG = "/cache.img";
-	public static final String DATA_IMG = "/data.img";
-	public static final String SYSTEM_IMG = "/system.img";
+	public static final String CMD_TUNE2FS = "/data/data/com.binoy.vibhinna/bin/tune2fs -l ";
+	public static final String CMD_RESIZE2FS = "/data/data/com.binoy.vibhinna/bin/resize2fs ";
+	public static final String CMD_E2FSCK = "/data/data/com.binoy.vibhinna/bin/e2fsck -fp ";
+	public static final String CACHE_IMG = "/cache.img ";
+	public static final String DATA_IMG = "/data.img ";
+	public static final String SYSTEM_IMG = "/system.img ";
 	public static final String LOG_FO_1 = "Error Code (Formating ";
 	public static final String VALUE_DET = "value";
 	public static final String NAME_DET = "name";
@@ -43,6 +46,5 @@ public class Constants {
 	public static final String[] MATRIX_COLUMN_NAMES = { "_id", "name", "desc",
 			"family", "folder", "status", "vdstatus", "path" };
 	public static final File MBM_ROOT = new File("/mnt/sdcard/multiboot/");
-	public static final String CMD_TUNE2FS = "/data/data/com.binoy.vibhinna/bin/tune2fs -l ";
 	public static final String SLASH = "/";
 }
