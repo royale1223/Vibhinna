@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_new_v11"
+        android:icon="@drawable/ic_action_add"
+        android:title="@string/createvfs"
+        android:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/menu_refreshui"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/refresui"
+        android:showAsAction="always|withText"/>
+    <item
+        android:id="@+id/menu_help"
+        android:icon="@drawable/ic_action_help"
+        android:title="@string/about"
+        android:showAsAction="always|withText"/>
+
+</menu>
