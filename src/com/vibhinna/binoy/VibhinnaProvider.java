@@ -204,8 +204,7 @@ public class VibhinnaProvider extends ContentProvider {
 			// getvsdata single row cursor to string.
 			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
-			Cursor dbcursor = query(uri, Constants.allColumns, null, null,
-					null);
+			Cursor dbcursor = query(uri, Constants.allColumns, null, null, null);
 			dbcursor.moveToFirst();
 			vsinfo[0] = dbcursor.getString(0);
 			vsinfo[1] = dbcursor.getString(1);
