@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="@string/description"
+            android:src="@drawable/cm7_icon" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90dp"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
+            android:layout_marginLeft="90dp"
+            android:textSize="12dp" />
+
+        <!-- Fix this by setting relativelayout inside linear -->
+
+        <TextView
+            android:id="@+id/cacheinfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon"
+            android:textColor="#4B8A08"
+            android:textSize="14dp" android:paddingTop="10dip"/>
+
+        <TextView
+            android:id="@+id/cuuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cacheinfo"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/cmagic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cuuid"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/cstate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cmagic"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/cspace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cstate"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/cbcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cspace"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/cfblock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cbcount"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/cbsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cfblock"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/datainfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cbsize"
+            android:textColor="#4B8A08"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/duuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/datainfo"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/dmagic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/duuid"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/dstate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dmagic"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/dspace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dstate"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/dbcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dspace"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/dfblock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dbcount"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/dbsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dfblock"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/systeminfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dbsize"
+            android:textColor="#4B8A08"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/suuid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/systeminfo"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/smagic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/suuid"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/sstate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/smagic"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/sspace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sstate"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/sbcount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sspace"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/sfblock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sbcount"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/sbsize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sfblock"
+            android:layout_marginLeft="10dp"
+            android:textColor="#0080FF"
+            android:textSize="10dp"
+            android:typeface="monospace" />
+    </RelativeLayout>
+
+</ScrollView>

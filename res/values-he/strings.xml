@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">Multi Boot Manager Free</string>
+  <string name="edit">ערוך</string>
+  <string name="edits">ערוך\u0020</string>
+  <string name="delete">מחק\u0020</string>
+  <string name="description">מנהל רב אתחול בחינם</string>
+  <string name="nodata">No fsimages found!!!</string>
+  <string name="sysinfo">מידע מערכת</string>
+  <string name="okay">אישור</string>
+  <string name="cancel">ביטול</string>
+  <string name="rusure">אתה בטוח?</string>
+  <string name="formating">מפרמט\u0020</string>
+  <string name="cachext3">/cache.img to ext3....</string>
+  <string name="dataext3">/data.img to ext3....</string>
+  <string name="systemext3">/system.img to ext3....</string>
+  <string name="mbnactive">MULTIBOOT לא פעיל</string>
+  <string name="mbactive">MULTIBOOT פעיל</string>
+  <string name="uuidna">UUID\t\t\t\t\t\t: N/A</string>
+  <string name="magnum">Magic Number\t\t:\u0020</string>
+  <string name="vfsst">VFS State\t\t\t:\u0020</string>
+  <string name="freespna">שטח פנוי \t\t\t: N/A</string>
+  <string name="freesp">שטח פנוי \t\t\t:\u0020</string>
+  <string name="miB">MB/</string>
+  <string name="miBf">MB פנוי</string>
+  <string name="bcount">Block Count\t\t\t:\u0020</string>
+  <string name="fbcount">Free Blocks\t\t\t:\u0020</string>
+  <string name="blsiz">Block Size\t\t\t:\u0020</string>
+  <string name="mknewfold">Making new folder\u0020</string>
+  <string name="creating">Creating\u0020</string>
+  <string name="cacheimg">/cache.img....</string>
+  <string name="dataimg">/data.img....</string>
+  <string name="systemimg">/system.img</string>
+  <string name="pdsimg">/pds.img....</string>
+  <string name="agree">אני מסכים</string>
+  <string name="about">אודות</string>
+  <string name="license">רשיון</string>
+  <string name="abouttext">"Multi Boot Manager Free 1.0 for Motorola Defy
+
+Authors
+=======
+Binoy Babu (royale1223@gmail.com)
+
+Translators
+===========
+Italian - diamond_lover
+Chinese  - dlhxr
+Dutch - labsian
+Spanish  - Sesme
+German - Pottkopp
+French - crakeron
+Polish - Dawid Rudzik
+Brazilian Portugese - pupiloalpha
+hebrew - elyashiv sabach
+
+Thanks to
+=========
+m11kkaa for multiboot and advise
+Quarx2k for valuable advise and ICS
+Epsylon3 for ICS
+adamo3957 for testing
+XDA forum
+
+Reqirements
+===========
+1) Rooted Motorola Defy/Defy+/Bravo with 2nd init bootmenu installed
+2) Multiboot feature by m11kkaa 0.51
+
+Features
+========
+* Supports any number of ROMs
+* Full support for multiboot 0.51
+* Support multiple fsimages
+* Create, recycle and format virtual systems.
+* Delete, rename and edit description of each entry.
+* Shows size of the VFS.
+* Much more..
+
+What is this?
+=============
+A manager for Virtual File Systems (fsimages) in your sdcard.
+
+How to use this?
+================
+1) First of all a custom ROM should be installed as base. Preferably the latest CM9/CM7 nightly to get the latest 2nd-init bootmenu.
+2) Then flash defy_multiboot_v0.5.1.zip by m11kkaa. You can get it from here.
+3) Install  MultiBootManagerFree_v1.22_final_royale1223.apk
+4) Now open Mult Boot Manager from app drawer. Create new VFS from options. You can see now the new VFS listed. You just created your first VFS.
+5) If you need MBM to detect your already existing VFS folders. You have to move them to /mnt/sdcard/multiboot.
+6) Instructions for using multiboot 0.51 here, thanks joydeep1985.
+7) If you have coming from leodfs multiboot, you have to restart from step 1. I hope you have enough knowledge to figure out which steps to skip.
+8) Rest of the options in MultiBootManager are pretty self explanatory. Please make use of the context menu(long click menu).
+9) Please report bugs and any features you want. I'm bit busy now but I'll fix/implement them later.
+10) This app now works in virtual system also. 
+11) This app will work on all GB and ICS ROMs with 2nd init."</string>
+  <string name="licensetext">"הסכם רישיו
+=================
+
+עליך לקרוא את התנאים הבאים לפני השימוש בתוכנה זו.
+
+התקנה ו / או שימוש בתוכנה זה מצביע על הסכמתך הסכם אחריות זו, חומרה,.
+
+אתה לא יכול לשנות את התוכנה בכל דרך שהיא.
+
+אינך רשאי להוריד, הנדסה לאחור, לפרק או בכל דרך אחרת להפחית את התוכנה לטופס לתפישה האנושית. אתה לא יכול לשנות או לשכור למטרות רווח תוכנה זו, או ליצור עבודות נגזרות המבוססות על תוכנה זו.
+
+אתה לא יכול לפרסם או להפיץ כל האלגוריתמים או מידע המשמשים את תוכנה זו ללא אישור של המחבר / ים.
+
+הנך מסכים לשפות, החזק מזיק, ולהגן על המחבר (ים) ו - וכנגד כל חבות, נזק, הפסדים, עלויות והוצאות (לרבות שכ"ט עו"ד סביר) הנובעים או קשורים בכל ההליך, טענה, תביעה או טענה העולה או תוצאות, ישירות או בעקיפין, שימוש והפצה של תוכנה זו.
+
+אתה רשאי לסיים את הרישיון בכל עת על ידי מחיקה או להרוס, תוכנה תיעוד כל העותקים. ללא עמלת רישיון הוא יוחזר. אנו עשויים לסיים את רישיון בכל עת אם אתה נמצא מפר אחד מתנאים אלה.
+
+על אף כל הוראה אחרת רישיון זה, מי שאינו צד רישיון זה אין זכות על פי החוזים (זכויות של צדדים שלישיים) חוק 1999 ("חוק) להסתמך על או לאכוף כל הטווח של רישיון זה. אין רישיון זה ישפיע על כל זכות או סעד של צד שלישי אשר קיים או זמין מלבד חוק זה.
+
+
+הודעה על זכויות יוצרים
+----------------
+"Multi Boot Manager חינם" היא היחידה של זכויות יוצרים Binoy באבו, © 2012 כל הזכויות שמורות.
+
+"Multi Boot Manager Pro" הוא בבעלות בלעדית של Binoy באבו, © 2012 כל הזכויות שמורות.
+
+
+כתב ויתור אחריות
+-------------------
+התוכנה מסופקת כפי שהם, ללא אחריות כלשהי KIND.TO במידה המרבית המותרת על פי הדין החל, מחבר / S יתר על כן מסירים מעצמם כל אחריות, לרבות OUT הגבלת האחריות המשתמעת יכולת הסוחר, התאמה למטרה מסוימת, דיוק המידע ואי הפרה. כל הסיכון הנובעים משימוש או ביצועים בתוכנה זו ותיעוד נשאר עם הנמען. במידה המרבית המותרת על פי החוק, באף מקרה לא מחבר / S לא תהיה אחראית לכל תוצאתיים, מקריים, ישירים, עקיפים, מיוחדים, עונשיים או אחר או עלות מכל סוג שהוא (לרבות, עם החוצה, להגביל, נזקים בגין הפסד או עלות רווחים עסקיים, הפרעה לעסקים, אובדן מידע עסקי או אובדן כספי אחר) הנובעים מהסכם זה או משימוש או חוסר יכולת להשתמש בתוכנה, גם אם מחבר / S בתוכנה קיבלו הודעה על האפשרות של נזקים אלה . מחבר / S אין ליטול אחריות כנגד כל נזק תוכנה זו עשויה לעשות כדי המערכת או אחרת. האחריות המרבית המצטברת שלנו בגין כל תביעה או סדרה של תביעות תהיה מוגבלת לדמי רישיון ששולם על ידך, אם בכלל, עבור התוכנה.
+
+התוכנה אינה ערובה לכך כי עמיד בפני תקלות, ולא נועד לתכנון, בנייה, תחזוקה, תפעול, בקרה, או כל שימוש אחר בקשר מערכות בסיכון גבוה. אנו מתנערת מפורשות מכל אחריות מפורשת או מרומזת של התאמה לתכלית בקשר מערכות בסיכון גבוה.
+אמצעי מערכות "מערכות בסיכון גבוה של בסביבות הדורשות כשל ביצועי (כגון מתקני הגרעין, מטוסים ניווט או מערכות תקשורת, בקרת תעבורה אווירית, תמיכה ישירה מכונות החיים, לרדוף אחרי הסערה או מערכות נשק), שבו כשל של התוכנה עלול להוביל ישירות למוות, לפציעה או לנזק פיזי או סביבתי חמור. אתה מסכים כי לא תוכל להשתמש בתוכנה לכל מטרה שהיא בקשר עם מערכות בסיכון גבוה.
+
+אף על פי מחבר / s אל מתחייבת כי שם למטה התוכנה המסופקת יהיו חופשיים מכל כל וירוסים ידועים השתמשנו מאמצים סבירים מבחינה מסחרית כדי לבדוק לאיתור הווירוסים ביותר הידוע. אתה בכל זאת אחראי באופן בלעדי לכל סריקת וירוסים בתוכנה.
+
+
+כתב ויתור אחריות על רכיבי צד 3
+--------------------------------------------
+תוכנה זו מסופקת 'כמות שהוא' ו כלשהי מפורשת או מכללא, לרבות, אך לא רק, אחריות משתמעת לגבי סחירות והתאמה למטרה מסוימת בזאת. בכל מקרה, כל אדם אשר תרם או הוא הבעלים של חלק כלשהו בתוכנה זו יהיו אחראים בגין כל נזק ישיר, עקיף, נזק מקרי, מיוחד, לדוגמא, או תוצאתיים (לרבות, אך לא רק, רכישה של טובין חלופיים או שירותים, אובדן שימוש, נתונים או רווחים, או הפרעה עסקים) בו נגרם, על כל תיאוריה של חבות, בין אם חוזית, אחריות קפידה, או בנזיקין (לרבות רשלנות או כל דבר אחר) הנובעים בכל דרך מן השימוש בתוכנה זו , גם אם נודע על האפשרות לנזק כזה.
+
+
+הערכה ורישום
+---------------------------
+הגרסה הבאה של "מנהל אתחול מולי חינם" הוא עותק תוכנה שיתופית. בכפוף לתנאי מסמך זה, אתה מורשה בזאת להשתמש בתוכנה ללא תשלום.
+
+אסור לך במיוחד מפני הפצה ותוכנה / או תיעוד עם מוצרים אחרים (מסחרית או אחרת) באישור בכתב מראש של המחבר / ים.
+
+
+תודות
+----------------
+אתה מכיר בעובדה כי היה לך את ההזדמנות להעריך את התוכנה ללא תשלום, כי יש לך רצון בעצמך כי היא עונה על הדרישות שלך respects.It כל החומר אינו מעשי מבחינה טכנית על מנת להבטיח את התוכנה כדי להיות נקי משגיאות, ואתה מסכים שאם שגיאות כאלה נמצאים להתקיים הם לא תהווה הפרה של רישיון זה.
+
+אתה מכיר בעובדה כי תנאים אלה להחליף את כל ההסכמים הקודמים, והם המלא והבלעדי. כל מידע בעל פה או בכתב ניתן על ידי המחבר / ים או בשמנו ניצור אחריות או חוזה נלווה, או בכל דרך להגדיל את היקף אחריות זו בכל דרך שהיא, ואתה לא יכול לסמוך על ייעוץ כזה.
+
+רישיון זה יחולו ויפורשו בהתאם לחוקי הרפובליקה של הודו הצדדים בזאת לסמכות השיפוט הבלעדית של בתי המשפט ההודים בגין מחלוקת או עניין הנובעים או קשורים רישיון זה אף על פי הרישיון יקבע יש את הזכות להתחיל ולעסוק בתחומי שיפוט בהליכים חלופיים. מבחינת האכיפה של רישיון זה, רישיון כדין "בכתב" ו "קיבל" על ידי שני הצדדים.
+
+
+ליצור קשר
+-------
+דוא"ל: royale1223@gmail.com
+אתר אינטרנט: http://www.ubuntumaster.tk/""
+</string>
+  <string name="smiB">MB\u0020</string>
+  <string name="error">Error\u0020</string>
+  <string name="caches">מטמון:</string>
+  <string name="datas">נתונים:</string>
+  <string name="systems">מערכת:</string>
+  <string name="healthy">בריאות</string>
+  <string name="shrtdesc">הכנס תיאור קצר:</string>
+  <string name="entername">הזן את השם הרצוי</string>
+  <string name="icon_prompt">בחר אייקון</string>
+  <string name="createvfs">צור VFS חדש</string>
+  <string name="refresui">רענן ממשק משתמש</string>
+  <string name="repbug">דווח על באג</string>
+  <string name="currsys">מערכת נוכחית</string>
+  <string name="currrom">ROM נוכחי</string>
+  <string name="currkernel">Kernel נוכחי</string>
+  <string name="currpath">נתיב נוכחי</string>
+  <string name="device">מכשיר</string>
+  <string name="none">כלום</string>
+  <string name="nand">NAND</string>
+  <string name="na">לא זמין</string>
+  <string name="corrupted">פגום</string>
+</resources>
