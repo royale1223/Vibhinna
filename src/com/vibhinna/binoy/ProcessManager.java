@@ -19,6 +19,7 @@ public class ProcessManager {
 		for (int i = 0; i < shellinput.length; i++) {
 			command.append(shellinput[i]);
 		}
+		Log.d(TAG, "execute : " + command.toString());
 		InputStream inputstream = null;
 		String esrval = "";
 		try {
@@ -35,8 +36,10 @@ public class ProcessManager {
 	public String inputStreamReader(String[] shellinput, int length) {
 		StringBuilder command = new StringBuilder(Constants.EMPTY);
 		for (int i = 0; i < shellinput.length; i++) {
+			
 			command.append(shellinput[i]);
 		}
+		Log.d(TAG, "execute : " + command.toString());
 		try {
 			inputstream = Runtime.getRuntime().exec(command.toString()).getInputStream();
 		} catch (IOException e) {

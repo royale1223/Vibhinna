@@ -1,6 +1,7 @@
 package com.vibhinna.binoy;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,7 +38,7 @@ import android.widget.Spinner;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-
+import com.actionbarsherlock.view.MenuItem;
 
 public class VibhinnaFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int TUTORIAL_LIST_LOADER = 0x01;
@@ -60,8 +61,8 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		// ---- magic lines starting here -----
 		// call this to re-connect with an existing
 		// loader (after screen configuration changes for e.g!)
-		setHasOptionsMenu(true) ;
-		
+		setHasOptionsMenu(true);
+
 		setListShown(false);
 		LoaderManager lm = getLoaderManager();
 		if (lm.getLoader(0) != null) {
@@ -390,5 +391,27 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		inflater.inflate(R.menu.options_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_refreshui:
+			restartLoading();
+			return true;
+
+		case R.id.menu_new_v11:
+			NewVSDialogMakerICS dialogMaker = new NewVSDialogMakerICS(this);
+			try {
+				dialogMaker.getDialog();
+				return true;
+			} catch (IOException e1) {
+				Log.w(TAG, "Error creating Dialog");
+				return false;
+			}
+
+		default:
+			return false;
+		}
+
+	}
 }
