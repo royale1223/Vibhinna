@@ -34,9 +34,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	protected Context context;
 
-	public DataBaseHelper(Context context) {
-		super(context, VFS_DATABASE_NAME, null, DATABASE_VERSION);
-		this.context = context;
+	public DataBaseHelper(Context mContext) {
+		super(mContext, VFS_DATABASE_NAME, null, DATABASE_VERSION);
+		this.context = mContext;
 	}
 
 	@Override
