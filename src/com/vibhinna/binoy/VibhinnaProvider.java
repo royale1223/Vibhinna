@@ -130,14 +130,16 @@ public class VibhinnaProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
-
+		Log.d(TAG, "uri :"+uri.toString());
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
 		case TUTORIAL_ID:
+			Log.d(TAG, "Get single db row");
 			queryBuilder.appendWhere(BaseColumns._ID + "="
 					+ uri.getLastPathSegment());
 			break;
 		case TUTORIALS:
+			Log.d(TAG, "get all db rows");
 			// no filter
 			break;
 		case TUTORIAL_LIST:
@@ -198,8 +200,8 @@ public class VibhinnaProvider extends ContentProvider {
 			c.close();
 			return cursor;
 		case TUTORIAL_DETAILS:
+			Log.d(TAG, "get vs details");
 			// getvsdata single row cursor to string.
-			Log.d(TAG, "getVSData");
 			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
 			Cursor dbcursor = query(uri, Constants.allColumns, null, null,
