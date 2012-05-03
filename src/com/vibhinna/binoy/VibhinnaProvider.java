@@ -155,28 +155,29 @@ public class VibhinnaProvider extends ContentProvider {
 
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
-	private static final String TAG = null;
+	private static final int TUTORIAL_DETAILS = 4;
 
 	static {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/path/*",
-				TUTORIAL_PATH);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list",
+				TUTORIAL_LIST);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
+				TUTORIAL_DETAILS);
 	}
 
 	public Cursor getNameList(Context mContext) {
 		String[] columnNames = { "_id", "name", "desc", "family", "folder",
 				"status", "vdstatus", "path" };
 		context = mContext;
-		mDB = new DataBaseHelper(context);
-		Cursor c = query(CONTENT_URI, DataSource.allColumns, null, null, null);
+		mDataBaseHelper = new DataBaseHelper(context);
+		Cursor c = query(CONTENT_URI, Constants.allColumns, null, null, null);
 		MatrixCursor cursor = new MatrixCursor(columnNames);
 		if (c.moveToFirst()) {
 			do {
 				File root = new File(c.getString(2));
 				for (int i = 0; i < c.getColumnCount(); i++) {
-					Log.d(TAG,
-							"c.getString(" + i + ")" + c.getString(i));
+					Log.d(TAG, "c.getString(" + i + ")" + c.getString(i));
 				}
 				if (root.canRead()) {
 					Object[] fsii = new Object[8];
