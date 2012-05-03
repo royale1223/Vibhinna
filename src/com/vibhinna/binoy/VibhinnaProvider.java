@@ -19,13 +19,15 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class VibhinnaProvider extends ContentProvider {
-	private DataBaseHelper mDB;
+	private DataBaseHelper mDataBaseHelper;
+	private SQLiteDatabase mDB;
 	private Context context;
 	private static final String AUTHORITY = "com.manager.boot.free.MultiBootProvider";
 	public static final int TUTORIALS = 0;
 	public static final int TUTORIAL_ID = 1;
 	private static final int TUTORIAL_PATH = 2;
-
+	private static final String TAG = null;
+	private static final int TUTORIAL_LIST = 3;
 	private static final String TUTORIALS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TUTORIALS_BASE_PATH);
