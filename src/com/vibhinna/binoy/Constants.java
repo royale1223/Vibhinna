@@ -2,6 +2,8 @@ package com.vibhinna.binoy;
 
 import java.io.File;
 
+import android.provider.BaseColumns;
+
 public class Constants {
 	public static final String CMD_DD = "dd if=/dev/zero of=";
 	public static final String CMD_MKE2FS_EXT3 = "/data/data/com.manager.boot.free/bin/mke2fs -F -t ext3 ";
@@ -30,4 +32,9 @@ public class Constants {
 	public static final int MAX_IMG_SIZE = 100;
 	public static final int MIN_IMG_SIZE = 1;
 	public static final int SYSTEM_SIZE = 350;
+	public static final String[] allColumns = { BaseColumns._ID,
+		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
 }
