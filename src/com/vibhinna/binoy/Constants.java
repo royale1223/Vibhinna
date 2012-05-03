@@ -37,4 +37,6 @@ public class Constants {
 		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
 		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
 		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
+	public static final String[] MATRIX_COLUMN_NAMES = { "_id", "name", "desc", "family", "folder",
+			"status", "vdstatus", "path" };
 }
