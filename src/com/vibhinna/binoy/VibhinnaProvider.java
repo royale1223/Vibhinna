@@ -198,7 +198,150 @@ public class VibhinnaProvider extends ContentProvider {
 			return cursor;
 		case TUTORIAL_DETAILS:
 			// getvsdata single row cursor to string.
-			break;
+			Log.d(TAG, "getVSData");
+			ProcessManager processManager = new ProcessManager();
+			String[] vsinfo = new String[29];
+			Cursor dbcursor = query(uri, Constants.allColumns, null, null,
+					null);
+			dbcursor.moveToFirst();
+			vsinfo[0] = dbcursor.getString(0);
+			vsinfo[1] = dbcursor.getString(1);
+			String vspath = dbcursor.getString(2);
+			File vsfolder = new File(vspath);
+			vsinfo[2] = vsfolder.getName();
+			vsinfo[3] = dbcursor.getString(3);
+			vsinfo[4] = dbcursor.getString(4);
+			dbcursor.close();
+			for (int i = 5; i < 29; i++) {
+				vsinfo[i] = context.getString(R.string.na);
+			}
+			for (int i = 7; i < 29; i = i + 8) {
+				vsinfo[i] = vsinfo[i] = context.getString(R.string.corrupted);
+			}
+			try {
+				String[] shellinput = {
+						"/data/data/com.manager.boot.free/bin/tune2fs -l ", vspath,
+						"/cache.img", "" };
+				String istr = processManager.inputStreamReader(shellinput, 40);
+				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
+				scanner.findWithinHorizon(
+						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
+				String chuuid = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"),
+						0);
+				String chmagicnumber = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
+				String chblockcount = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
+				String chfreeblocks = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
+				String chblocksize = scanner.match().group(1);
+				vsinfo[5] = chuuid;
+				vsinfo[6] = chmagicnumber;
+				if (chmagicnumber.equals("0xEF53")) {
+					vsinfo[7] = context.getString(R.string.healthy);
+				}
+				vsinfo[8] = Integer.parseInt(chblockcount)
+						* Integer.parseInt(chblocksize) / 1048576 + "";
+				vsinfo[9] = Integer.parseInt(chfreeblocks)
+						* Integer.parseInt(chblocksize) / 1048576 + "";
+				vsinfo[10] = chblockcount;
+				vsinfo[11] = chfreeblocks;
+				vsinfo[12] = chblocksize;
+			} catch (Exception e) {
+				Log.w("Exception", "exception in executing :"
+						+ "/data/data/com.manager.boot.free/bin/tune2fs -l "
+						+ vspath + "/cache.img");
+			}
+			try {
+				String[] shellinput = {
+						"/data/data/com.manager.boot.free/bin/tune2fs -l ", vspath,
+						"/data.img", "" };
+				String istr = processManager.inputStreamReader(shellinput, 40);
+				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
+				scanner.findWithinHorizon(
+						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
+				String dauuid = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"),
+						0);
+				String damagicnumber = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
+				String dablockcount = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
+				String dafreeblocks = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
+				String dablocksize = scanner.match().group(1);
+				vsinfo[13] = dauuid;
+				vsinfo[14] = damagicnumber;
+				if (damagicnumber.equals("0xEF53")) {
+					vsinfo[15] = context.getString(R.string.healthy);
+				}
+				vsinfo[16] = Integer.parseInt(dablockcount)
+						* Integer.parseInt(dablocksize) / 1048576 + "";
+				vsinfo[17] = Integer.parseInt(dafreeblocks)
+						* Integer.parseInt(dablocksize) / 1048576 + "";
+				vsinfo[18] = dablockcount;
+				vsinfo[19] = dafreeblocks;
+				vsinfo[20] = dablocksize;
+			} catch (Exception e) {
+				Log.w("Exception", "exception in executing :"
+						+ "/data/data/com.manager.boot.free/bin/tune2fs -l "
+						+ vspath + "/data.img");
+			}
+			try {
+				String[] shellinput = {
+						"/data/data/com.manager.boot.free/bin/tune2fs -l ", vspath,
+						"/system.img", "" };
+				String istr = processManager.inputStreamReader(shellinput, 40);
+				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
+				scanner.findWithinHorizon(
+						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
+				String syuuid = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"),
+						0);
+				String symagicnumber = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
+				String syblockcount = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
+				String syfreeblocks = scanner.match().group(1);
+				scanner.findWithinHorizon(
+						Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
+				String syblocksize = scanner.match().group(1);
+				vsinfo[21] = syuuid;
+				vsinfo[22] = symagicnumber;
+				if (symagicnumber.equals("0xEF53")) {
+					vsinfo[23] = context.getString(R.string.healthy);
+				}
+				vsinfo[24] = Integer.parseInt(syblockcount)
+						* Integer.parseInt(syblocksize) / 1048576 + "";
+				vsinfo[25] = Integer.parseInt(syfreeblocks)
+						* Integer.parseInt(syblocksize) / 1048576 + "";
+				vsinfo[26] = syblockcount;
+				vsinfo[27] = syfreeblocks;
+				vsinfo[28] = syblocksize;
+			} catch (Exception e) {
+				Log.w("Exception", "exception in executing :"
+						+ "/data/data/com.manager.boot.free/bin/tune2fs -l "
+						+ vspath + "/system.img");
+			}
+			String key[] = new String[29];
+			for (int i = 0; i < key.length;i++){
+				key[i] = "key"+i;
+			}
+			MatrixCursor matcursor = new MatrixCursor(key);
+			matcursor.addRow(vsinfo);
+			return matcursor;
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
