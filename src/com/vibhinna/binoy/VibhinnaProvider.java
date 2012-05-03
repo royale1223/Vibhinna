@@ -140,11 +140,11 @@ public class VibhinnaProvider extends ContentProvider {
 			// no filter
 			break;
 		case TUTORIAL_LIST:
-			String[] columnNames = { "_id", "name", "desc", "family", "folder",
-					"status", "vdstatus", "path" };
+
 			Cursor c = query(CONTENT_URI, Constants.allColumns, null, null,
 					null);
-			MatrixCursor cursor = new MatrixCursor(columnNames);
+			MatrixCursor cursor = new MatrixCursor(
+					Constants.MATRIX_COLUMN_NAMES);
 			if (c.moveToFirst()) {
 				do {
 					File root = new File(c.getString(2));
