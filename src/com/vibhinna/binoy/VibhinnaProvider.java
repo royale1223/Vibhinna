@@ -136,8 +136,62 @@ public class VibhinnaProvider extends ContentProvider {
 			// no filter
 			break;
 		case TUTORIAL_LIST:
-			// getnamelist
-			break;
+			String[] columnNames = { "_id", "name", "desc", "family", "folder",
+					"status", "vdstatus", "path" };
+			Cursor c = query(CONTENT_URI, Constants.allColumns, null, null,
+					null);
+			MatrixCursor cursor = new MatrixCursor(columnNames);
+			if (c.moveToFirst()) {
+				do {
+					File root = new File(c.getString(2));
+					for (int i = 0; i < c.getColumnCount(); i++) {
+						Log.d(TAG, "c.getString(" + i + ")" + c.getString(i));
+					}
+					if (root.canRead()) {
+						Object[] fsii = new Object[8];
+						String cache = null;
+						String data = null;
+						String system = null;
+						String vdstatus = "0";
+						File cacheimg = new File(root, "cache.img");
+						if (cacheimg.exists()) {
+							cache = cacheimg.length() / 1048576
+									+ context.getString(R.string.smiB);
+						} else
+							cache = context.getString(R.string.error);
+						File dataimg = new File(root, "data.img");
+						if (dataimg.exists()) {
+							data = dataimg.length() / 1048576
+									+ context.getString(R.string.smiB);
+						} else
+							data = context.getString(R.string.error);
+						File systemimg = new File(root, "system.img");
+						if (systemimg.exists()) {
+							system = systemimg.length() / 1048576
+									+ context.getString(R.string.smiB);
+						} else
+							system = context.getString(R.string.error);
+						if (systemimg.exists() && cacheimg.exists()
+								&& dataimg.exists()) {
+							vdstatus = "1";
+						} else
+							vdstatus = "0";
+						fsii[0] = Integer.parseInt(c.getString(0));
+						fsii[1] = c.getString(1);
+						fsii[2] = c.getString(4);
+						fsii[3] = null;
+						fsii[4] = c.getString(3);
+						fsii[5] = context.getString(R.string.caches) + cache
+								+ context.getString(R.string.datas) + data
+								+ context.getString(R.string.systems) + system;
+						fsii[6] = vdstatus;
+						fsii[7] = c.getString(2);
+						cursor.addRow(fsii);
+					}
+				} while (c.moveToNext());
+			}
+			c.close();
+			return cursor;
 		case TUTORIAL_DETAILS:
 			// getvsdata single row cursor to string.
 			break;
@@ -165,66 +219,4 @@ public class VibhinnaProvider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
 				TUTORIAL_DETAILS);
 	}
-
-	public Cursor getNameList(Context mContext) {
-		String[] columnNames = { "_id", "name", "desc", "family", "folder",
-				"status", "vdstatus", "path" };
-		context = mContext;
-		mDataBaseHelper = new DataBaseHelper(context);
-		Cursor c = query(CONTENT_URI, Constants.allColumns, null, null, null);
-		MatrixCursor cursor = new MatrixCursor(columnNames);
-		if (c.moveToFirst()) {
-			do {
-				File root = new File(c.getString(2));
-				for (int i = 0; i < c.getColumnCount(); i++) {
-					Log.d(TAG, "c.getString(" + i + ")" + c.getString(i));
-				}
-				if (root.canRead()) {
-					Object[] fsii = new Object[8];
-					String cache = null;
-					String data = null;
-					String system = null;
-					String vdstatus = "0";
-					File cacheimg = new File(root, "cache.img");
-					if (cacheimg.exists()) {
-						cache = cacheimg.length() / 1048576
-								+ mContext.getString(R.string.smiB);
-					} else
-						cache = mContext.getString(R.string.error);
-					File dataimg = new File(root, "data.img");
-					if (dataimg.exists()) {
-						data = dataimg.length() / 1048576
-								+ mContext.getString(R.string.smiB);
-					} else
-						data = mContext.getString(R.string.error);
-					File systemimg = new File(root, "system.img");
-					if (systemimg.exists()) {
-						system = systemimg.length() / 1048576
-								+ mContext.getString(R.string.smiB);
-					} else
-						system = mContext.getString(R.string.error);
-					if (systemimg.exists() && cacheimg.exists()
-							&& dataimg.exists()) {
-						vdstatus = "1";
-					} else
-						vdstatus = "0";
-					fsii[0] = Integer.parseInt(c.getString(0));
-					fsii[1] = c.getString(1);
-					fsii[2] = c.getString(4);
-					fsii[3] = null;
-					fsii[4] = c.getString(3);
-					fsii[5] = mContext.getString(R.string.caches) + cache
-							+ mContext.getString(R.string.datas) + data
-							+ mContext.getString(R.string.systems) + system;
-					fsii[6] = vdstatus;
-					fsii[7] = c.getString(2);
-					cursor.addRow(fsii);
-				}
-			} while (c.moveToNext());
-		}
-		c.close();
-		return cursor;
-
-	}
-
 }
