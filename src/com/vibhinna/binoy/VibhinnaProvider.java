@@ -1,6 +1,9 @@
 package com.vibhinna.binoy;
 
 import java.io.File;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -25,36 +28,39 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final String AUTHORITY = "com.manager.boot.free.MultiBootProvider";
 	public static final int TUTORIALS = 0;
 	public static final int TUTORIAL_ID = 1;
-	private static final int TUTORIAL_PATH = 2;
+	private static final int TUTORIAL_LIST = 2;
+	private static final int TUTORIAL_DETAILS = 3;
+	private static final UriMatcher sURIMatcher = new UriMatcher(
+			UriMatcher.NO_MATCH);
 	private static final String TAG = null;
-	private static final int TUTORIAL_LIST = 3;
 	private static final String TUTORIALS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TUTORIALS_BASE_PATH);
-
 	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
 			+ "/mt-vfs";
 	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
 			+ "/mt-vfs";
 
 	@Override
-	public int delete(Uri uri, String arg1, String[] arg2) {
-		// TODO Auto-generated method stub
-		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
-		int uriType = sURIMatcher.match(uri);
-		switch (uriType) {
-		case TUTORIAL_ID:
-			queryBuilder.appendWhere(BaseColumns._ID + "="
-					+ uri.getLastPathSegment());
-			break;
+	public int delete(Uri arg0, String arg1, String[] arg2) {
+		int count = 0;
+		switch (sURIMatcher.match(arg0)) {
 		case TUTORIALS:
-			// no filter
+			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, arg1, arg2);
+			break;
+		case TUTORIAL_ID:
+			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE,
+					BaseColumns._ID
+							+ " = "
+							+ arg0.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(arg1) ? " AND (" + arg1 + ')'
+									: ""), arg2);
 			break;
 		default:
-			throw new IllegalArgumentException("Unknown URI");
+			throw new IllegalArgumentException("Unknown URI " + arg0);
 		}
-		return 0;
+		getContext().getContentResolver().notifyChange(arg0, null);
+		return count;
 	}
 
 	@Override
