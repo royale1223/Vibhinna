@@ -1,1 +1,7 @@
-/Vibhinna.ucls
+bin/*
+gen/*
+/bin/*
+/gen/*
+proguard/*
+/proguard/*
+/*.ucls
