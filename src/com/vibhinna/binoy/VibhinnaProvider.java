@@ -354,10 +354,6 @@ public class VibhinnaProvider extends ContentProvider {
 		return cursor;
 	}
 
-	private static final UriMatcher sURIMatcher = new UriMatcher(
-			UriMatcher.NO_MATCH);
-	private static final int TUTORIAL_DETAILS = 4;
-
 	static {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
