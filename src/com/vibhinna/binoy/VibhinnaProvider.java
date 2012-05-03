@@ -66,29 +66,58 @@ public class VibhinnaProvider extends ContentProvider {
 			break;
 		case TUTORIALS:
 			break;
+		case TUTORIAL_LIST:
+			break;
+		case TUTORIAL_DETAILS:
+			break;
 		default:
-			throw new IllegalArgumentException("Unknown URI");}
+			throw new IllegalArgumentException("Unknown URI");
+		}
 		return null;
 	}
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		// TODO Auto-generated method stub
-		return null;
+		long rowID = mDB
+				.insert(DataBaseHelper.VFS_DATABASE_TABLE, null, values);
+		if (rowID > 0) {
+			Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
+			getContext().getContentResolver().notifyChange(_uri, null);
+			return _uri;
+		}
+		throw new SQLException("Failed to insert row into " + uri);
 	}
 
 	@Override
 	public boolean onCreate() {
 		context = getContext();
-		mDB = new DataBaseHelper(context);
+		mDataBaseHelper = new DataBaseHelper(context);
+		mDB = mDataBaseHelper.getWritableDatabase();
 		return true;
 	}
 
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		// TODO Auto-generated method stub
-		return 0;
+		int count = 0;
+		switch (sURIMatcher.match(uri)) {
+		case TUTORIALS:
+			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+					selection, selectionArgs);
+			break;
+		case TUTORIAL_ID:
+			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+					BaseColumns._ID
+							+ " = "
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(selection) ? " AND ("
+									+ selection + ')' : ""), selectionArgs);
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown URI " + uri);
+		}
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 	@Override
