@@ -59,21 +59,19 @@ public class VibhinnaProvider extends ContentProvider {
 
 	@Override
 	public String getType(Uri uri) {
-		// TODO Auto-generated method stub
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
 		case TUTORIAL_ID:
-			break;
+			return "vnd.android.cursor.item/vnd.vibhinna.vfs";
 		case TUTORIALS:
-			break;
+			return "vnd.android.cursor.dir/vnd.vibhinna.dir";
 		case TUTORIAL_LIST:
-			break;
+			return "vnd.android.cursor.dir/vnd.vibhinna.list";
 		case TUTORIAL_DETAILS:
-			break;
+			return "vnd.android.cursor.item/vnd.vibhinna.vfsdetails";
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
-		return null;
 	}
 
 	@Override
