@@ -135,12 +135,19 @@ public class VibhinnaProvider extends ContentProvider {
 		case TUTORIALS:
 			// no filter
 			break;
+		case TUTORIAL_LIST:
+			// getnamelist
+			break;
+		case TUTORIAL_DETAILS:
+			// getvsdata single row cursor to string.
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
 
-		Cursor cursor = queryBuilder.query(mDB.getReadableDatabase(),
-				projection, selection, selectionArgs, null, null, sortOrder);
+		Cursor cursor = queryBuilder.query(
+				mDataBaseHelper.getReadableDatabase(), projection, selection,
+				selectionArgs, null, null, sortOrder);
 
 		cursor.setNotificationUri(context.getContentResolver(), uri);
 		return cursor;
