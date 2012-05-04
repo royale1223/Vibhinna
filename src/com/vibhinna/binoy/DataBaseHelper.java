@@ -143,8 +143,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 				pathcursorb.close();
 			}
 			return;
-		} else if (extState.equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
-			return;
 		} else {
 			return;
 		}
