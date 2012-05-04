@@ -18,7 +18,7 @@ public class VibhinnaFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int TUTORIAL_LIST_LOADER = 0x01;
 	private static final String TAG = null;
-	private SimpleCursorAdapter adapter;
+	private VibhinnaAdapter adapter;
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -35,7 +35,7 @@ public class VibhinnaFragment extends ListFragment implements
 
 		getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
 
-		adapter = new SimpleCursorAdapter(
+		adapter = new VibhinnaAdapter (
 				getActivity().getApplicationContext(), R.layout.main_row, null,
 				from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
