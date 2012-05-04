@@ -13,6 +13,10 @@ import android.content.CursorLoader;
 import android.database.Cursor;
 import android.widget.CursorAdapter;
 import android.widget.SimpleCursorAdapter;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.widget.AdapterView;
+
 
 public class VibhinnaFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -42,6 +46,12 @@ public class VibhinnaFragment extends ListFragment implements
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState){
+		super.onActivityCreated(savedInstanceState);
+		registerForContextMenu(getListView());
+	}
+	
+	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null,
@@ -69,5 +79,34 @@ public class VibhinnaFragment extends ListFragment implements
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
+	}
+	
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+									ContextMenu.ContextMenuInfo menuInfo)
+	{
+		super.onCreateContextMenu(menu, v, menuInfo);
+		AdapterView.AdapterContextMenuInfo info;
+		PropManager propmanager = new PropManager(this.getActivity().getApplicationContext());
+		try
+		{
+			// Casts the incoming data object into the type for AdapterView
+			// objects.
+			info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		}
+		catch (ClassCastException e)
+		{
+			// If the menu object can't be cast, logs an error.
+			Log.w("Exception", "exception in getting menuinfo");
+			return;
+		}
+		Cursor cursor = (Cursor) getListAdapter().getItem(info.position);
+		String s1 = Constants.SD_PATH + propmanager.mbActivePath();
+		String s2 = cursor.getString(7);
+		if (cursor.equals(null) || s1.equals(s2))
+			return;
+		menu.setHeaderTitle(cursor.getString(1));
+		MenuInflater inflater = this.getActivity().getMenuInflater();
+		inflater.inflate(R.menu.context_menu, menu);
 	}
 }
