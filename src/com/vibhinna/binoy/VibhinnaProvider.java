@@ -29,6 +29,7 @@ public class VibhinnaProvider extends ContentProvider {
 	public static final int TUTORIAL_ID = 1;
 	private static final int TUTORIAL_LIST = 2;
 	private static final int TUTORIAL_DETAILS = 3;
+	private static final int NEW_VFS = 4;
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	private static final String TAG = null;
@@ -37,10 +38,10 @@ public class VibhinnaProvider extends ContentProvider {
 			+ "/" + TUTORIALS_BASE_PATH );
 	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
 			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH+ "/list");
-	public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-			+ "/mt-vfs";
-	public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-			+ "/mt-vfs";
+	//public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
+	//		+ "/mt-vfs";
+	//public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
+	//		+ "/mt-vfs";
 
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
@@ -71,11 +72,13 @@ public class VibhinnaProvider extends ContentProvider {
 		case TUTORIAL_ID:
 			return "vnd.android.cursor.item/vnd.vibhinna.vfs";
 		case TUTORIALS:
-			return "vnd.android.cursor.dir/vnd.vibhinna.dir";
+			return "vnd.android.cursor.dir/vnd.vibhinna.vfsdir";
 		case TUTORIAL_LIST:
-			return "vnd.android.cursor.dir/vnd.vibhinna.list";
+			return "vnd.android.cursor.dir/vnd.vibhinna.vfslist";
 		case TUTORIAL_DETAILS:
 			return "vnd.android.cursor.item/vnd.vibhinna.vfsdetails";
+		case NEW_VFS:
+				return "vnd.android.cursor.item/vnd.vibhinna.newvfs";
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
@@ -341,6 +344,19 @@ public class VibhinnaProvider extends ContentProvider {
 			MatrixCursor matcursor = new MatrixCursor(key);
 			matcursor.addRow(vsinfo);
 			return matcursor;
+		case NEW_VFS:
+			String newpath = Constants.MBM_ROOT+uri.getLastPathSegment();
+			if (new File(newpath).exists()) {
+				for (int i = 1; i <= Constants.MBM_ROOT.list().length; i++) {
+					if (!new File(newpath + "_" + i).exists()) {
+						newpath = newpath + "_" + i;
+						break;
+					}
+				}
+			}
+			MatrixCursor nc = new MatrixCursor(new String[] {"newpath"});
+			nc.addRow(new String[] {newpath});
+			return nc;
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
@@ -360,5 +376,7 @@ public class VibhinnaProvider extends ContentProvider {
 				TUTORIAL_LIST);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
 				TUTORIAL_DETAILS);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/new/*",
+				NEW_VFS);
 	}
 }
