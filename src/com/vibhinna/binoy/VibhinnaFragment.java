@@ -133,7 +133,8 @@ public class VibhinnaFragment extends ListFragment implements
 	}
 
 	int iconid = 1;
-	
+	private ProcessManager processManager = new ProcessManager();
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final Context context = getActivity().getApplicationContext();
