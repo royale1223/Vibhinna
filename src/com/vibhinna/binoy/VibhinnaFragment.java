@@ -62,18 +62,18 @@ public class VibhinnaFragment extends ListFragment implements
 
 		getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
 
-		adapter = new VibhinnaAdapter (
-				getActivity().getApplicationContext(), R.layout.main_row, null,
-				from, to, CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		adapter = new VibhinnaAdapter(getActivity().getApplicationContext(),
+				R.layout.main_row, null, from, to,
+				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState){
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		registerForContextMenu(getListView());
 	}
-	
+
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
@@ -88,7 +88,9 @@ public class VibhinnaFragment extends ListFragment implements
 		cursor.moveToFirst();
 		do {
 			for (int i = 0; i < a.length; i++) {
-				Log.d(TAG, "Column " + i + " : " + a[i]+ " = "+cursor.getString(i));
+				Log.d(TAG,
+						"Column " + i + " : " + a[i] + " = "
+								+ cursor.getString(i));
 			}
 		} while (cursor.moveToNext());
 		adapter.swapCursor(cursor);
@@ -103,22 +105,19 @@ public class VibhinnaFragment extends ListFragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 	}
-	
+
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
-									ContextMenu.ContextMenuInfo menuInfo)
-	{
+			ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterView.AdapterContextMenuInfo info;
-		PropManager propmanager = new PropManager(this.getActivity().getApplicationContext());
-		try
-		{
+		PropManager propmanager = new PropManager(this.getActivity()
+				.getApplicationContext());
+		try {
 			// Casts the incoming data object into the type for AdapterView
 			// objects.
 			info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-		}
-		catch (ClassCastException e)
-		{
+		} catch (ClassCastException e) {
 			// If the menu object can't be cast, logs an error.
 			Log.w("Exception", "exception in getting menuinfo");
 			return;
@@ -132,21 +131,19 @@ public class VibhinnaFragment extends ListFragment implements
 		MenuInflater inflater = this.getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
-	
+
 	int iconid = 1;
 	
 	@Override
-	public boolean onContextItemSelected(MenuItem item)
-	{
+	public boolean onContextItemSelected(MenuItem item) {
 		final Context context = getActivity().getApplicationContext();
 		final ContentResolver cr = getActivity().getContentResolver();
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
-			.getMenuInfo();
-		//final DataSource datasource = new DataSource(this);
+				.getMenuInfo();
+		// final DataSource datasource = new DataSource(this);
 		final Cursor item_cursor = (Cursor) getListAdapter().getItem(
-			menuInfo.position);
-		if (item_cursor == null)
-		{
+				menuInfo.position);
+		if (item_cursor == null) {
 			// For some reason the requested item isn't available, do nothing
 			return false;
 		}
