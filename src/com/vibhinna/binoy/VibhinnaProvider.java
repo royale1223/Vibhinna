@@ -32,16 +32,21 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	private static final String TAG = null;
-	private static final String TUTORIALS_BASE_PATH = "vfs";
+	public static final String TUTORIALS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TUTORIALS_BASE_PATH );
 	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
 			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH+ "/list");
-	//public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE
-	//		+ "/mt-vfs";
-	//public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE
-	//		+ "/mt-vfs";
 
+	static {
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list",
+				TUTORIAL_LIST);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
+				TUTORIAL_DETAILS);
+	}
+	
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
 		int count = 0;
@@ -353,14 +358,5 @@ public class VibhinnaProvider extends ContentProvider {
 		return cursor;
 	}
 
-	static {
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list",
-				TUTORIAL_LIST);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
-				TUTORIAL_DETAILS);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/new/*",
-				NEW_VFS);
-	}
+
 }
