@@ -208,7 +208,11 @@ public class VibhinnaProvider extends ContentProvider {
 			Log.d(TAG, "get vs details");
 			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
-			Cursor dbcursor = query(uri, Constants.allColumns, null, null, null);
+			Cursor dbcursor = mDB
+					.query(DataBaseHelper.VFS_DATABASE_TABLE,
+							Constants.allColumns, "_id = ?",
+							new String[] { uri.getLastPathSegment() }, null,
+							null, null);
 			dbcursor.moveToFirst();
 			vsinfo[0] = dbcursor.getString(0);
 			vsinfo[1] = dbcursor.getString(1);
