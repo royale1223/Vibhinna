@@ -137,7 +137,7 @@ public class VibhinnaFragment extends ListFragment implements
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		final Context context = getActivity().getApplicationContext();
+		final Context context = getActivity();
 		final ContentResolver cr = getActivity().getContentResolver();
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
