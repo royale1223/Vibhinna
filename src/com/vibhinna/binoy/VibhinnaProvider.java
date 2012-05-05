@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
