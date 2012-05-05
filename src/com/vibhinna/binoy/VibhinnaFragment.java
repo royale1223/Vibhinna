@@ -49,7 +49,8 @@ public class VibhinnaFragment extends ListFragment implements
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		// show toast for now
+		DetailsDialog detailsDialog = new DetailsDialog(this);
+		detailsDialog.getDialog(id);
 	}
 
 	@Override
