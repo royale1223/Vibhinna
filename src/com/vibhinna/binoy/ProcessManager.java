@@ -51,6 +51,7 @@ public class ProcessManager {
 					.getInputStream();
 		} catch (IOException e) {
 			Log.w("IOException", "exception in executing");
+			e.printStackTrace();
 		}
 		String isrstr = convertStreamToString(inputstream);
 		return isrstr;
