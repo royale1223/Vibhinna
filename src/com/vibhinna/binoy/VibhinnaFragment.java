@@ -158,296 +158,276 @@ public class VibhinnaFragment extends ListFragment implements
 		// }
 		final File mFolder = new File(folderpath);
 		final int itemid = Integer.parseInt(item_cursor.getString(0));
-		switch (item.getItemId())
-		{
-			case R.id.edit:
-				LayoutInflater factory = LayoutInflater.from(context);
-				final View editVSView = factory.inflate(R.layout.edit_vs_layout,
-														null);
-				final EditText evsname = (EditText) editVSView
+		switch (item.getItemId()) {
+		case R.id.edit:
+			LayoutInflater factory = LayoutInflater.from(context);
+			final View editVSView = factory.inflate(R.layout.edit_vs_layout,
+					null);
+			final EditText evsname = (EditText) editVSView
 					.findViewById(R.id.vsname);
-				final EditText evsdesc = (EditText) editVSView
+			final EditText evsdesc = (EditText) editVSView
 					.findViewById(R.id.vsdesc);
-				final Spinner spinner = (Spinner) editVSView
+			final Spinner spinner = (Spinner) editVSView
 					.findViewById(R.id.spinner);
-				final ImageView i = (ImageView) editVSView
+			final ImageView i = (ImageView) editVSView
 					.findViewById(R.id.seticonimage);
-				ArrayAdapter<CharSequence> adapter = ArrayAdapter
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter
 					.createFromResource(context, R.array.icon_array,
-										android.R.layout.simple_spinner_item);
-				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				spinner.setAdapter(adapter);
-				spinner.setSelection(iconid);
-				spinner.setAdapter(adapter);
-				spinner.setSelection(iconid);
-				spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> arg0, View arg1,
-												   int arg2, long arg3)
-						{
-							iconid = arg2;
-							i.setImageResource(MiscMethods.getIcon(arg2));
-						}
+							android.R.layout.simple_spinner_item);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner.setAdapter(adapter);
+			spinner.setSelection(iconid);
+			spinner.setAdapter(adapter);
+			spinner.setSelection(iconid);
+			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					iconid = arg2;
+					i.setImageResource(MiscMethods.getIcon(arg2));
+				}
 
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0)
-						{
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
 
-						}
-					});
-				evsdesc.setText(folderdesc);
-				evsname.setText(foldername);
-				new AlertDialog.Builder(context)
+				}
+			});
+			evsdesc.setText(folderdesc);
+			evsname.setText(foldername);
+			new AlertDialog.Builder(context)
 					.setTitle(
-					getString(R.string.edits)
-					+ item_cursor.getString(1))
+							getString(R.string.edits)
+									+ item_cursor.getString(1))
 					.setView(editVSView)
 					.setPositiveButton(getString(R.string.okay),
-					new DialogInterface.OnClickListener() {
+							new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog,
-											int whichButton)
-						{
-							String vsname = mFolder.getName();
-							try
-							{
-								vsname = evsname.getText().toString();
-							}
-							catch (Exception e)
-							{
-								e.printStackTrace();
-							}
-							String vsdesc = folderdesc;
-							try
-							{
-								vsdesc = evsdesc.getText().toString();
-							}
-							catch (Exception e)
-							{
-								e.printStackTrace();
-							}
-							File newlocation = new File(
-								Constants.MBM_ROOT + vsname);
-							if (!mFolder.equals(newlocation))
-							{
-								
-								newlocation = new File(MiscMethods
-													   .getNewPath(vsname));
-								mFolder.renameTo(newlocation);
-							}
-							datasource.updateVS(itemid,
-												newlocation.getName(), vsdesc,
-												iconid);
-							cr.u
-							iconid = 1;
-							rlv.refreshListView();
-						}
-					})
+								@Override
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									String vsname = mFolder.getName();
+									try {
+										vsname = evsname.getText().toString();
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									String vsdesc = folderdesc;
+									try {
+										vsdesc = evsdesc.getText().toString();
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									File newlocation = new File(
+											Constants.MBM_ROOT + vsname);
+									if (!mFolder.equals(newlocation)) {
+
+										newlocation = new File(MiscMethods
+												.newName(vsname));
+										mFolder.renameTo(newlocation);
+									}
+									ContentValues values = new ContentValues();
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+											newlocation.getName());
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+											"/mnt/sdcard/multiboot/"
+													+ newlocation.getName());
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+											vsdesc);
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+											iconid);
+									cr.update(
+											Uri.parse("content://"
+													+ VibhinnaProvider.AUTHORITY
+													+ "/"
+													+ VibhinnaProvider.TUTORIALS_BASE_PATH
+													+ "/" + itemid), values,
+											null, null);
+									iconid = 1;
+									// rlv.refreshListView();
+								}
+							})
 					.setNegativeButton(getString(R.string.cancel),
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog,
-											int whichButton)
-						{
-							// Canceled.
-						}
-					}).show();
-				return true;
-			case R.id.delete:
-				new AlertDialog.Builder(context)
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Canceled.
+								}
+							}).show();
+			return true;
+		case R.id.delete:
+			new AlertDialog.Builder(context)
 					.setTitle(
-					getString(R.string.delete)
-					+ item_cursor.getString(1))
+							getString(R.string.delete)
+									+ item_cursor.getString(1))
 					.setMessage(getString(R.string.rusure))
 					.setPositiveButton(getString(R.string.okay),
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(
-							DialogInterface dialogInterface, int i)
-						{
-							try
-							{
-								MiscMethods.removeDirectory(mFolder);
-								//rlv.refreshListView();
-							}
-							catch (Exception e)
-							{
-								e.printStackTrace();
-								return;
-							}
-						}
-					})
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+									try {
+										MiscMethods.removeDirectory(mFolder);
+										// rlv.refreshListView();
+									} catch (Exception e) {
+										e.printStackTrace();
+										return;
+									}
+								}
+							})
 					.setNeutralButton(getString(R.string.cancel),
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(
-							DialogInterface dialogInterface, int i)
-						{
-						}
-					}).create().show();
-				return true;
-			case R.id.format:
-				factory = LayoutInflater.from(this);
-				final View formatView = factory.inflate(R.layout.format_dialog,
-														null);
-				CheckBox chkCache = (CheckBox) formatView.findViewById(R.id.cache);
-				CheckBox chkData = (CheckBox) formatView.findViewById(R.id.data);
-				CheckBox chkSystem = (CheckBox) formatView
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+								}
+							}).create().show();
+			return true;
+		case R.id.format:
+			factory = LayoutInflater.from(context);
+			final View formatView = factory.inflate(R.layout.format_dialog,
+					null);
+			CheckBox chkCache = (CheckBox) formatView.findViewById(R.id.cache);
+			CheckBox chkData = (CheckBox) formatView.findViewById(R.id.data);
+			CheckBox chkSystem = (CheckBox) formatView
 					.findViewById(R.id.system);
-				chkCache.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v)
-						{
-							if (((CheckBox) v).isChecked())
-							{
-								cacheCheckBool = true;
-							}
-							else
-							{
-								cacheCheckBool = false;
-							}
-						}
-					});
-				chkData.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v)
-						{
-							if (((CheckBox) v).isChecked())
-							{
-								dataCheckBool = true;
-							}
-							else
-							{
-								dataCheckBool = false;
-							}
-						}
-					});
-				chkSystem.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v)
-						{
-							if (((CheckBox) v).isChecked())
-							{
-								systemCheckBool = true;
-							}
-							else
-							{
-								systemCheckBool = false;
-							}
-						}
-					});
-				new AlertDialog.Builder(this)
+			chkCache.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (((CheckBox) v).isChecked()) {
+						cacheCheckBool = true;
+					} else {
+						cacheCheckBool = false;
+					}
+				}
+			});
+			chkData.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (((CheckBox) v).isChecked()) {
+						dataCheckBool = true;
+					} else {
+						dataCheckBool = false;
+					}
+				}
+			});
+			chkSystem.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (((CheckBox) v).isChecked()) {
+						systemCheckBool = true;
+					} else {
+						systemCheckBool = false;
+					}
+				}
+			});
+			new AlertDialog.Builder(context)
 					.setTitle(
-					getString(R.string.format)
-					+ item_cursor.getString(1) + "?")
+							getString(R.string.format)
+									+ item_cursor.getString(1) + "?")
 					.setView(formatView)
 					.setPositiveButton(getString(R.string.okay),
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(
-							DialogInterface dialogInterface, int i)
-						{
-							final ProgressDialog processdialog = ProgressDialog
-								.show(MultiBootManager.this,
-									  MultiBootConstants.EMPTY,
-									  MultiBootConstants.EMPTY,
-									  true);
-							final Handler handler = new Handler() {
+							new DialogInterface.OnClickListener() {
 								@Override
-								public void handleMessage(Message msg)
-								{
-									switch (msg.arg1)
-									{
-										case 0:
-											processdialog
-												.setMessage(getString(R.string.formating)
-															+ folderpath
-															+ getString(R.string.cachext3));
-											break;
-										case 1:
-											processdialog
-												.setMessage(getString(R.string.formating)
-															+ folderpath
-															+ getString(R.string.dataext3));
-											break;
-										case 2:
-											processdialog
-												.setMessage(getString(R.string.formating)
-															+ folderpath
-															+ getString(R.string.systemext3));
-											break;
-										case 3:
-											processdialog.dismiss();
-											break;
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+									final ProgressDialog processdialog = ProgressDialog
+											.show(context,
+													Constants.EMPTY,
+													Constants.EMPTY,
+													true);
+									final Handler handler = new Handler() {
+										@Override
+										public void handleMessage(Message msg) {
+											switch (msg.arg1) {
+											case 0:
+												processdialog
+														.setMessage(getString(R.string.formating)
+																+ folderpath
+																+ getString(R.string.cachext3));
+												break;
+											case 1:
+												processdialog
+														.setMessage(getString(R.string.formating)
+																+ folderpath
+																+ getString(R.string.dataext3));
+												break;
+											case 2:
+												processdialog
+														.setMessage(getString(R.string.formating)
+																+ folderpath
+																+ getString(R.string.systemext3));
+												break;
+											case 3:
+												processdialog.dismiss();
+												break;
 
-									}
+											}
+										}
+									};
+									Thread formatVFS = new Thread() {
+										@Override
+										public void run() {
+											String[] shellinput = {
+													Constants.EMPTY,
+													Constants.EMPTY,
+													Constants.EMPTY,
+													Constants.EMPTY,
+													Constants.EMPTY };
+											shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+											shellinput[1] = folderpath;
+											final Message m0 = new Message();
+											final Message m1 = new Message();
+											final Message m2 = new Message();
+											final Message endmessage = new Message();
+											m0.arg1 = 0;
+											m1.arg1 = 1;
+											m2.arg1 = 2;
+											endmessage.arg1 = 3;
+											if (cacheCheckBool) {
+												handler.sendMessage(m0);
+												shellinput[2] = Constants.CACHE_IMG;
+												processManager
+														.inputStreamReader(
+																shellinput, 20);
+												cacheCheckBool = false;
+											}
+											if (dataCheckBool) {
+												handler.sendMessage(m1);
+												shellinput[2] = Constants.DATA_IMG;
+												processManager
+														.inputStreamReader(
+																shellinput, 20);
+												dataCheckBool = false;
+											}
+											if (systemCheckBool) {
+												handler.sendMessage(m2);
+												shellinput[2] = Constants.SYSTEM_IMG;
+												processManager
+														.inputStreamReader(
+																shellinput, 20);
+												systemCheckBool = false;
+											}
+											handler.sendMessage(endmessage);
+										}
+									};
+									formatVFS.start();
 								}
-							};
-							Thread formatVFS = new Thread() {
-								@Override
-								public void run()
-								{
-									String[] shellinput = {
-										MultiBootConstants.EMPTY,
-										MultiBootConstants.EMPTY,
-										MultiBootConstants.EMPTY,
-										MultiBootConstants.EMPTY,
-										MultiBootConstants.EMPTY };
-									shellinput[0] = MultiBootConstants.CMD_MKE2FS_EXT3;
-									shellinput[1] = folderpath;
-									final Message m0 = new Message();
-									final Message m1 = new Message();
-									final Message m2 = new Message();
-									final Message endmessage = new Message();
-									m0.arg1 = 0;
-									m1.arg1 = 1;
-									m2.arg1 = 2;
-									endmessage.arg1 = 3;
-									if (cacheCheckBool)
-									{
-										handler.sendMessage(m0);
-										shellinput[2] = MultiBootConstants.CACHE_IMG;
-										processManager
-											.inputStreamReader(
-											shellinput, 20);
-										cacheCheckBool = false;
-									}
-									if (dataCheckBool)
-									{
-										handler.sendMessage(m1);
-										shellinput[2] = MultiBootConstants.DATA_IMG;
-										processManager
-											.inputStreamReader(
-											shellinput, 20);
-										dataCheckBool = false;
-									}
-									if (systemCheckBool)
-									{
-										handler.sendMessage(m2);
-										shellinput[2] = MultiBootConstants.SYSTEM_IMG;
-										processManager
-											.inputStreamReader(
-											shellinput, 20);
-										systemCheckBool = false;
-									}
-									handler.sendMessage(endmessage);
-								}
-							};
-							formatVFS.start();
-						}
-					})
+							})
 					.setNeutralButton(getString(R.string.cancel),
-					new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(
-							DialogInterface dialogInterface, int i)
-						{
-						}
-					}).create().show();
-				return true;
-			default:
-				return super.onContextItemSelected(item);
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+								}
+							}).create().show();
+			return true;
+		default:
+			return super.onContextItemSelected(item);
 		}
 
 	}
