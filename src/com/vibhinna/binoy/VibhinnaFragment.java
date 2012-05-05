@@ -405,10 +405,16 @@ public class VibhinnaFragment extends ListFragment implements
 											if (systemCheckBool) {
 												handler.sendMessage(m2);
 												shellinput[2] = Constants.SYSTEM_IMG;
+												Log.d(TAG, "exec :"
+														+ shellinput[0]
+														+ shellinput[1]
+														+ shellinput[2]
+														+ shellinput[3]);
 												processManager
 														.inputStreamReader(
 																shellinput, 20);
 												systemCheckBool = false;
+
 											}
 											handler.sendMessage(endmessage);
 										}

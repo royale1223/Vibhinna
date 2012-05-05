@@ -39,13 +39,13 @@ public class ProcessManager {
 
 	}
 
-
 	public String inputStreamReader(String[] shellinput, int length) {
 		// TODO use pb instead of runtime
 		StringBuilder command = new StringBuilder("");
 		for (int i = 0; i < shellinput.length; i++) {
 			command.append(shellinput[i]);
 		}
+		Log.d(TAG, "exec : isstr : " + command.toString());
 		try {
 			inputstream = Runtime.getRuntime().exec(command.toString())
 					.getInputStream();
