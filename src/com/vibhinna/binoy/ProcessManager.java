@@ -42,16 +42,13 @@ public class ProcessManager {
 
 	public String inputStreamReader(String[] shellinput, int length) {
 		// TODO use pb instead of runtime
+		StringBuilder command = new StringBuilder("");
 		for (int i = 0; i < shellinput.length; i++) {
-			if (shellinput[i] == null) {
-				shellinput[i] = "";
-			}
+			command.append(shellinput[i]);
 		}
 		try {
-			inputstream = Runtime
-					.getRuntime()
-					.exec(shellinput[0] + shellinput[1] + shellinput[2]
-							+ shellinput[3]).getInputStream();
+			inputstream = Runtime.getRuntime().exec(command.toString())
+					.getInputStream();
 		} catch (IOException e) {
 			Log.w("IOException", "exception in executing");
 		}
