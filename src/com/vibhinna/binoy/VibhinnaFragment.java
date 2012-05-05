@@ -336,10 +336,8 @@ public class VibhinnaFragment extends ListFragment implements
 								public void onClick(
 										DialogInterface dialogInterface, int i) {
 									final ProgressDialog processdialog = ProgressDialog
-											.show(context,
-													Constants.EMPTY,
-													Constants.EMPTY,
-													true);
+											.show(context, Constants.EMPTY,
+													Constants.EMPTY, true);
 									final Handler handler = new Handler() {
 										@Override
 										public void handleMessage(Message msg) {

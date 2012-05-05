@@ -28,15 +28,15 @@ public class VibhinnaProvider extends ContentProvider {
 	public static final int TUTORIAL_ID = 1;
 	private static final int TUTORIAL_LIST = 2;
 	private static final int TUTORIAL_DETAILS = 3;
-	//private static final int NEW_VFS = 4;
+	// private static final int NEW_VFS = 4;
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	private static final String TAG = null;
 	public static final String TUTORIALS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-			+ "/" + TUTORIALS_BASE_PATH );
+			+ "/" + TUTORIALS_BASE_PATH);
 	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH+ "/list");
+			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH + "/list");
 
 	static {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
@@ -46,7 +46,7 @@ public class VibhinnaProvider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
 				TUTORIAL_DETAILS);
 	}
-	
+
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
 		int count = 0;
@@ -135,7 +135,7 @@ public class VibhinnaProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
-		Log.d(TAG, "uri :"+uri.toString());
+		Log.d(TAG, "uri :" + uri.toString());
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
 		case TUTORIAL_ID:
@@ -357,6 +357,5 @@ public class VibhinnaProvider extends ContentProvider {
 		cursor.setNotificationUri(context.getContentResolver(), uri);
 		return cursor;
 	}
-
 
 }
