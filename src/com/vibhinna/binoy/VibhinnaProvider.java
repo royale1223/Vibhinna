@@ -206,7 +206,6 @@ public class VibhinnaProvider extends ContentProvider {
 			return cursor;
 		case TUTORIAL_DETAILS:
 			Log.d(TAG, "get vs details");
-			// getvsdata single row cursor to string.
 			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
 			Cursor dbcursor = query(uri, Constants.allColumns, null, null, null);

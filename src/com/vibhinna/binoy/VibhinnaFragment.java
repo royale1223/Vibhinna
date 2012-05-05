@@ -440,6 +440,5 @@ public class VibhinnaFragment extends ListFragment implements
 		default:
 			return super.onContextItemSelected(item);
 		}
-
 	}
 }
