@@ -43,6 +43,10 @@ public class VibhinnaFragment extends ListFragment implements
 	private static final String TAG = null;
 	private VibhinnaAdapter adapter;
 
+	protected boolean cacheCheckBool = false;
+	protected boolean dataCheckBool = false;
+	protected boolean systemCheckBool = false;
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		// show toast for now
