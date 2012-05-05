@@ -72,6 +72,12 @@ public class VibhinnaFragment extends ListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		registerForContextMenu(getListView());
+		if (!Constants.BINARY_FOLDER.exists()
+				|| Constants.BINARY_FOLDER.list().length < 5) {
+			Constants.BINARY_FOLDER.mkdirs();
+			AssetsManager assetsManager = new AssetsManager(getActivity());
+			assetsManager .copyAssets();
+		}
 	}
 
 	@Override
