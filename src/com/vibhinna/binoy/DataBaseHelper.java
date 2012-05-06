@@ -30,7 +30,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			+ VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, "
 			+ VIRTUAL_SYSTEM_COLUMN_TYPE + " INTEGER, "
 			+ VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
-	private static final String TAG = null;
+	private static final String TAG = "com.vibhinna.binoy.DataBaseHelper";
 
 	protected Context context;
 
@@ -83,11 +83,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 					File cfile = new File(pathcursora.getString(0));
 					if (!cfile.exists()) {
 						// remove invalid db files
+						Log.d(TAG, pathcursora.getString(0)+" does not exist, db entry removed");
 						db.delete(DataBaseHelper.VFS_DATABASE_TABLE,
 								BaseColumns._ID + " IS ?",
 								new String[] { pathcursora.getString(1) });
 						// writeXML();
-					}
+					} else Log.d(TAG, pathcursora.getString(0)+" is valid, kept");
 				} while (pathcursora.moveToNext());
 			}
 			pathcursora.close();
