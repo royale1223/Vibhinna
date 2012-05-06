@@ -53,7 +53,7 @@ public class ProcessManager {
 		} catch (IOException e) {
 			Log.e("IOException", "exception in executing");
 			e.printStackTrace();
-			return "error";
+			return null;
 		}
 		String isrstr = convertStreamToString(inputstream);
 		Log.i(TAG, "isstr : "+isrstr);
