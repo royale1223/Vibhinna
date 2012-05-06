@@ -31,7 +31,7 @@ public class VibhinnaProvider extends ContentProvider {
 	// private static final int NEW_VFS = 4;
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
-	private static final String TAG = null;
+	private static final String TAG = "com.vibhinna.binoy.VibhinnaProvider";
 	public static final String TUTORIALS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + TUTORIALS_BASE_PATH);
@@ -46,7 +46,7 @@ public class VibhinnaProvider extends ContentProvider {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
 				TUTORIAL_DETAILS);
 	}
-
+	
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
 		int count = 0;
@@ -109,6 +109,11 @@ public class VibhinnaProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
+		Log.d(TAG,"update");
+		String[] s = values.keySet().toArray(new String[0]);
+		for (int i = 0; i < s.length ; i++){
+			Log.d(TAG, s[i]+" = "+values.getAsString(s[i]));
+		}
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case TUTORIALS:
@@ -116,12 +121,18 @@ public class VibhinnaProvider extends ContentProvider {
 					selection, selectionArgs);
 			break;
 		case TUTORIAL_ID:
-			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+	 		Log.d(TAG,"update : id = "+uri.getLastPathSegment());
+//			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+//					BaseColumns._ID
+//							+ " = "
+//							+ uri.getLastPathSegment()
+//							+ (!TextUtils.isEmpty(selection) ? " AND ("
+//									+ selection + ')' : ""), selectionArgs);
+	  		count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
 					BaseColumns._ID
 							+ " = "
-							+ uri.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(selection) ? " AND ("
-									+ selection + ')' : ""), selectionArgs);
+							+ uri.getLastPathSegment()
+							, selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);

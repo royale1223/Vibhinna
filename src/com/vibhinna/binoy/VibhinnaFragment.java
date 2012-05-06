@@ -36,11 +36,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import org.apache.http.client.methods.*;
+import java.io.*;
 
 public class VibhinnaFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int TUTORIAL_LIST_LOADER = 0x01;
-	private static final String TAG = null;
+	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
 
 	protected boolean cacheCheckBool = false;
@@ -91,15 +93,6 @@ public class VibhinnaFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		String[] a = cursor.getColumnNames();
-		cursor.moveToFirst();
-		do {
-			for (int i = 0; i < a.length; i++) {
-				Log.d(TAG,
-						"Column " + i + " : " + a[i] + " = "
-								+ cursor.getString(i));
-			}
-		} while (cursor.moveToNext());
 		adapter.swapCursor(cursor);
 	}
 
@@ -145,7 +138,7 @@ public class VibhinnaFragment extends ListFragment implements
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final Context context = getActivity();
-		final ContentResolver cr = getActivity().getContentResolver();
+		final ContentResolver mContentResolver = getActivity().getContentResolver();
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		// final DataSource datasource = new DataSource(this);
@@ -226,8 +219,14 @@ public class VibhinnaFragment extends ListFragment implements
 									}
 									File newlocation = new File(
 											Constants.MBM_ROOT + vsname);
+									try {
+									Log.d(TAG, "new location is " + newlocation.getCanonicalPath());
+									}
+									catch (IOException e) {
+										e.printStackTrace();
+									}
+							
 									if (!mFolder.equals(newlocation)) {
-
 										newlocation = new File(MiscMethods
 												.newName(vsname));
 										mFolder.renameTo(newlocation);
@@ -246,7 +245,7 @@ public class VibhinnaFragment extends ListFragment implements
 									values.put(
 											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
 											iconid);
-									cr.update(
+									mContentResolver.update(
 											Uri.parse("content://"
 													+ VibhinnaProvider.AUTHORITY
 													+ "/"
@@ -394,22 +393,25 @@ public class VibhinnaFragment extends ListFragment implements
 											m2.arg1 = 2;
 											endmessage.arg1 = 3;
 											if (cacheCheckBool) {
+												Log.d(TAG,"cache checked");
 												handler.sendMessage(m0);
 												shellinput[2] = Constants.CACHE_IMG;
 												Log.d(TAG,processManager
 														.inputStreamReader(
 																shellinput, 20));
 												cacheCheckBool = false;
-											}
+											} else Log.d(TAG,"cache not checked");
 											if (dataCheckBool) {
+												Log.d(TAG,"data checked");
 												handler.sendMessage(m1);
 												shellinput[2] = Constants.DATA_IMG;
 												Log.d(TAG,processManager
 														.inputStreamReader(
 																shellinput, 20));
 												dataCheckBool = false;
-											}
+											} else Log.d(TAG,"data not checked");
 											if (systemCheckBool) {
+												Log.d(TAG,"system checked");
 												handler.sendMessage(m2);
 												shellinput[2] = Constants.SYSTEM_IMG;
 												Log.d(TAG, "exec :"
@@ -422,7 +424,7 @@ public class VibhinnaFragment extends ListFragment implements
 																shellinput, 20));
 												systemCheckBool = false;
 
-											}
+											}else Log.d(TAG,"system not checked");
 											handler.sendMessage(endmessage);
 										}
 									};
