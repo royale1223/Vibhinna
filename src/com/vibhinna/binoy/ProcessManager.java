@@ -10,7 +10,7 @@ import java.util.Scanner;
 import android.util.Log;
 
 public class ProcessManager {
-	private static final String TAG = null;
+	private static final String TAG = "com.vibhinna.binoy.ProcessManager";
 	private InputStream inputstream;
 
 	public String errorStreamReader(String[] shellinput) {
@@ -49,11 +49,14 @@ public class ProcessManager {
 		try {
 			inputstream = Runtime.getRuntime().exec(command.toString())
 					.getInputStream();
+			Log.d(TAG,"executed");
 		} catch (IOException e) {
-			Log.w("IOException", "exception in executing");
+			Log.e("IOException", "exception in executing");
 			e.printStackTrace();
+			return "error";
 		}
 		String isrstr = convertStreamToString(inputstream);
+		Log.i(TAG, "isstr : "+isrstr);
 		return isrstr;
 	}
 
