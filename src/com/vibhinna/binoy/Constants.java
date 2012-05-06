@@ -39,6 +39,6 @@ public class Constants {
 		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
 	public static final String[] MATRIX_COLUMN_NAMES = { "_id", "name", "desc", "family", "folder",
 			"status", "vdstatus", "path" };
-	public static final File MBM_ROOT = new File("/mnt/sdcard/multiboot");
+	public static final File MBM_ROOT = new File("/mnt/sdcard/multiboot/");
 	public static final String CMD_TUNE2FS = "/data/data/com.vibhinna.binoy/bin/tune2fs -l ";
 }
