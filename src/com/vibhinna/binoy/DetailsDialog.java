@@ -1,18 +1,18 @@
 package com.vibhinna.binoy;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.net.Uri;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.app.*;
+import android.content.*;
+import android.database.*;
+import android.graphics.*;
+import android.net.*;
+import android.util.*;
+import android.view.*;
+import android.widget.*;
 
 public class DetailsDialog {
 	Context context;
 	VibhinnaFragment mVibhinnaFragment;
+	String TAG = "com.vibhinna.binoy.DetailsDialog";
 
 	public DetailsDialog(VibhinnaFragment vibhinnaFragment) {
 		context = vibhinnaFragment.getActivity();
@@ -31,6 +31,7 @@ public class DetailsDialog {
 		cursor.moveToFirst();
 		for (int i = 0; i < cursor.getColumnCount(); i++) {
 			vsinfo[i] = cursor.getString(i);
+			Log.d(TAG,"vsinfo"+i+" = "+vsinfo[i]);
 		}
 		ImageView i = (ImageView) onclicklistitemView.findViewById(R.id.icon);
 		i.setImageResource(MiscMethods.getIcon(Integer.parseInt(vsinfo[3])));

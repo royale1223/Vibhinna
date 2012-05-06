@@ -148,7 +148,6 @@ public class VibhinnaProvider extends ContentProvider {
 			// no filter
 			break;
 		case TUTORIAL_LIST:
-			Log.d(TAG, "get name list");
 			Cursor c = query(CONTENT_URI, projection, selection, selectionArgs,
 					sortOrder);
 			MatrixCursor cursor = new MatrixCursor(
@@ -205,7 +204,6 @@ public class VibhinnaProvider extends ContentProvider {
 			c.close();
 			return cursor;
 		case TUTORIAL_DETAILS:
-			Log.d(TAG, "get vs details");
 			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
 			Cursor dbcursor = mDB
@@ -230,7 +228,7 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = {
-						"/data/data/com.manager.boot.free/bin/tune2fs -l ",
+						Constants.CMD_TUNE2FS,
 						vspath, "/cache.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
@@ -263,13 +261,12 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[12] = chblocksize;
 			} catch (Exception e) {
 				Log.w("Exception", "exception in executing :"
-						+ "/data/data/com.manager.boot.free/bin/tune2fs -l "
+					  + Constants.CMD_TUNE2FS
 						+ vspath + "/cache.img");
 			}
 			try {
 				String[] shellinput = {
-						"/data/data/com.manager.boot.free/bin/tune2fs -l ",
-						vspath, "/data.img", "" };
+						Constants.CMD_TUNE2FS, vspath, "/data.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(
@@ -301,12 +298,12 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[20] = dablocksize;
 			} catch (Exception e) {
 				Log.w("Exception", "exception in executing :"
-						+ "/data/data/com.manager.boot.free/bin/tune2fs -l "
+					  + Constants.CMD_TUNE2FS
 						+ vspath + "/data.img");
 			}
 			try {
 				String[] shellinput = {
-						"/data/data/com.manager.boot.free/bin/tune2fs -l ",
+						Constants.CMD_TUNE2FS,
 						vspath, "/system.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
@@ -339,7 +336,7 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[28] = syblocksize;
 			} catch (Exception e) {
 				Log.w("Exception", "exception in executing :"
-						+ "/data/data/com.manager.boot.free/bin/tune2fs -l "
+					  + Constants.CMD_TUNE2FS
 						+ vspath + "/system.img");
 			}
 			String key[] = new String[29];
