@@ -396,17 +396,17 @@ public class VibhinnaFragment extends ListFragment implements
 											if (cacheCheckBool) {
 												handler.sendMessage(m0);
 												shellinput[2] = Constants.CACHE_IMG;
-												processManager
+												Log.d(TAG,processManager
 														.inputStreamReader(
-																shellinput, 20);
+																shellinput, 20));
 												cacheCheckBool = false;
 											}
 											if (dataCheckBool) {
 												handler.sendMessage(m1);
 												shellinput[2] = Constants.DATA_IMG;
-												processManager
+												Log.d(TAG,processManager
 														.inputStreamReader(
-																shellinput, 20);
+																shellinput, 20));
 												dataCheckBool = false;
 											}
 											if (systemCheckBool) {
@@ -417,9 +417,9 @@ public class VibhinnaFragment extends ListFragment implements
 														+ shellinput[1]
 														+ shellinput[2]
 														+ shellinput[3]);
-												processManager
+												Log.d(TAG,processManager
 														.inputStreamReader(
-																shellinput, 20);
+																shellinput, 20));
 												systemCheckBool = false;
 
 											}

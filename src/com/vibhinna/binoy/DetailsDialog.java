@@ -31,7 +31,6 @@ public class DetailsDialog {
 		cursor.moveToFirst();
 		for (int i = 0; i < cursor.getColumnCount(); i++) {
 			vsinfo[i] = cursor.getString(i);
-			Log.d(TAG,"vsinfo"+i+" = "+vsinfo[i]);
 		}
 		ImageView i = (ImageView) onclicklistitemView.findViewById(R.id.icon);
 		i.setImageResource(MiscMethods.getIcon(Integer.parseInt(vsinfo[3])));

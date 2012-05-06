@@ -139,12 +139,10 @@ public class VibhinnaProvider extends ContentProvider {
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
 		case TUTORIAL_ID:
-			Log.d(TAG, "Get single db row");
 			queryBuilder.appendWhere(BaseColumns._ID + "="
 					+ uri.getLastPathSegment());
 			break;
 		case TUTORIALS:
-			Log.d(TAG, "get all db rows");
 			// no filter
 			break;
 		case TUTORIAL_LIST:
@@ -155,9 +153,6 @@ public class VibhinnaProvider extends ContentProvider {
 			if (c.moveToFirst()) {
 				do {
 					File root = new File(c.getString(2));
-					for (int i = 0; i < c.getColumnCount(); i++) {
-						Log.d(TAG, "c.getString(" + i + ")" + c.getString(i));
-					}
 					if (root.canRead()) {
 						Object[] fsii = new Object[8];
 						String cache = null;
