@@ -15,48 +15,40 @@ public class ProcessManager {
 
 	public String errorStreamReader(String[] shellinput) {
 		// TODO use pb instead of runtime
+		StringBuilder command = new StringBuilder(Constants.EMPTY);
+		for (int i = 0; i < shellinput.length; i++) {
+			command.append(shellinput[i]);
+		}
 		InputStream inputstream = null;
 		String esrval = "";
-		// hack to prevent executing null
-		for (int i = 0; i <= 3; i++) {
-			if (shellinput[i] == null) {
-				shellinput[i] = "";
-			}
-		}
 		try {
 			inputstream = Runtime
 					.getRuntime()
-					.exec(shellinput[0] + shellinput[1] + shellinput[2]
-							+ shellinput[3]).getErrorStream();
+					.exec(command.toString()).getErrorStream();
 			InputStreamReader inputstreamreader = new InputStreamReader(
 					inputstream);
 			esrval = new BufferedReader(inputstreamreader).readLine();
 		} catch (IOException e) {
 			Log.w(TAG, "Error in errorStreamReader()");
 		}
-		Log.i("execout", esrval + "");
 		return esrval + "";
 
 	}
 
 	public String inputStreamReader(String[] shellinput, int length) {
-		// TODO use pb instead of runtime
-		StringBuilder command = new StringBuilder("");
+		StringBuilder command = new StringBuilder(Constants.EMPTY);
 		for (int i = 0; i < shellinput.length; i++) {
 			command.append(shellinput[i]);
 		}
-		Log.d(TAG, "exec : isstr : " + command.toString());
 		try {
 			inputstream = Runtime.getRuntime().exec(command.toString())
 					.getInputStream();
-			Log.d(TAG,"executed");
 		} catch (IOException e) {
 			Log.e("IOException", "exception in executing");
 			e.printStackTrace();
 			return null;
 		}
 		String isrstr = convertStreamToString(inputstream);
-		Log.i(TAG, "isstr : "+isrstr);
 		return isrstr;
 	}
 

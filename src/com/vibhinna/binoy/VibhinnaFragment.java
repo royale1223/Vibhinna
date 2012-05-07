@@ -263,7 +263,8 @@ public class VibhinnaFragment extends ListFragment implements
 									// get new name if already taken
 									if (!(new File(initialFilePath))
 											.equals(finalFile)) {
-										finalFile = MiscMethods.avoidDuplicateFile(finalFile);
+										finalFile = MiscMethods
+												.avoidDuplicateFile(finalFile);
 										(new File(initialFilePath))
 												.renameTo(finalFile);
 									}
@@ -429,41 +430,29 @@ public class VibhinnaFragment extends ListFragment implements
 											m2.arg1 = 2;
 											endmessage.arg1 = 3;
 											if (cacheCheckBool) {
-												Log.d(TAG, "cache checked");
 												handler.sendMessage(m0);
 												shellinput[2] = Constants.CACHE_IMG;
-												Log.d(TAG, processManager
+												processManager
 														.inputStreamReader(
-																shellinput, 20));
+																shellinput, 20);
 												cacheCheckBool = false;
-											} else
-												Log.d(TAG, "cache not checked");
+											}
 											if (dataCheckBool) {
-												Log.d(TAG, "data checked");
 												handler.sendMessage(m1);
 												shellinput[2] = Constants.DATA_IMG;
-												Log.d(TAG, processManager
+												processManager
 														.inputStreamReader(
-																shellinput, 20));
+																shellinput, 20);
 												dataCheckBool = false;
-											} else
-												Log.d(TAG, "data not checked");
+											}
 											if (systemCheckBool) {
-												Log.d(TAG, "system checked");
 												handler.sendMessage(m2);
 												shellinput[2] = Constants.SYSTEM_IMG;
-												Log.d(TAG, "exec :"
-														+ shellinput[0]
-														+ shellinput[1]
-														+ shellinput[2]
-														+ shellinput[3]);
-												Log.d(TAG, processManager
+												processManager
 														.inputStreamReader(
-																shellinput, 20));
+																shellinput, 20);
 												systemCheckBool = false;
-
-											} else
-												Log.d(TAG, "system not checked");
+											}
 											handler.sendMessage(endmessage);
 										}
 									};
