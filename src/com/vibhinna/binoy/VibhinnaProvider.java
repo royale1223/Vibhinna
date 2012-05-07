@@ -101,10 +101,6 @@ public class VibhinnaProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 		Log.d(TAG, "update");
-		String[] s = values.keySet().toArray(new String[0]);
-		for (int i = 0; i < s.length; i++) {
-			Log.d(TAG, s[i] + " = " + values.getAsString(s[i]));
-		}
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case TUTORIALS:

@@ -5,24 +5,23 @@ import java.io.File;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.app.ListFragment;
-import android.app.LoaderManager;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.BaseColumns;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -35,7 +34,6 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -45,8 +43,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 	private static final int TUTORIAL_LIST_LOADER = 0x01;
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
-	private final Handler mHandler = new Handler();
-
 	protected boolean cacheCheckBool = false;
 	protected boolean dataCheckBool = false;
 	protected boolean systemCheckBool = false;
@@ -64,7 +60,8 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		// ---- magic lines starting here -----
 		// call this to re-connect with an existing
 		// loader (after screen configuration changes for e.g!)
-		showDialog();
+		//showDialog();
+		setListShown(false);
 		LoaderManager lm = getLoaderManager();
 		if (lm.getLoader(0) != null) {
 			lm.initLoader(0, null, this);
@@ -73,14 +70,15 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 	}
 
 	protected void startLoading() {
-		showDialog();
-
+		//showDialog();
+		setListShown(false);
 		// first time we call this loader, so we need to create a new one
 		getLoaderManager().initLoader(0, null, this);
 	}
 
 	protected void restartLoading() {
-		showDialog();
+		//showDialog();
+		setListShown(false);
 		// mItems.clear();
 		adapter.notifyDataSetChanged();
 		getListView().invalidateViews();
@@ -103,7 +101,8 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		adapter.notifyDataSetChanged();
-		hideDialog();
+		//hideDialog();
+		setListShown(true);
 		Log.d(TAG, "onLoadFinished(): done loading!");
 		adapter.swapCursor(cursor);
 	}
@@ -129,7 +128,7 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
 
 		adapter = new VibhinnaAdapter(getActivity().getApplicationContext(), R.layout.main_row, null, from, to,
-				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
 
@@ -389,31 +388,31 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		}
 	}
 
-	private void showDialog() {
-		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-		if (prev != null) {
-			ft.remove(prev);
-		}
+//	private void showDialog() {
+//		FragmentTransaction ft = getFragmentManager().beginTransaction();
+//		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+//		if (prev != null) {
+//			ft.remove(prev);
+//		}
+//
+//		// Create and show the dialog.
+//		DialogFragment newFragment = new MyAlertDialog();
+//		newFragment.show(ft, "dialog");
+//	}
 
-		// Create and show the dialog.
-		DialogFragment newFragment = new MyAlertDialog();
-		newFragment.show(ft, "dialog");
-	}
-
-	private void hideDialog() {
-		mHandler.post(new Runnable() {
-
-			@Override
-			public void run() {
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-				if (prev != null) {
-					ft.remove(prev).commit();
-				}
-			}
-		});
-	}
+//	private void hideDialog() {
+//		mHandler.post(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				FragmentTransaction ft = getFragmentManager().beginTransaction();
+//				Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+//				if (prev != null) {
+//					ft.remove(prev).commit();
+//				}
+//			}
+//		});
+//	}
 
 	public static class MyAlertDialog extends DialogFragment {
 		/*

@@ -20,7 +20,7 @@
 
         <EditText
             android:id="@+id/vsdesc"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/vsname"
             android:layout_toLeftOf="@+id/icon_and_memory"
@@ -29,7 +29,7 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/vsdesc"
             android:layout_toLeftOf="@+id/icon_and_memory"
@@ -47,12 +47,12 @@
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
         <LinearLayout
             android:layout_width="96dp"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
             android:padding="3dp" >
 
@@ -71,7 +71,7 @@
 
         <LinearLayout
             android:layout_width="95dp"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:orientation="vertical"
             android:padding="3dp" >
 
@@ -90,7 +90,7 @@
 
         <LinearLayout
             android:layout_width="96dp"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:padding="3dp" >
@@ -104,7 +104,7 @@
 
             <NumberPicker
                 android:id="@+id/system_size_picker"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
