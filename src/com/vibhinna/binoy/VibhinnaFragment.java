@@ -127,8 +127,9 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 
 		getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
 
-		adapter = new VibhinnaAdapter(getActivity().getApplicationContext(), R.layout.main_row, null, from, to,
+		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null, from, to,
 				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		//Context context, int layout, Cursor c, String[] from, int[] to, int i,int flags
 		setListAdapter(adapter);
 	}
 
