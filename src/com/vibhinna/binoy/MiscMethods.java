@@ -6,11 +6,10 @@ import java.io.*;
 
 public class MiscMethods {
 
-	
 	public static int getMemColor(int c, int d, int s) {
 		int SD_FREE_SIZE = sdFreeSize();
 		int SD_WARN_SIZE = (int) (SD_FREE_SIZE * 0.9);
-		int TOTAL_SIZE = getTotalSize(c,d,s);
+		int TOTAL_SIZE = getTotalSize(c, d, s);
 		if (TOTAL_SIZE > SD_FREE_SIZE)
 			return Color.RED;
 		else if (TOTAL_SIZE > SD_WARN_SIZE)
@@ -29,7 +28,7 @@ public class MiscMethods {
 	}
 
 	public static int getTotalSize(int c, int d, int s) {
-		return c + d+ s;
+		return c + d + s;
 	}
 
 	public static int getIcon(int iconid) {
