@@ -83,19 +83,6 @@ public class MiscMethods {
 			return R.drawable.andro_icon;
 		}
 	}
-	public static String newName(String oldname){
-		String newpath = Constants.MBM_ROOT+oldname;
-		if (new File(newpath).exists()) {
-			for (int i = 1; i <= Constants.MBM_ROOT.list().length; i++) {
-				if (!new File(newpath + "_" + i).exists()) {
-					newpath = newpath + "_" + i;
-					break;
-				}
-			}
-		}
-		return (new File(newpath)).getAbsolutePath();
-	}
-	
 
 	/**
 	 * Remove a directory and all of its contents.
@@ -130,7 +117,19 @@ public class MiscMethods {
 				}
 			}
 		}
-
 		return directory.delete();
+	}
+
+	public static File avoidDuplicateFile(File finalFile) {
+		String path = finalFile.getPath();
+		if (new File(path).exists()) {
+			for (int i = 1; i <= Constants.MBM_ROOT.list().length; i++) {
+				if (!new File(path + "_" + i).exists()) {
+					path = path + "_" + i;
+					break;
+				}
+			}
+		}
+		return (new File(path));
 	}
 }

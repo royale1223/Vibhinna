@@ -1,7 +1,6 @@
 package com.vibhinna.binoy;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -67,6 +66,7 @@ public class VibhinnaFragment extends ListFragment implements
 		// ---- magic lines starting here -----
 		// call this to re-connect with an existing
 		// loader (after screen configuration changes for e.g!)
+		showDialog();
 		LoaderManager lm = getLoaderManager();
 		if (lm.getLoader(0) != null) {
 			lm.initLoader(0, null, this);
@@ -105,12 +105,15 @@ public class VibhinnaFragment extends ListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		adapter.notifyDataSetChanged();
+		hideDialog();
+		Log.d(TAG, "onLoadFinished(): done loading!");
 		adapter.swapCursor(cursor);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		adapter.swapCursor(null);
+		// adapter.swapCursor(null);
 	}
 
 	@Override
@@ -184,52 +187,53 @@ public class VibhinnaFragment extends ListFragment implements
 			// For some reason the requested item isn't available, do nothing
 			return false;
 		}
-		final String folderpath = item_cursor.getString(7);
+		final String initialFile = item_cursor.getString(7);
 		final String foldername = item_cursor.getString(1);
 		final String folderdesc = item_cursor.getString(2);
 		iconid = Integer.parseInt(item_cursor.getString(4));
-		// int j;
-		// for (j = 0; j < 8; j++) {
-		// Log.d(Tag.getTag(this),j + " = " + item_cursor.getString(j));
-		// }
-		final File mFolder = new File(folderpath);
+		// final File mFolder = new File(folderpath);
 		final int itemid = Integer.parseInt(item_cursor.getString(0));
 		switch (item.getItemId()) {
 		case R.id.edit:
 			LayoutInflater factory = LayoutInflater.from(context);
 			final View editVSView = factory.inflate(R.layout.edit_vs_layout,
 					null);
-			final EditText evsname = (EditText) editVSView
+			final EditText nameEditText = (EditText) editVSView
 					.findViewById(R.id.vsname);
-			final EditText evsdesc = (EditText) editVSView
+			final EditText descriptionEditText = (EditText) editVSView
 					.findViewById(R.id.vsdesc);
-			final Spinner spinner = (Spinner) editVSView
+			final Spinner iconSelectSpinner = (Spinner) editVSView
 					.findViewById(R.id.spinner);
-			final ImageView i = (ImageView) editVSView
+			final ImageView iconPreview = (ImageView) editVSView
 					.findViewById(R.id.seticonimage);
-			ArrayAdapter<CharSequence> adapter = ArrayAdapter
+			ArrayAdapter<CharSequence> iconSelectSpinnerAdapter = ArrayAdapter
 					.createFromResource(context, R.array.icon_array,
 							android.R.layout.simple_spinner_item);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner.setAdapter(adapter);
-			spinner.setSelection(iconid);
-			spinner.setAdapter(adapter);
-			spinner.setSelection(iconid);
-			spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					iconid = arg2;
-					i.setImageResource(MiscMethods.getIcon(arg2));
-				}
+			iconSelectSpinnerAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			iconSelectSpinner.setAdapter(iconSelectSpinnerAdapter);
+			iconSelectSpinner.setSelection(iconid);
+			iconSelectSpinner.setAdapter(iconSelectSpinnerAdapter);
+			iconSelectSpinner.setSelection(iconid);
+			iconSelectSpinner
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+						@Override
+						public void onItemSelected(AdapterView<?> arg0,
+								View arg1, int arg2, long arg3) {
+							iconid = arg2;
+							iconPreview.setImageResource(MiscMethods
+									.getIcon(arg2));
+						}
 
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
 
-				}
-			});
-			evsdesc.setText(folderdesc);
-			evsname.setText(foldername);
+						}
+					});
+			Log.d(TAG, "foldername : " + foldername);
+			Log.d(TAG, "folderdesc : " + folderdesc);
+			descriptionEditText.setText(folderdesc);
+			nameEditText.setText(foldername);
 			new AlertDialog.Builder(context)
 					.setTitle(
 							getString(R.string.edits)
@@ -241,46 +245,50 @@ public class VibhinnaFragment extends ListFragment implements
 								@Override
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
-									String vsname = mFolder.getName();
+									String updatedName = foldername;
+									Log.d(TAG, "nameupdate : " + updatedName);
 									try {
-										vsname = evsname.getText().toString();
+										updatedName = nameEditText.getText()
+												.toString();
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									String vsdesc = folderdesc;
+									Log.d(TAG, "changed nameupdate : "
+											+ updatedName);
+									String updatedDescription = folderdesc;
+									Log.d(TAG, "descupdate : "
+											+ updatedDescription);
 									try {
-										vsdesc = evsdesc.getText().toString();
+										updatedDescription = descriptionEditText
+												.getText().toString();
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									File newlocation = new File(
-											"/mnt/sdcard/multiboot/" + vsname);
-									Log.d(TAG, "vsname : " + vsname);
-									try {
-										Log.d(TAG,
-												"new location is "
-														+ newlocation
-																.getCanonicalPath());
-									} catch (IOException e) {
-										e.printStackTrace();
+									Log.d(TAG, "changed descupdate : "
+											+ updatedDescription);
+									File finalFile = new File(
+											"/mnt/sdcard/multiboot/"
+													+ updatedName);
+									// get new name if already taken
+									if (!(new File(initialFile))
+											.equals(finalFile)) {
+										finalFile = MiscMethods.avoidDuplicateFile(finalFile);
+										(new File(initialFile))
+												.renameTo(finalFile);
 									}
-
-									if (!mFolder.equals(newlocation)) {
-										newlocation = new File(MiscMethods
-												.newName(vsname));
-										mFolder.renameTo(newlocation);
-									}
+									Log.d(TAG, "finalfile after check : "
+											+ finalFile.getName() + "\n path :"
+											+ finalFile.getPath());
 									ContentValues values = new ContentValues();
 									values.put(
 											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-											newlocation.getName());
+											finalFile.getName());
 									values.put(
 											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-											"/mnt/sdcard/multiboot/"
-													+ newlocation.getName());
+											finalFile.getPath());
 									values.put(
 											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
-											vsdesc);
+											updatedDescription);
 									values.put(
 											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
 											iconid);
@@ -292,9 +300,7 @@ public class VibhinnaFragment extends ListFragment implements
 													+ "/" + itemid), values,
 											null, null);
 									iconid = 1;
-									// rlv.refreshListView();
-									// getLoaderManager().restartLoader(0,null,this);
-
+									restartLoading();
 								}
 							})
 					.setNegativeButton(getString(R.string.cancel),
@@ -318,7 +324,8 @@ public class VibhinnaFragment extends ListFragment implements
 								public void onClick(
 										DialogInterface dialogInterface, int i) {
 									try {
-										MiscMethods.removeDirectory(mFolder);
+										MiscMethods.removeDirectory(new File(
+												foldername));
 										// rlv.refreshListView();
 									} catch (Exception e) {
 										e.printStackTrace();
@@ -392,19 +399,19 @@ public class VibhinnaFragment extends ListFragment implements
 											case 0:
 												processdialog
 														.setMessage(getString(R.string.formating)
-																+ folderpath
+																+ initialFile
 																+ getString(R.string.cachext3));
 												break;
 											case 1:
 												processdialog
 														.setMessage(getString(R.string.formating)
-																+ folderpath
+																+ initialFile
 																+ getString(R.string.dataext3));
 												break;
 											case 2:
 												processdialog
 														.setMessage(getString(R.string.formating)
-																+ folderpath
+																+ initialFile
 																+ getString(R.string.systemext3));
 												break;
 											case 3:
@@ -424,7 +431,7 @@ public class VibhinnaFragment extends ListFragment implements
 													Constants.EMPTY,
 													Constants.EMPTY };
 											shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-											shellinput[1] = folderpath;
+											shellinput[1] = initialFile;
 											final Message m0 = new Message();
 											final Message m1 = new Message();
 											final Message m2 = new Message();
