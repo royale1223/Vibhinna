@@ -8,6 +8,6 @@ public class VibhinnaActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.fragment);
+		setContentView(R.layout.main_fragment);
 	}
 }
