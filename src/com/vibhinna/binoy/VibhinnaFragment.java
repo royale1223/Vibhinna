@@ -5,6 +5,10 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListFragment;
 import android.app.LoaderManager;
 import android.app.ProgressDialog;
@@ -43,6 +47,7 @@ public class VibhinnaFragment extends ListFragment implements
 	private static final int TUTORIAL_LIST_LOADER = 0x01;
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
+	private final Handler mHandler = new Handler();
 
 	protected boolean cacheCheckBool = false;
 	protected boolean dataCheckBool = false;
@@ -51,6 +56,7 @@ public class VibhinnaFragment extends ListFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		setRetainInstance(true);
 		registerForContextMenu(getListView());
 		if (!Constants.BINARY_FOLDER.exists()
 				|| Constants.BINARY_FOLDER.list().length < 3) {
@@ -58,6 +64,35 @@ public class VibhinnaFragment extends ListFragment implements
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
 		}
+		// ---- magic lines starting here -----
+		// call this to re-connect with an existing
+		// loader (after screen configuration changes for e.g!)
+		LoaderManager lm = getLoaderManager();
+		if (lm.getLoader(0) != null) {
+			lm.initLoader(0, null, this);
+		}
+		// ----- end magic lines -----
+	}
+
+	protected void startLoading() {
+		showDialog();
+
+		// first time we call this loader, so we need to create a new one
+		getLoaderManager().initLoader(0, null, this);
+	}
+
+	protected void restartLoading() {
+		showDialog();
+		// mItems.clear();
+		adapter.notifyDataSetChanged();
+		getListView().invalidateViews();
+
+		// --------- the other magic lines ----------
+		// call restart because we want the background work to be executed
+		// again
+		Log.d(TAG, "restartLoading(): re-starting loader");
+		getLoaderManager().restartLoader(0, null, this);
+		// --------- end the other magic lines --------
 	}
 
 	@Override
@@ -450,6 +485,54 @@ public class VibhinnaFragment extends ListFragment implements
 			return true;
 		default:
 			return super.onContextItemSelected(item);
+		}
+	}
+
+	private void showDialog() {
+		FragmentTransaction ft = getFragmentManager().beginTransaction();
+		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+
+		// Create and show the dialog.
+		DialogFragment newFragment = new MyAlertDialog();
+		newFragment.show(ft, "dialog");
+	}
+
+	private void hideDialog() {
+		mHandler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				FragmentTransaction ft = getFragmentManager()
+						.beginTransaction();
+				Fragment prev = getFragmentManager()
+						.findFragmentByTag("dialog");
+				if (prev != null) {
+					ft.remove(prev).commit();
+				}
+			}
+		});
+	}
+
+	public static class MyAlertDialog extends DialogFragment {
+		/*
+		 * All subclasses of Fragment must include a public empty constructor.
+		 * The framework will often re-instantiate a fragment class when needed,
+		 * in particular during state restore, and needs to be able to find this
+		 * constructor to instantiate it. If the empty constructor is not
+		 * available, a runtime exception will occur in some cases during state
+		 * restore.
+		 */
+		public MyAlertDialog() {
+		}
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+			ProgressDialog progress = new ProgressDialog(getActivity());
+			progress.setMessage("loading");
+			return progress;
 		}
 	}
 }
