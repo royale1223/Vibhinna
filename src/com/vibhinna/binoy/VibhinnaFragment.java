@@ -134,7 +134,7 @@ public class VibhinnaFragment extends ListFragment implements
 
 	int iconid = 1;
 	private ProcessManager processManager = new ProcessManager();
-
+	VibhinnaFragment vf = this;
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final Context context = getActivity();
@@ -217,8 +217,8 @@ public class VibhinnaFragment extends ListFragment implements
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									File newlocation = new File(
-											Constants.MBM_ROOT + vsname);
+									File newlocation = new File("/mnt/sdcard/multiboot/" + vsname);	
+									Log.d(TAG ,"vsname : "+vsname);
 									try {
 									Log.d(TAG, "new location is " + newlocation.getCanonicalPath());
 									}
@@ -254,6 +254,8 @@ public class VibhinnaFragment extends ListFragment implements
 											null, null);
 									iconid = 1;
 									// rlv.refreshListView();
+									getLoaderManager().restartLoader(0,null,this);
+									
 								}
 							})
 					.setNegativeButton(getString(R.string.cancel),
