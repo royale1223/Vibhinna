@@ -187,7 +187,7 @@ public class VibhinnaFragment extends ListFragment implements
 			// For some reason the requested item isn't available, do nothing
 			return false;
 		}
-		final String initialFile = item_cursor.getString(7);
+		final String initialFilePath = item_cursor.getString(7);
 		final String foldername = item_cursor.getString(1);
 		final String folderdesc = item_cursor.getString(2);
 		iconid = Integer.parseInt(item_cursor.getString(4));
@@ -230,8 +230,6 @@ public class VibhinnaFragment extends ListFragment implements
 
 						}
 					});
-			Log.d(TAG, "foldername : " + foldername);
-			Log.d(TAG, "folderdesc : " + folderdesc);
 			descriptionEditText.setText(folderdesc);
 			nameEditText.setText(foldername);
 			new AlertDialog.Builder(context)
@@ -246,39 +244,29 @@ public class VibhinnaFragment extends ListFragment implements
 								public void onClick(DialogInterface dialog,
 										int whichButton) {
 									String updatedName = foldername;
-									Log.d(TAG, "nameupdate : " + updatedName);
 									try {
 										updatedName = nameEditText.getText()
 												.toString();
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									Log.d(TAG, "changed nameupdate : "
-											+ updatedName);
 									String updatedDescription = folderdesc;
-									Log.d(TAG, "descupdate : "
-											+ updatedDescription);
 									try {
 										updatedDescription = descriptionEditText
 												.getText().toString();
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									Log.d(TAG, "changed descupdate : "
-											+ updatedDescription);
 									File finalFile = new File(
 											"/mnt/sdcard/multiboot/"
 													+ updatedName);
 									// get new name if already taken
-									if (!(new File(initialFile))
+									if (!(new File(initialFilePath))
 											.equals(finalFile)) {
 										finalFile = MiscMethods.avoidDuplicateFile(finalFile);
-										(new File(initialFile))
+										(new File(initialFilePath))
 												.renameTo(finalFile);
 									}
-									Log.d(TAG, "finalfile after check : "
-											+ finalFile.getName() + "\n path :"
-											+ finalFile.getPath());
 									ContentValues values = new ContentValues();
 									values.put(
 											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
@@ -325,8 +313,8 @@ public class VibhinnaFragment extends ListFragment implements
 										DialogInterface dialogInterface, int i) {
 									try {
 										MiscMethods.removeDirectory(new File(
-												foldername));
-										// rlv.refreshListView();
+												initialFilePath));
+										restartLoading();
 									} catch (Exception e) {
 										e.printStackTrace();
 										return;
@@ -399,19 +387,19 @@ public class VibhinnaFragment extends ListFragment implements
 											case 0:
 												processdialog
 														.setMessage(getString(R.string.formating)
-																+ initialFile
+																+ initialFilePath
 																+ getString(R.string.cachext3));
 												break;
 											case 1:
 												processdialog
 														.setMessage(getString(R.string.formating)
-																+ initialFile
+																+ initialFilePath
 																+ getString(R.string.dataext3));
 												break;
 											case 2:
 												processdialog
 														.setMessage(getString(R.string.formating)
-																+ initialFile
+																+ initialFilePath
 																+ getString(R.string.systemext3));
 												break;
 											case 3:
@@ -431,7 +419,7 @@ public class VibhinnaFragment extends ListFragment implements
 													Constants.EMPTY,
 													Constants.EMPTY };
 											shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-											shellinput[1] = initialFile;
+											shellinput[1] = initialFilePath;
 											final Message m0 = new Message();
 											final Message m1 = new Message();
 											final Message m2 = new Message();
