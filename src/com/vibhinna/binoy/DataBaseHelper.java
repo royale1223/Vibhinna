@@ -23,13 +23,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public static final String VIRTUAL_SYSTEM_COLUMN_NAME = "vsname";
 	public static final String VIRTUAL_SYSTEM_COLUMN_PATH = "vspath";
 	public static final String VIRTUAL_SYSTEM_COLUMN_TYPE = "vstype";
-	private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS "
-			+ VFS_DATABASE_TABLE + " ( " + BaseColumns._ID
-			+ " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
-			+ VIRTUAL_SYSTEM_COLUMN_NAME + " VARCHAR(50), "
-			+ VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, "
-			+ VIRTUAL_SYSTEM_COLUMN_TYPE + " INTEGER, "
-			+ VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
+	private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " + VFS_DATABASE_TABLE + " ( "
+			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, " + VIRTUAL_SYSTEM_COLUMN_NAME
+			+ " VARCHAR(50), " + VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, " + VIRTUAL_SYSTEM_COLUMN_TYPE
+			+ " INTEGER, " + VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
 	private static final String TAG = "com.vibhinna.binoy.DataBaseHelper";
 
 	protected Context context;
@@ -41,8 +38,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Toast.makeText(context, "Creating DataBase for first time...", 2000)
-				.show();
+		Toast.makeText(context, "Creating DataBase for first time...", 2000).show();
 		db.execSQL(DATABASE_CREATE);
 
 	}
@@ -70,9 +66,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 					return file.isDirectory();
 				}
 			};
-			Cursor pathcursora = db.query(DataBaseHelper.VFS_DATABASE_TABLE,
-					new String[] { DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-							BaseColumns._ID }, null, null, null, null, null);
+			Cursor pathcursora = db.query(DataBaseHelper.VFS_DATABASE_TABLE, new String[] {
+					DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH, BaseColumns._ID }, null, null, null, null, null);
 			if (!Constants.MBM_ROOT.exists()) {
 				Constants.MBM_ROOT.mkdir();
 			}
@@ -83,17 +78,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 					File cfile = new File(pathcursora.getString(0));
 					if (!cfile.exists()) {
 						// remove invalid db files
-						Log.d(TAG, pathcursora.getString(0)+" does not exist, db entry removed");
-						db.delete(DataBaseHelper.VFS_DATABASE_TABLE,
-								BaseColumns._ID + " IS ?",
+						Log.d(TAG, pathcursora.getString(0) + " does not exist, db entry removed");
+						db.delete(DataBaseHelper.VFS_DATABASE_TABLE, BaseColumns._ID + " IS ?",
 								new String[] { pathcursora.getString(1) });
 						// writeXML();
-					} else Log.d(TAG, pathcursora.getString(0)+" is valid, kept");
+					} else
+						Log.d(TAG, pathcursora.getString(0) + " is valid, kept");
 				} while (pathcursora.moveToNext());
 			}
 			pathcursora.close();
-			File[] sdDirectories = Constants.MBM_ROOT
-					.listFiles(filterDirectoriesOnly);
+			File[] sdDirectories = Constants.MBM_ROOT.listFiles(filterDirectoriesOnly);
 			// get all dirs in /mnt/sdcard/multiboot
 			for (int i = 0; i < sdDirectories.length; i++) {
 				File file = sdDirectories[i];
@@ -107,38 +101,30 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 				String vsname = file.getName();
 				Cursor pathcursorb = db
 				// compare with db entries
-						.rawQuery("SELECT " + BaseColumns._ID + " FROM "
-								+ DataBaseHelper.VFS_DATABASE_TABLE + " WHERE "
-								+ DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH
-								+ "=?", new String[] { vspathi });
+						.rawQuery("SELECT " + BaseColumns._ID + " FROM " + DataBaseHelper.VFS_DATABASE_TABLE
+								+ " WHERE " + DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH + "=?",
+								new String[] { vspathi });
 				// filter out those with a . as prefix
 				if (!vsname.startsWith(".")) {
 					// if cursor is empty, the vs is not registerd
 					if (pathcursorb.getCount() == 0) {
 						ContentValues values = new ContentValues();
-						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-								vsname);
+						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME, vsname);
 						try {
-							values.put(
-									DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-									file.getCanonicalPath());
+							values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH, file.getCanonicalPath());
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						try {
-							values.put(
-									DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
-									context.getString(R.string.newvfsi)
-											+ file.getCanonicalPath() + ")");
+							values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+									context.getString(R.string.newvfsi) + file.getCanonicalPath() + ")");
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
-								"2");
-						db.insert(DataBaseHelper.VFS_DATABASE_TABLE, null,
-								values);
+						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE, "2");
+						db.insert(DataBaseHelper.VFS_DATABASE_TABLE, null, values);
 					}
 				}
 				pathcursorb.close();

@@ -19,10 +19,8 @@ public class MiscMethods {
 	}
 
 	private static int sdFreeSize() {
-		StatFs stat = new StatFs(Environment.getExternalStorageDirectory()
-				.getPath());
-		long bytesAvailable = (long) stat.getBlockSize()
-				* (long) stat.getAvailableBlocks();
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+		long bytesAvailable = (long) stat.getBlockSize() * (long) stat.getAvailableBlocks();
 		int sdFreeMegs = (int) (bytesAvailable / (1024 * 1024));
 		return sdFreeMegs;
 	}

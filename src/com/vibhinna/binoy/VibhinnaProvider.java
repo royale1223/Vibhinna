@@ -29,24 +29,20 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final int TUTORIAL_LIST = 2;
 	private static final int TUTORIAL_DETAILS = 3;
 	// private static final int NEW_VFS = 4;
-	private static final UriMatcher sURIMatcher = new UriMatcher(
-			UriMatcher.NO_MATCH);
+	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaProvider";
 	public static final String TUTORIALS_BASE_PATH = "vfs";
-	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-			+ "/" + TUTORIALS_BASE_PATH);
-	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH + "/list");
+	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TUTORIALS_BASE_PATH);
+	public static final Uri LIST_DISPLAY_URI = Uri
+			.parse("content://" + AUTHORITY + "/" + TUTORIALS_BASE_PATH + "/list");
 
 	static {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list",
-				TUTORIAL_LIST);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
-				TUTORIAL_DETAILS);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list", TUTORIAL_LIST);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#", TUTORIAL_DETAILS);
 	}
-	
+
 	@Override
 	public int delete(Uri arg0, String arg1, String[] arg2) {
 		int count = 0;
@@ -56,11 +52,8 @@ public class VibhinnaProvider extends ContentProvider {
 			break;
 		case TUTORIAL_ID:
 			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE,
-					BaseColumns._ID
-							+ " = "
-							+ arg0.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(arg1) ? " AND (" + arg1 + ')'
-									: ""), arg2);
+					BaseColumns._ID + " = " + arg0.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(arg1) ? " AND (" + arg1 + ')' : ""), arg2);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + arg0);
@@ -88,8 +81,7 @@ public class VibhinnaProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		long rowID = mDB
-				.insert(DataBaseHelper.VFS_DATABASE_TABLE, null, values);
+		long rowID = mDB.insert(DataBaseHelper.VFS_DATABASE_TABLE, null, values);
 		if (rowID > 0) {
 			Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
 			getContext().getContentResolver().notifyChange(_uri, null);
@@ -107,32 +99,27 @@ public class VibhinnaProvider extends ContentProvider {
 	}
 
 	@Override
-	public int update(Uri uri, ContentValues values, String selection,
-			String[] selectionArgs) {
-		Log.d(TAG,"update");
+	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+		Log.d(TAG, "update");
 		String[] s = values.keySet().toArray(new String[0]);
-		for (int i = 0; i < s.length ; i++){
-			Log.d(TAG, s[i]+" = "+values.getAsString(s[i]));
+		for (int i = 0; i < s.length; i++) {
+			Log.d(TAG, s[i] + " = " + values.getAsString(s[i]));
 		}
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case TUTORIALS:
-			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
-					selection, selectionArgs);
+			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values, selection, selectionArgs);
 			break;
 		case TUTORIAL_ID:
-	 		Log.d(TAG,"update : id = "+uri.getLastPathSegment());
-//			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
-//					BaseColumns._ID
-//							+ " = "
-//							+ uri.getLastPathSegment()
-//							+ (!TextUtils.isEmpty(selection) ? " AND ("
-//									+ selection + ')' : ""), selectionArgs);
-	  		count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
-					BaseColumns._ID
-							+ " = "
-							+ uri.getLastPathSegment()
-							, selectionArgs);
+			Log.d(TAG, "update : id = " + uri.getLastPathSegment());
+			// count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+			// BaseColumns._ID
+			// + " = "
+			// + uri.getLastPathSegment()
+			// + (!TextUtils.isEmpty(selection) ? " AND ("
+			// + selection + ')' : ""), selectionArgs);
+			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+					BaseColumns._ID + " = " + uri.getLastPathSegment(), selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -142,25 +129,21 @@ public class VibhinnaProvider extends ContentProvider {
 	}
 
 	@Override
-	public Cursor query(Uri uri, String[] projection, String selection,
-			String[] selectionArgs, String sortOrder) {
+	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
 		Log.d(TAG, "uri :" + uri.toString());
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
 		case TUTORIAL_ID:
-			queryBuilder.appendWhere(BaseColumns._ID + "="
-					+ uri.getLastPathSegment());
+			queryBuilder.appendWhere(BaseColumns._ID + "=" + uri.getLastPathSegment());
 			break;
 		case TUTORIALS:
 			// no filter
 			break;
 		case TUTORIAL_LIST:
-			Cursor c = query(CONTENT_URI, projection, selection, selectionArgs,
-					sortOrder);
-			MatrixCursor cursor = new MatrixCursor(
-					Constants.MATRIX_COLUMN_NAMES);
+			Cursor c = query(CONTENT_URI, projection, selection, selectionArgs, sortOrder);
+			MatrixCursor cursor = new MatrixCursor(Constants.MATRIX_COLUMN_NAMES);
 			if (c.moveToFirst()) {
 				do {
 					File root = new File(c.getString(2));
@@ -172,24 +155,20 @@ public class VibhinnaProvider extends ContentProvider {
 						String vdstatus = "0";
 						File cacheimg = new File(root, "cache.img");
 						if (cacheimg.exists()) {
-							cache = cacheimg.length() / 1048576
-									+ context.getString(R.string.smiB);
+							cache = cacheimg.length() / 1048576 + context.getString(R.string.smiB);
 						} else
 							cache = context.getString(R.string.error);
 						File dataimg = new File(root, "data.img");
 						if (dataimg.exists()) {
-							data = dataimg.length() / 1048576
-									+ context.getString(R.string.smiB);
+							data = dataimg.length() / 1048576 + context.getString(R.string.smiB);
 						} else
 							data = context.getString(R.string.error);
 						File systemimg = new File(root, "system.img");
 						if (systemimg.exists()) {
-							system = systemimg.length() / 1048576
-									+ context.getString(R.string.smiB);
+							system = systemimg.length() / 1048576 + context.getString(R.string.smiB);
 						} else
 							system = context.getString(R.string.error);
-						if (systemimg.exists() && cacheimg.exists()
-								&& dataimg.exists()) {
+						if (systemimg.exists() && cacheimg.exists() && dataimg.exists()) {
 							vdstatus = "1";
 						} else
 							vdstatus = "0";
@@ -198,8 +177,7 @@ public class VibhinnaProvider extends ContentProvider {
 						fsii[2] = c.getString(4);
 						fsii[3] = null;
 						fsii[4] = c.getString(3);
-						fsii[5] = context.getString(R.string.caches) + cache
-								+ context.getString(R.string.datas) + data
+						fsii[5] = context.getString(R.string.caches) + cache + context.getString(R.string.datas) + data
 								+ context.getString(R.string.systems) + system;
 						fsii[6] = vdstatus;
 						fsii[7] = c.getString(2);
@@ -212,11 +190,8 @@ public class VibhinnaProvider extends ContentProvider {
 		case TUTORIAL_DETAILS:
 			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
-			Cursor dbcursor = mDB
-					.query(DataBaseHelper.VFS_DATABASE_TABLE,
-							Constants.allColumns, "_id = ?",
-							new String[] { uri.getLastPathSegment() }, null,
-							null, null);
+			Cursor dbcursor = mDB.query(DataBaseHelper.VFS_DATABASE_TABLE, Constants.allColumns, "_id = ?",
+					new String[] { uri.getLastPathSegment() }, null, null, null);
 			dbcursor.moveToFirst();
 			vsinfo[0] = dbcursor.getString(0);
 			vsinfo[1] = dbcursor.getString(1);
@@ -233,117 +208,85 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[i] = vsinfo[i] = context.getString(R.string.corrupted);
 			}
 			try {
-				String[] shellinput = {
-						Constants.CMD_TUNE2FS,
-						vspath, "/cache.img", "" };
+				String[] shellinput = { Constants.CMD_TUNE2FS, vspath, "/cache.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
-				scanner.findWithinHorizon(
-						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String chuuid = scanner.match().group(1);
-				scanner.findWithinHorizon(Pattern
-						.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
 				String chmagicnumber = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
 				String chblockcount = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
 				String chfreeblocks = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
 				String chblocksize = scanner.match().group(1);
 				vsinfo[5] = chuuid;
 				vsinfo[6] = chmagicnumber;
 				if (chmagicnumber.equals("0xEF53")) {
 					vsinfo[7] = context.getString(R.string.healthy);
 				}
-				vsinfo[8] = Integer.parseInt(chblockcount)
-						* Integer.parseInt(chblocksize) / 1048576 + "";
-				vsinfo[9] = Integer.parseInt(chfreeblocks)
-						* Integer.parseInt(chblocksize) / 1048576 + "";
+				vsinfo[8] = Integer.parseInt(chblockcount) * Integer.parseInt(chblocksize) / 1048576 + "";
+				vsinfo[9] = Integer.parseInt(chfreeblocks) * Integer.parseInt(chblocksize) / 1048576 + "";
 				vsinfo[10] = chblockcount;
 				vsinfo[11] = chfreeblocks;
 				vsinfo[12] = chblocksize;
 			} catch (Exception e) {
-				Log.w("Exception", "exception in executing :"
-					  + Constants.CMD_TUNE2FS
-						+ vspath + "/cache.img");
+				Log.w("Exception", "exception in executing :" + Constants.CMD_TUNE2FS + vspath + "/cache.img");
 			}
 			try {
-				String[] shellinput = {
-						Constants.CMD_TUNE2FS, vspath, "/data.img", "" };
+				String[] shellinput = { Constants.CMD_TUNE2FS, vspath, "/data.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
-				scanner.findWithinHorizon(
-						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String dauuid = scanner.match().group(1);
-				scanner.findWithinHorizon(Pattern
-						.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
 				String damagicnumber = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
 				String dablockcount = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
 				String dafreeblocks = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
 				String dablocksize = scanner.match().group(1);
 				vsinfo[13] = dauuid;
 				vsinfo[14] = damagicnumber;
 				if (damagicnumber.equals("0xEF53")) {
 					vsinfo[15] = context.getString(R.string.healthy);
 				}
-				vsinfo[16] = Integer.parseInt(dablockcount)
-						* Integer.parseInt(dablocksize) / 1048576 + "";
-				vsinfo[17] = Integer.parseInt(dafreeblocks)
-						* Integer.parseInt(dablocksize) / 1048576 + "";
+				vsinfo[16] = Integer.parseInt(dablockcount) * Integer.parseInt(dablocksize) / 1048576 + "";
+				vsinfo[17] = Integer.parseInt(dafreeblocks) * Integer.parseInt(dablocksize) / 1048576 + "";
 				vsinfo[18] = dablockcount;
 				vsinfo[19] = dafreeblocks;
 				vsinfo[20] = dablocksize;
 			} catch (Exception e) {
-				Log.w("Exception", "exception in executing :"
-					  + Constants.CMD_TUNE2FS
-						+ vspath + "/data.img");
+				Log.w("Exception", "exception in executing :" + Constants.CMD_TUNE2FS + vspath + "/data.img");
 			}
 			try {
-				String[] shellinput = {
-						Constants.CMD_TUNE2FS,
-						vspath, "/system.img", "" };
+				String[] shellinput = { Constants.CMD_TUNE2FS, vspath, "/system.img", "" };
 				String istr = processManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
-				scanner.findWithinHorizon(
-						Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String syuuid = scanner.match().group(1);
-				scanner.findWithinHorizon(Pattern
-						.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Filesystem\\smagic\\snumber:\\s*(\\S+)"), 0);
 				String symagicnumber = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Block\\scount:\\s*(\\d+)"), 0);
 				String syblockcount = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Free\\sblocks:\\s*(\\d+)"), 0);
 				String syfreeblocks = scanner.match().group(1);
-				scanner.findWithinHorizon(
-						Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
+				scanner.findWithinHorizon(Pattern.compile("Block\\ssize:\\s*(\\d+)"), 0);
 				String syblocksize = scanner.match().group(1);
 				vsinfo[21] = syuuid;
 				vsinfo[22] = symagicnumber;
 				if (symagicnumber.equals("0xEF53")) {
 					vsinfo[23] = context.getString(R.string.healthy);
 				}
-				vsinfo[24] = Integer.parseInt(syblockcount)
-						* Integer.parseInt(syblocksize) / 1048576 + "";
-				vsinfo[25] = Integer.parseInt(syfreeblocks)
-						* Integer.parseInt(syblocksize) / 1048576 + "";
+				vsinfo[24] = Integer.parseInt(syblockcount) * Integer.parseInt(syblocksize) / 1048576 + "";
+				vsinfo[25] = Integer.parseInt(syfreeblocks) * Integer.parseInt(syblocksize) / 1048576 + "";
 				vsinfo[26] = syblockcount;
 				vsinfo[27] = syfreeblocks;
 				vsinfo[28] = syblocksize;
 			} catch (Exception e) {
-				Log.w("Exception", "exception in executing :"
-					  + Constants.CMD_TUNE2FS
-						+ vspath + "/system.img");
+				Log.w("Exception", "exception in executing :" + Constants.CMD_TUNE2FS + vspath + "/system.img");
 			}
 			String key[] = new String[29];
 			for (int i = 0; i < key.length; i++) {
@@ -356,9 +299,8 @@ public class VibhinnaProvider extends ContentProvider {
 			throw new IllegalArgumentException("Unknown URI");
 		}
 
-		Cursor cursor = queryBuilder.query(
-				mDataBaseHelper.getReadableDatabase(), projection, selection,
-				selectionArgs, null, null, sortOrder);
+		Cursor cursor = queryBuilder.query(mDataBaseHelper.getReadableDatabase(), projection, selection, selectionArgs,
+				null, null, sortOrder);
 
 		cursor.setNotificationUri(context.getContentResolver(), uri);
 		return cursor;

@@ -22,11 +22,8 @@ public class ProcessManager {
 		InputStream inputstream = null;
 		String esrval = "";
 		try {
-			inputstream = Runtime
-					.getRuntime()
-					.exec(command.toString()).getErrorStream();
-			InputStreamReader inputstreamreader = new InputStreamReader(
-					inputstream);
+			inputstream = Runtime.getRuntime().exec(command.toString()).getErrorStream();
+			InputStreamReader inputstreamreader = new InputStreamReader(inputstream);
 			esrval = new BufferedReader(inputstreamreader).readLine();
 		} catch (IOException e) {
 			Log.w(TAG, "Error in errorStreamReader()");
@@ -41,8 +38,7 @@ public class ProcessManager {
 			command.append(shellinput[i]);
 		}
 		try {
-			inputstream = Runtime.getRuntime().exec(command.toString())
-					.getInputStream();
+			inputstream = Runtime.getRuntime().exec(command.toString()).getInputStream();
 		} catch (IOException e) {
 			Log.e("IOException", "exception in executing");
 			e.printStackTrace();

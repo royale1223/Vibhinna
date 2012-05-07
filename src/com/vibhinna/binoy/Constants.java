@@ -32,13 +32,11 @@ public class Constants {
 	public static final int MAX_IMG_SIZE = 100;
 	public static final int MIN_IMG_SIZE = 1;
 	public static final int SYSTEM_SIZE = 350;
-	public static final String[] allColumns = { BaseColumns._ID,
-		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
-		DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
-	public static final String[] MATRIX_COLUMN_NAMES = { "_id", "name", "desc", "family", "folder",
-			"status", "vdstatus", "path" };
+	public static final String[] allColumns = { BaseColumns._ID, DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+			DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH, DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+			DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
+	public static final String[] MATRIX_COLUMN_NAMES = { "_id", "name", "desc", "family", "folder", "status",
+			"vdstatus", "path" };
 	public static final File MBM_ROOT = new File("/mnt/sdcard/multiboot/");
 	public static final String CMD_TUNE2FS = "/data/data/com.vibhinna.binoy/bin/tune2fs -l ";
 }

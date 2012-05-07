@@ -28,10 +28,8 @@ public class AssetsManager {
 		}
 		for (int i = 0; i < assetslist.length; i++) {
 			try {
-				InputStream in = context.getAssets().open(
-						"bin/" + assetslist[i]);
-				FileOutputStream out = new FileOutputStream(
-						Constants.BINARY_PATH + "/" + assetslist[i]);
+				InputStream in = context.getAssets().open("bin/" + assetslist[i]);
+				FileOutputStream out = new FileOutputStream(Constants.BINARY_PATH + "/" + assetslist[i]);
 				int read;
 				byte[] buffer = new byte[4096];
 				while ((read = in.read(buffer)) > 0) {
@@ -39,14 +37,12 @@ public class AssetsManager {
 				}
 				out.close();
 				in.close();
-				File assetfile = new File(Constants.BINARY_PATH + "/"
-						+ assetslist[i]);
+				File assetfile = new File(Constants.BINARY_PATH + "/" + assetslist[i]);
 				assetfile.setReadable(true, false);
 				assetfile.setExecutable(true, false);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				Log.w(TAG, "Error : File not found "
-						+ assetslist[i]);
+				Log.w(TAG, "Error : File not found " + assetslist[i]);
 			} catch (IOException e) {
 				e.printStackTrace();
 				Log.w(TAG, "IO Error " + assetslist[i]);
