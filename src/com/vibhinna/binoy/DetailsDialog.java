@@ -1,13 +1,14 @@
 package com.vibhinna.binoy;
 
-import android.app.*;
-import android.content.*;
-import android.database.*;
-import android.graphics.*;
-import android.net.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Color;
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class DetailsDialog {
 	Context context;

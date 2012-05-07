@@ -1,6 +1,7 @@
 package com.vibhinna.binoy;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,8 +37,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import org.apache.http.client.methods.*;
-import java.io.*;
 
 public class VibhinnaFragment extends ListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -49,6 +48,37 @@ public class VibhinnaFragment extends ListFragment implements
 	protected boolean dataCheckBool = false;
 	protected boolean systemCheckBool = false;
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		registerForContextMenu(getListView());
+		if (!Constants.BINARY_FOLDER.exists()
+				|| Constants.BINARY_FOLDER.list().length < 3) {
+			Constants.BINARY_FOLDER.mkdirs();
+			AssetsManager assetsManager = new AssetsManager(getActivity());
+			assetsManager .copyAssets();
+		}
+	}
+	
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+		CursorLoader cursorLoader = new CursorLoader(getActivity(),
+				VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null,
+				null, null);
+		return cursorLoader;
+	}
+	
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		adapter.swapCursor(cursor);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+		adapter.swapCursor(null);
+	}
+	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		DetailsDialog detailsDialog = new DetailsDialog(this);
@@ -71,35 +101,6 @@ public class VibhinnaFragment extends ListFragment implements
 		setListAdapter(adapter);
 	}
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		registerForContextMenu(getListView());
-		if (!Constants.BINARY_FOLDER.exists()
-				|| Constants.BINARY_FOLDER.list().length < 3) {
-			Constants.BINARY_FOLDER.mkdirs();
-			AssetsManager assetsManager = new AssetsManager(getActivity());
-			assetsManager .copyAssets();
-		}
-	}
-
-	@Override
-	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		CursorLoader cursorLoader = new CursorLoader(getActivity(),
-				VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null,
-				null, null);
-		return cursorLoader;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		adapter.swapCursor(cursor);
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> loader) {
-		adapter.swapCursor(null);
-	}
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -254,7 +255,7 @@ public class VibhinnaFragment extends ListFragment implements
 											null, null);
 									iconid = 1;
 									// rlv.refreshListView();
-									getLoaderManager().restartLoader(0,null,this);
+									//getLoaderManager().restartLoader(0,null,this);
 									
 								}
 							})
