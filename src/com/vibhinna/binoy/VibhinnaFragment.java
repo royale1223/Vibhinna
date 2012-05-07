@@ -56,10 +56,10 @@ public class VibhinnaFragment extends ListFragment implements
 				|| Constants.BINARY_FOLDER.list().length < 3) {
 			Constants.BINARY_FOLDER.mkdirs();
 			AssetsManager assetsManager = new AssetsManager(getActivity());
-			assetsManager .copyAssets();
+			assetsManager.copyAssets();
 		}
 	}
-	
+
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
@@ -67,7 +67,6 @@ public class VibhinnaFragment extends ListFragment implements
 				null, null);
 		return cursorLoader;
 	}
-	
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
@@ -78,7 +77,7 @@ public class VibhinnaFragment extends ListFragment implements
 	public void onLoaderReset(Loader<Cursor> loader) {
 		adapter.swapCursor(null);
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		DetailsDialog detailsDialog = new DetailsDialog(this);
@@ -100,7 +99,6 @@ public class VibhinnaFragment extends ListFragment implements
 				CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
-
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -136,10 +134,12 @@ public class VibhinnaFragment extends ListFragment implements
 	int iconid = 1;
 	private ProcessManager processManager = new ProcessManager();
 	VibhinnaFragment vf = this;
+
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		final Context context = getActivity();
-		final ContentResolver mContentResolver = getActivity().getContentResolver();
+		final ContentResolver mContentResolver = getActivity()
+				.getContentResolver();
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		// final DataSource datasource = new DataSource(this);
@@ -218,15 +218,18 @@ public class VibhinnaFragment extends ListFragment implements
 									} catch (Exception e) {
 										e.printStackTrace();
 									}
-									File newlocation = new File("/mnt/sdcard/multiboot/" + vsname);	
-									Log.d(TAG ,"vsname : "+vsname);
+									File newlocation = new File(
+											"/mnt/sdcard/multiboot/" + vsname);
+									Log.d(TAG, "vsname : " + vsname);
 									try {
-									Log.d(TAG, "new location is " + newlocation.getCanonicalPath());
-									}
-									catch (IOException e) {
+										Log.d(TAG,
+												"new location is "
+														+ newlocation
+																.getCanonicalPath());
+									} catch (IOException e) {
 										e.printStackTrace();
 									}
-							
+
 									if (!mFolder.equals(newlocation)) {
 										newlocation = new File(MiscMethods
 												.newName(vsname));
@@ -255,8 +258,8 @@ public class VibhinnaFragment extends ListFragment implements
 											null, null);
 									iconid = 1;
 									// rlv.refreshListView();
-									//getLoaderManager().restartLoader(0,null,this);
-									
+									// getLoaderManager().restartLoader(0,null,this);
+
 								}
 							})
 					.setNegativeButton(getString(R.string.cancel),
@@ -396,25 +399,27 @@ public class VibhinnaFragment extends ListFragment implements
 											m2.arg1 = 2;
 											endmessage.arg1 = 3;
 											if (cacheCheckBool) {
-												Log.d(TAG,"cache checked");
+												Log.d(TAG, "cache checked");
 												handler.sendMessage(m0);
 												shellinput[2] = Constants.CACHE_IMG;
-												Log.d(TAG,processManager
+												Log.d(TAG, processManager
 														.inputStreamReader(
 																shellinput, 20));
 												cacheCheckBool = false;
-											} else Log.d(TAG,"cache not checked");
+											} else
+												Log.d(TAG, "cache not checked");
 											if (dataCheckBool) {
-												Log.d(TAG,"data checked");
+												Log.d(TAG, "data checked");
 												handler.sendMessage(m1);
 												shellinput[2] = Constants.DATA_IMG;
-												Log.d(TAG,processManager
+												Log.d(TAG, processManager
 														.inputStreamReader(
 																shellinput, 20));
 												dataCheckBool = false;
-											} else Log.d(TAG,"data not checked");
+											} else
+												Log.d(TAG, "data not checked");
 											if (systemCheckBool) {
-												Log.d(TAG,"system checked");
+												Log.d(TAG, "system checked");
 												handler.sendMessage(m2);
 												shellinput[2] = Constants.SYSTEM_IMG;
 												Log.d(TAG, "exec :"
@@ -422,12 +427,13 @@ public class VibhinnaFragment extends ListFragment implements
 														+ shellinput[1]
 														+ shellinput[2]
 														+ shellinput[3]);
-												Log.d(TAG,processManager
+												Log.d(TAG, processManager
 														.inputStreamReader(
 																shellinput, 20));
 												systemCheckBool = false;
 
-											}else Log.d(TAG,"system not checked");
+											} else
+												Log.d(TAG, "system not checked");
 											handler.sendMessage(endmessage);
 										}
 									};
