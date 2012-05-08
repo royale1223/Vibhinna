@@ -1,9 +1,10 @@
 package com.vibhinna.binoy;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 
-public class VibhinnaActivity extends FragmentActivity {
+import android.os.Bundle;
+
+public class VibhinnaActivity extends SherlockFragmentActivity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

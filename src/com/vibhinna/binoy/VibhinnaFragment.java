@@ -4,7 +4,6 @@ import java.io.File;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -16,8 +15,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.BaseColumns;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -25,8 +22,6 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -39,7 +34,12 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 
-public class VibhinnaFragment extends ListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+
+
+public class VibhinnaFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int TUTORIAL_LIST_LOADER = 0x01;
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
@@ -60,7 +60,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		// ---- magic lines starting here -----
 		// call this to re-connect with an existing
 		// loader (after screen configuration changes for e.g!)
-		//showDialog();
 		setListShown(false);
 		LoaderManager lm = getLoaderManager();
 		if (lm.getLoader(0) != null) {
@@ -70,16 +69,13 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 	}
 
 	protected void startLoading() {
-		//showDialog();
 		setListShown(false);
 		// first time we call this loader, so we need to create a new one
 		getLoaderManager().initLoader(0, null, this);
 	}
 
 	protected void restartLoading() {
-		//showDialog();
 		setListShown(false);
-		// mItems.clear();
 		adapter.notifyDataSetChanged();
 		getListView().invalidateViews();
 
@@ -101,7 +97,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		adapter.notifyDataSetChanged();
-		//hideDialog();
 		setListShown(true);
 		Log.d(TAG, "onLoadFinished(): done loading!");
 		adapter.swapCursor(cursor);
@@ -109,7 +104,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
-		// adapter.swapCursor(null);
 	}
 
 	@Override
@@ -120,8 +114,10 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// use crsorloader in fragment
 		super.onCreate(savedInstanceState);
+
+		setHasOptionsMenu(true);
+
 		String[] from = { "name", "desc", "status", "path", "folder", BaseColumns._ID };
 		int[] to = { R.id.name, R.id.desc, R.id.status, R.id.path };
 
@@ -129,7 +125,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 
 		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null, from, to,
 				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		//Context context, int layout, Cursor c, String[] from, int[] to, int i,int flags
 		setListAdapter(adapter);
 	}
 
@@ -158,7 +153,7 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		if (cursor.equals(null) || s1.equals(s2))
 			return;
 		menu.setHeaderTitle(cursor.getString(1));
-		MenuInflater inflater = this.getActivity().getMenuInflater();
+		android.view.MenuInflater inflater = this.getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
 
@@ -167,7 +162,7 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 	VibhinnaFragment vf = this;
 
 	@Override
-	public boolean onContextItemSelected(MenuItem item) {
+	public boolean onContextItemSelected(android.view.MenuItem item) {
 		final Context context = getActivity();
 		final ContentResolver mContentResolver = getActivity().getContentResolver();
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -181,7 +176,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		final String foldername = item_cursor.getString(1);
 		final String folderdesc = item_cursor.getString(2);
 		iconid = Integer.parseInt(item_cursor.getString(4));
-		// final File mFolder = new File(folderpath);
 		final int itemid = Integer.parseInt(item_cursor.getString(0));
 		switch (item.getItemId()) {
 		case R.id.edit:
@@ -336,7 +330,6 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 									case 3:
 										processdialog.dismiss();
 										break;
-
 									}
 								}
 							};
@@ -389,49 +382,10 @@ public class VibhinnaFragment extends ListFragment implements LoaderManager.Load
 		}
 	}
 
-//	private void showDialog() {
-//		FragmentTransaction ft = getFragmentManager().beginTransaction();
-//		Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-//		if (prev != null) {
-//			ft.remove(prev);
-//		}
-//
-//		// Create and show the dialog.
-//		DialogFragment newFragment = new MyAlertDialog();
-//		newFragment.show(ft, "dialog");
-//	}
-
-//	private void hideDialog() {
-//		mHandler.post(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				FragmentTransaction ft = getFragmentManager().beginTransaction();
-//				Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-//				if (prev != null) {
-//					ft.remove(prev).commit();
-//				}
-//			}
-//		});
-//	}
-
-	public static class MyAlertDialog extends DialogFragment {
-		/*
-		 * All subclasses of Fragment must include a public empty constructor.
-		 * The framework will often re-instantiate a fragment class when needed,
-		 * in particular during state restore, and needs to be able to find this
-		 * constructor to instantiate it. If the empty constructor is not
-		 * available, a runtime exception will occur in some cases during state
-		 * restore.
-		 */
-		public MyAlertDialog() {
-		}
-
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			ProgressDialog progress = new ProgressDialog(getActivity());
-			progress.setMessage("loading");
-			return progress;
-		}
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Add your menu entries here
+		inflater.inflate(R.menu.options_menu, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 }
