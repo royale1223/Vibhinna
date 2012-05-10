@@ -41,16 +41,18 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 public class VibhinnaFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-	private static final int TUTORIAL_LIST_LOADER = 0x01;
+	private static final int VFS_LIST_LOADER = 0x01;
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
 	protected boolean cacheCheckBool = false;
 	protected boolean dataCheckBool = false;
 	protected boolean systemCheckBool = false;
+	int iconid = 1;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//showSplashScreen();
 		setRetainInstance(true);
 		registerForContextMenu(getListView());
 		if (!Constants.BINARY_FOLDER.exists() || Constants.BINARY_FOLDER.list().length < 3) {
@@ -58,9 +60,6 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
 		}
-		// ---- magic lines starting here -----
-		// call this to re-connect with an existing
-		// loader (after screen configuration changes for e.g!)
 		setHasOptionsMenu(true);
 
 		setListShown(false);
@@ -68,7 +67,6 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		if (lm.getLoader(0) != null) {
 			lm.initLoader(0, null, this);
 		}
-		// ----- end magic lines -----
 	}
 
 	protected void startLoading() {
@@ -100,9 +98,10 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 		adapter.notifyDataSetChanged();
-		setListShown(true);
 		Log.d(TAG, "onLoadFinished(): done loading!");
 		adapter.swapCursor(cursor);
+		setListShown(true);
+		//removeSplashScreen();
 	}
 
 	@Override
@@ -124,7 +123,7 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		String[] from = { "name", "desc", "status", "path", "folder", BaseColumns._ID };
 		int[] to = { R.id.name, R.id.desc, R.id.status, R.id.path };
 
-		getLoaderManager().initLoader(TUTORIAL_LIST_LOADER, null, this);
+		getLoaderManager().initLoader(VFS_LIST_LOADER, null, this);
 
 		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null, from, to,
 				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
@@ -160,9 +159,6 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		inflater.inflate(R.menu.context_menu, menu);
 	}
 
-	int iconid = 1;
-	private ProcessManager processManager = new ProcessManager();
-	VibhinnaFragment vf = this;
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
@@ -354,19 +350,19 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 									if (cacheCheckBool) {
 										handler.sendMessage(m0);
 										shellinput[2] = Constants.CACHE_IMG;
-										processManager.inputStreamReader(shellinput, 20);
+										ProcessManager.inputStreamReader(shellinput, 20);
 										cacheCheckBool = false;
 									}
 									if (dataCheckBool) {
 										handler.sendMessage(m1);
 										shellinput[2] = Constants.DATA_IMG;
-										processManager.inputStreamReader(shellinput, 20);
+										ProcessManager.inputStreamReader(shellinput, 20);
 										dataCheckBool = false;
 									}
 									if (systemCheckBool) {
 										handler.sendMessage(m2);
 										shellinput[2] = Constants.SYSTEM_IMG;
-										processManager.inputStreamReader(shellinput, 20);
+										ProcessManager.inputStreamReader(shellinput, 20);
 										systemCheckBool = false;
 									}
 									handler.sendMessage(endmessage);
@@ -414,4 +410,5 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		}
 
 	}
+
 }

@@ -11,8 +11,7 @@ import android.util.Log;
 
 public class ProcessManager {
 	private static final String TAG = "com.vibhinna.binoy.ProcessManager";
-	private InputStream inputstream;
-
+	
 	public String errorStreamReader(String[] shellinput) {
 		// TODO use pb instead of runtime
 		StringBuilder command = new StringBuilder(Constants.EMPTY);
@@ -33,8 +32,9 @@ public class ProcessManager {
 
 	}
 
-	public String inputStreamReader(String[] shellinput, int length) {
+	public static String inputStreamReader(String[] shellinput, int length) {
 		StringBuilder command = new StringBuilder(Constants.EMPTY);
+		InputStream inputstream;
 		for (int i = 0; i < shellinput.length; i++) {
 			
 			command.append(shellinput[i]);
@@ -51,7 +51,7 @@ public class ProcessManager {
 		return isrstr;
 	}
 
-	public String convertStreamToString(InputStream is) {
+	public static String convertStreamToString(InputStream is) {
 		try {
 			return new Scanner(is).useDelimiter("\\A").next();
 		} catch (NoSuchElementException e) {

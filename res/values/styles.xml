@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SplashScreen">
+        <item name="android:theme">@android:style/Theme.Holo.NoActionBar</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowFrame">@null</item>
+    </style>
+
+    <style name="VibhinnaTheme" parent="Theme.Sherlock.Light.ForceOverflow">
+        <item name="android:actionBarStyle">@style/VibhinnaTheme.ActionBar</item>
+        <item name="actionBarStyle">@style/VibhinnaTheme.ActionBar</item>
+    </style>
+
+    <style name="VibhinnaTheme.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="displayOptions">showHome|useLogo</item>
+    </style>
+
+</resources>

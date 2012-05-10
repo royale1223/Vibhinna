@@ -40,24 +40,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 		Toast.makeText(context, "Creating DataBase for first time...", 2000).show();
 		db.execSQL(DATABASE_CREATE);
-
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS" + VFS_DATABASE_TABLE);
-		onCreate(db);
-
-	}
-
-	@Override
-	public void onOpen(SQLiteDatabase db) {
-		// tbd
-		if (db.isReadOnly()) {
-			Log.d(TAG, "db is readonly");
-			return;
-		}
-		Log.d(TAG, "db is writable");
 		String extState = Environment.getExternalStorageState();
 		if (extState.equals(Environment.MEDIA_MOUNTED)) {
 			FileFilter filterDirectoriesOnly = new FileFilter() {
@@ -133,5 +115,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		} else {
 			return;
 		}
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.execSQL("DROP TABLE IF EXISTS" + VFS_DATABASE_TABLE);
+		onCreate(db);
+
 	}
 }
