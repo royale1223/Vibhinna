@@ -174,7 +174,7 @@ public class NewVSDialogMakerICS {
 								final Message m2 = new Message();
 								m2.arg1 = 2;
 								handler.sendMessage(m2);
-								processManager.inputStreamReader(shellinput, 20);
+								ProcessManager.inputStreamReader(shellinput, 20);
 								final Message m3 = new Message();
 								m3.arg1 = 3;
 								handler.sendMessage(m3);
@@ -188,7 +188,7 @@ public class NewVSDialogMakerICS {
 								final Message m4 = new Message();
 								m4.arg1 = 4;
 								handler.sendMessage(m4);
-								processManager.inputStreamReader(shellinput, 20);
+								ProcessManager.inputStreamReader(shellinput, 20);
 								shellinput[0] = Constants.CMD_DD;
 								shellinput[2] = "/system.img bs=1000000 count=";
 
@@ -203,7 +203,7 @@ public class NewVSDialogMakerICS {
 								final Message m6 = new Message();
 								m6.arg1 = 6;
 								handler.sendMessage(m6);
-								processManager.inputStreamReader(shellinput, 20);
+								ProcessManager.inputStreamReader(shellinput, 20);
 								final Message endmessage = new Message();
 								handler.sendMessage(endmessage);
 							}

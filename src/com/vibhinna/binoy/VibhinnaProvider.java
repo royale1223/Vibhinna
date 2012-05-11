@@ -184,7 +184,6 @@ public class VibhinnaProvider extends ContentProvider {
 			c.close();
 			return cursor;
 		case TUTORIAL_DETAILS:
-			ProcessManager processManager = new ProcessManager();
 			String[] vsinfo = new String[29];
 			Cursor dbcursor = mDB.query(DataBaseHelper.VFS_DATABASE_TABLE, Constants.allColumns, "_id = ?",
 					new String[] { uri.getLastPathSegment() }, null, null, null);
@@ -205,7 +204,7 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = { Constants.CMD_TUNE2FS, vspath, "/cache.img", "" };
-				String istr = processManager.inputStreamReader(shellinput, 40);
+				String istr = ProcessManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String chuuid = scanner.match().group(1);
@@ -232,7 +231,7 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = { Constants.CMD_TUNE2FS, vspath, "/data.img", "" };
-				String istr = processManager.inputStreamReader(shellinput, 40);
+				String istr = ProcessManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String dauuid = scanner.match().group(1);
@@ -259,7 +258,7 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			try {
 				String[] shellinput = { Constants.CMD_TUNE2FS, vspath, "/system.img", "" };
-				String istr = processManager.inputStreamReader(shellinput, 40);
+				String istr = ProcessManager.inputStreamReader(shellinput, 40);
 				Scanner scanner = new Scanner(istr).useDelimiter("\\n");
 				scanner.findWithinHorizon(Pattern.compile("Filesystem\\sUUID:\\s*(\\S+)"), 0);
 				String syuuid = scanner.match().group(1);
