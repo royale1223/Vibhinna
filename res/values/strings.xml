@@ -212,5 +212,8 @@ Web Site: http://www.ubuntumaster.tk/
     <string name="untitled">Untitled_VFS</string>
     <string name="sizemb">in MB</string>
     <string name="newvfsi">New VFS (</string>
+    <string name="menu_new">New</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="menu_more">More</string>
 
 </resources>
