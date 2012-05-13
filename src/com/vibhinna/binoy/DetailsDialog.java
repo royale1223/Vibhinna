@@ -32,7 +32,7 @@ public class DetailsDialog {
 			vsinfo[i] = cursor.getString(i);
 		}
 		ImageView i = (ImageView) onclicklistitemView.findViewById(R.id.icon);
-		i.setImageResource(MiscMethods.getIcon(Integer.parseInt(vsinfo[3])));
+		i.setImageResource(MiscMethods.getIconRes(Integer.parseInt(vsinfo[3])));
 		TextView name = (TextView) onclicklistitemView.findViewById(R.id.name);
 		name.setText(vsinfo[1]);
 		TextView desc = (TextView) onclicklistitemView.findViewById(R.id.desc);

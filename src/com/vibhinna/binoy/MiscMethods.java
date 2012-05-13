@@ -45,7 +45,7 @@ public class MiscMethods {
 		return c + d + s;
 	}
 
-	public static int getIcon(int iconid) {
+	public static int getIconRes(int iconid) {
 		switch (iconid) {
 		case 0:
 			return R.drawable.a2s_icon;

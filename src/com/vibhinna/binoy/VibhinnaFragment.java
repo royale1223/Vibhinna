@@ -195,7 +195,7 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 				@Override
 				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 					iconid = arg2;
-					iconPreview.setImageResource(MiscMethods.getIcon(arg2));
+					iconPreview.setImageResource(MiscMethods.getIconRes(arg2));
 				}
 
 				@Override

@@ -273,7 +273,7 @@ public class NewVSDialogMakerICS {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				iconid = arg2;
-				memory.setCompoundDrawablesWithIntrinsicBounds(0, MiscMethods.getIcon(arg2), 0, 0);
+				memory.setCompoundDrawablesWithIntrinsicBounds(0, MiscMethods.getIconRes(arg2), 0, 0);
 
 			}
 
