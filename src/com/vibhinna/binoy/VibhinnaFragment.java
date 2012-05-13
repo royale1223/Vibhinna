@@ -408,7 +408,5 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		default:
 			return false;
 		}
-
 	}
-
 }

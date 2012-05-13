@@ -1,10 +1,10 @@
 package com.vibhinna.binoy;
 
-import android.graphics.*;
-import android.os.*;
-import java.io.*;
+import java.io.File;
 
-public class MiscMethods {
+import android.graphics.Color;
+import android.os.Environment;
+import android.os.StatFs;
 
 public class MiscMethods {
 	/**
