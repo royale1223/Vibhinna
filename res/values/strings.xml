@@ -215,5 +215,8 @@ Web Site: http://www.ubuntumaster.tk/
     <string name="menu_new">New</string>
     <string name="menu_refresh">Refresh</string>
     <string name="menu_more">More</string>
+    <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
+    <string name="menu_license">License</string>
 
 </resources>
