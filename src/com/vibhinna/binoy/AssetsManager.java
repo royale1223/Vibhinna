@@ -14,10 +14,19 @@ public class AssetsManager {
 	private static final String TAG = "com.vibhinna.binoy.AssetsManager";
 	Context context;
 
+	/**
+	 * Constructer for AssetManager
+	 * 
+	 * @param mContext
+	 *            Context
+	 */
 	public AssetsManager(Context mContext) {
 		context = mContext;
 	}
 
+	/**
+	 * Copies assets to /data/data/com.vibhinna.binoy/bin and sets permissions
+	 */
 	public void copyAssets() {
 		Toast.makeText(context, "Copying binaries", 2000).show();
 		String[] assetslist = null;

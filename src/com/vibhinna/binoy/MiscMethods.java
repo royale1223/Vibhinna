@@ -6,6 +6,18 @@ import java.io.*;
 
 public class MiscMethods {
 
+public class MiscMethods {
+	/**
+	 * To determine color of total mem in "new" dialog
+	 * 
+	 * @param c
+	 *            Size of cache
+	 * @param d
+	 *            Size of data
+	 * @param s
+	 *            Size of system
+	 * @return color of mem
+	 */
 	public static int getMemColor(int c, int d, int s) {
 		int SD_FREE_SIZE = sdFreeSize();
 		int SD_WARN_SIZE = (int) (SD_FREE_SIZE * 0.9);
@@ -18,6 +30,10 @@ public class MiscMethods {
 			return Color.parseColor("#4B8A08");
 	}
 
+	/**
+	 * 
+	 * @return Free size in SDcard
+	 */
 	private static int sdFreeSize() {
 		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
 		long bytesAvailable = (long) stat.getBlockSize() * (long) stat.getAvailableBlocks();

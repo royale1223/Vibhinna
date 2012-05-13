@@ -391,7 +391,7 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_refreshui:
+		case R.id.menu_refresh:
 			restartLoading();
 			return true;
 
