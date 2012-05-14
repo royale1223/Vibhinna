@@ -15,16 +15,17 @@ public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 
 	private static final String sdpath = "/mnt/sdcard";
 	private Context mContext;
-	PropManager propmanager = new PropManager(mContext);
-	private final String mbpath = sdpath + propmanager.mbActivePath();
+	PropManager propmanager;
+	private final String mbpath;
 	private LayoutInflater mInflater;
 	int defaultColor = 0;
 
 	public VibhinnaAdapter(Context context, int layout, Cursor c, String[] from, int[] to,int flags) {
 		super(context, layout, c, from, to,flags);
+		propmanager = new PropManager(mContext);
+		mbpath = sdpath + propmanager.mbActivePath();
 		mContext = context;
 		mInflater = LayoutInflater.from(context);
-		// What is i? how should it be handled?
 	}
 
 	/**
