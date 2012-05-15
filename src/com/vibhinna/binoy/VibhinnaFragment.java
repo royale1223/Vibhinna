@@ -53,7 +53,6 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		//showSplashScreen();
 		setRetainInstance(true);
 		registerForContextMenu(getListView());
 		if (!Constants.BINARY_FOLDER.exists() || Constants.BINARY_FOLDER.list().length < 3) {
@@ -102,7 +101,6 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		Log.d(TAG, "onLoadFinished(): done loading!");
 		adapter.swapCursor(cursor);
 		setListShown(true);
-		//removeSplashScreen();
 	}
 
 	@Override
