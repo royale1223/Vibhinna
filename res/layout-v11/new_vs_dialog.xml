@@ -45,35 +45,21 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <LinearLayout
+    <TableLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="fill_parent"
+        android:stretchColumns="*" >
 
-        <LinearLayout
-            android:layout_width="96dp"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:padding="3dp" >
+        <TableRow>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:layout_column="0"
                 android:gravity="center_horizontal"
                 android:text="@string/cache"
                 android:textSize="16dp" />
-
-            <NumberPicker
-                android:id="@+id/cache_size_picker"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="95dp"
-            android:layout_height="fill_parent"
-            android:orientation="vertical"
-            android:padding="3dp" >
 
             <TextView
                 android:layout_width="fill_parent"
@@ -82,31 +68,32 @@
                 android:text="@string/data"
                 android:textSize="16dp" />
 
-            <NumberPicker
-                android:id="@+id/data_size_picker"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="96dp"
-            android:layout_height="fill_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="3dp" >
-
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="@string/system"
                 android:textSize="16dp" />
+        </TableRow>
+
+        <TableRow>
+
+            <NumberPicker
+                android:layout_column="0"
+                android:id="@+id/cache_size_picker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <NumberPicker
+                android:id="@+id/data_size_picker"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
             <NumberPicker
                 android:id="@+id/system_size_picker"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
-    </LinearLayout>
+        </TableRow>
+    </TableLayout>
 
 </LinearLayout>
