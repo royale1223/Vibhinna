@@ -417,7 +417,7 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	 * @param vibhinnaFragment 
 	 */
 	private void showNewDialog(VibhinnaFragment vibhinnaFragment) {
-		DialogFragment newFragment = NewDialogFragmentICS.newInstance(vibhinnaFragment);
+		DialogFragment newFragment = NewDialogFragment.newInstance(vibhinnaFragment);
 		newFragment.show(getFragmentManager(), "dialog");
 	}
 }

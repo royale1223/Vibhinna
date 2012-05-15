@@ -32,7 +32,7 @@ import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
-public class NewDialogFragmentICS extends SherlockDialogFragment {
+public class NewDialogFragment extends SherlockDialogFragment {
 
 	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
 	private static Context context;
@@ -58,8 +58,8 @@ public class NewDialogFragmentICS extends SherlockDialogFragment {
 	 * 
 	 * @param vibhinnaFragment
 	 */
-	static NewDialogFragmentICS newInstance(VibhinnaFragment vibhinnaFragment) {
-		NewDialogFragmentICS fragment = new NewDialogFragmentICS();
+	static NewDialogFragment newInstance(VibhinnaFragment vibhinnaFragment) {
+		NewDialogFragment fragment = new NewDialogFragment();
 		mVibhinnaFragment = vibhinnaFragment;
 		context = mVibhinnaFragment.getSherlockActivity();
 		contentResolver = context.getContentResolver();
