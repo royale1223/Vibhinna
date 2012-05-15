@@ -11,7 +11,6 @@ import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
@@ -87,7 +86,8 @@ public class VibhinnaProvider extends ContentProvider {
 			getContext().getContentResolver().notifyChange(_uri, null);
 			return _uri;
 		}
-		throw new SQLException("Failed to insert row into " + uri);
+		//throw new SQLException("Failed to insert row into " + uri);
+		return uri;
 	}
 
 	@Override
