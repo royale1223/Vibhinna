@@ -401,6 +401,12 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		}
 	}
 
+	/**
+	 * Shows the Details Dialog, which gives all info about a VFS.
+	 * 
+	 * @param id
+	 *            _id of the VFS
+	 */
 	void showDetailsDialog(long id) {
 		DialogFragment newFragment = DetailsDialogFragment.newInstance(id);
 		newFragment.show(getFragmentManager(), "details_dialog");
