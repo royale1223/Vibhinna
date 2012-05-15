@@ -1,15 +1,16 @@
 package com.vibhinna.binoy;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -29,12 +30,14 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.NumberPicker.OnValueChangeListener;
 
-public class NewVSDialogMakerICS {
+import com.actionbarsherlock.app.SherlockDialogFragment;
+
+public class NewDialogFragmentICS extends SherlockDialogFragment {
 
 	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
-	Context context;
-	VibhinnaFragment vibhinnaFragment;
-	ContentResolver contentResolver;
+	private static Context context;
+	private static VibhinnaFragment mVibhinnaFragment;
+	private static ContentResolver contentResolver;
 
 	private int iconid;
 	private int CACHE_SIZE;
@@ -44,19 +47,27 @@ public class NewVSDialogMakerICS {
 	private boolean validName = true;
 	private boolean validSize = false;
 
-	String newvsdesc;
-	String newName;
-	File defaultFolder;
+	private String newvsdesc;
+	private String newName;
+	private File defaultFolder;
 
-	ProcessManager processManager;
+	// ProcessManager processManager;
 
-	public NewVSDialogMakerICS(VibhinnaFragment mVibhinnaFragment) {
-		vibhinnaFragment = mVibhinnaFragment;
-		context = mVibhinnaFragment.getActivity();
+	/**
+	 * creates a new instance of PropDialogFragment
+	 * 
+	 * @param vibhinnaFragment
+	 */
+	static NewDialogFragmentICS newInstance(VibhinnaFragment vibhinnaFragment) {
+		NewDialogFragmentICS fragment = new NewDialogFragmentICS();
+		mVibhinnaFragment = vibhinnaFragment;
+		context = mVibhinnaFragment.getSherlockActivity();
 		contentResolver = context.getContentResolver();
+		return fragment;
 	}
 
-	public AlertDialog getDialog() throws IOException {
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		iconid = 1;
 		CACHE_SIZE = Constants.CACHE_SIZE;
 		DATA_SIZE = Constants.DATA_SIZE;
@@ -66,9 +77,9 @@ public class NewVSDialogMakerICS {
 
 		newName = context.getString(R.string.untitled);
 		defaultFolder = new File(Constants.MULTI_BOOT_PATH + newName);
-		newvsdesc = context.getString(R.string.newvfsi) + defaultFolder.getCanonicalPath() + ")";
+		newvsdesc = context.getString(R.string.newvfsi) + defaultFolder.getPath() + ")";
 
-		processManager = new ProcessManager();
+		// processManager = new ProcessManager();
 
 		LayoutInflater newVFSDialogInflater = LayoutInflater.from(context);
 		final View view = newVFSDialogInflater.inflate(R.layout.new_vs_dialog, null);
@@ -97,14 +108,12 @@ public class NewVSDialogMakerICS {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						final File newFolder = MiscMethods.avoidDuplicateFile(new File("/mnt/sdcard/multiboot/"
 								+ newName));
-						// FIXME crash if run immedietly after onCreate?
 						ContentValues values = new ContentValues();
 						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME, newFolder.getName());
 						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH, newFolder.getPath());
 						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION, newvsdesc);
 						values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE, iconid + "");
 						contentResolver.insert(VibhinnaProvider.CONTENT_URI, values);
-						// TODO insert
 						newFolder.mkdir();
 						final ProgressDialog processdialog = ProgressDialog.show(context, Constants.EMPTY,
 								(context.getString(R.string.mknewfold) + newvsdesc), true);
@@ -144,7 +153,7 @@ public class NewVSDialogMakerICS {
 
 								}
 								default: {
-									vibhinnaFragment.restartLoading();
+									mVibhinnaFragment.restartLoading();
 									processdialog.dismiss();
 									return;
 								}
@@ -167,7 +176,7 @@ public class NewVSDialogMakerICS {
 								final Message m1 = new Message();
 								m1.arg1 = 1;
 								handler.sendMessage(m1);
-								processManager.errorStreamReader(shellinput);
+								ProcessManager.errorStreamReader(shellinput);
 								shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 								shellinput[2] = Constants.CACHE_IMG;
 								shellinput[3] = "";
@@ -181,7 +190,7 @@ public class NewVSDialogMakerICS {
 								shellinput[0] = Constants.CMD_DD;
 								shellinput[2] = "/data.img bs=1000000 count=";
 								shellinput[3] = datasize;
-								processManager.errorStreamReader(shellinput);
+								ProcessManager.errorStreamReader(shellinput);
 								shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 								shellinput[2] = Constants.DATA_IMG;
 								shellinput[3] = "";
@@ -196,7 +205,7 @@ public class NewVSDialogMakerICS {
 								final Message m5 = new Message();
 								m5.arg1 = 5;
 								handler.sendMessage(m5);
-								processManager.errorStreamReader(shellinput);
+								ProcessManager.errorStreamReader(shellinput);
 								shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 								shellinput[2] = Constants.SYSTEM_IMG;
 								shellinput[3] = "";
@@ -231,7 +240,7 @@ public class NewVSDialogMakerICS {
 				} else {
 					validName = false;
 				}
-				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newVSDialogButtonState());
+				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newDialogButtonState());
 				newName = filtered_str;
 			}
 
@@ -304,7 +313,7 @@ public class NewVSDialogMakerICS {
 				if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) == Color.RED) {
 				} else {
 				}
-				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newVSDialogButtonState());
+				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newDialogButtonState());
 			}
 		};
 		cacheSizePicker.setOnValueChangedListener(cacheOnValueChangeListener);
@@ -334,7 +343,7 @@ public class NewVSDialogMakerICS {
 				if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) == Color.RED) {
 				} else {
 				}
-				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newVSDialogButtonState());
+				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newDialogButtonState());
 			}
 		};
 		dataSizePicker.setOnValueChangedListener(dataOnValueChangeListener);
@@ -363,7 +372,7 @@ public class NewVSDialogMakerICS {
 				if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) == Color.RED) {
 				} else {
 				}
-				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newVSDialogButtonState());
+				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(newDialogButtonState());
 			}
 		};
 		systemSizePicker.setOnValueChangedListener(systemOnValueChangeListener);
@@ -377,17 +386,10 @@ public class NewVSDialogMakerICS {
 		return dialog;
 	}
 
-	protected boolean newVSDialogButtonState() {
-		if (validSize & validName) {
-			Log.d(TAG, "Name and size is valid.");
+	protected boolean newDialogButtonState() {
+		if (validSize & validName)
 			return true;
-		} else {
-			if (!validSize)
-				Log.d(TAG, "Size is not valid.");
-			else if (!validName)
-				Log.d(TAG, "Name is not valid.");
+		else
 			return false;
-		}
 	}
-
 }

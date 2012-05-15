@@ -393,14 +393,8 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 			return true;
 
 		case R.id.menu_new_v11:
-			NewVSDialogMakerICS dialogMaker = new NewVSDialogMakerICS(this);
-			try {
-				dialogMaker.getDialog();
-				return true;
-			} catch (IOException e1) {
-				Log.w(TAG, "Error creating Dialog");
-				return false;
-			}
+			showNewDialog(this);
+			return true;
 
 		default:
 			return false;
@@ -410,5 +404,14 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	void showDetailsDialog(long id) {
 		DialogFragment newFragment = DetailsDialogFragment.newInstance(id);
 		newFragment.show(getFragmentManager(), "details_dialog");
+	}
+
+	/**
+	 * Shows New VFS dialog, which will create a new VFS
+	 * @param vibhinnaFragment 
+	 */
+	private void showNewDialog(VibhinnaFragment vibhinnaFragment) {
+		DialogFragment newFragment = NewDialogFragmentICS.newInstance(vibhinnaFragment);
+		newFragment.show(getFragmentManager(), "dialog");
 	}
 }
