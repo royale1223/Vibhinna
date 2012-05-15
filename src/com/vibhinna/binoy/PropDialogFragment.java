@@ -1,6 +1,5 @@
 package com.vibhinna.binoy;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.database.MatrixCursor;
@@ -17,8 +16,8 @@ public class PropDialogFragment extends SherlockDialogFragment {
 
 	/** creates a new instance of PropDialogFragment */
 	static PropDialogFragment newInstance() {
-		PropDialogFragment f = new PropDialogFragment();
-		return f;
+		PropDialogFragment pFragment = new PropDialogFragment();
+		return pFragment;
 	}
 
 	@Override
@@ -27,7 +26,7 @@ public class PropDialogFragment extends SherlockDialogFragment {
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.button_dialog, null);
 		propManager = new PropManager(getSherlockActivity());
-		AlertDialog.Builder builder = new AlertDialog.Builder(getSherlockActivity());
+		HoloAlertDialogBuilder builder = new HoloAlertDialogBuilder(getSherlockActivity());
 		builder.setView(view);
 		ListView mbListView = (ListView) view.findViewById(R.id.mblist);
 		builder.setTitle(getActivity().getString(R.string.sysinfo)).setNeutralButton(

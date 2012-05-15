@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.BaseColumns;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -110,8 +111,7 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		DetailsDialog detailsDialog = new DetailsDialog(this);
-		detailsDialog.getDialog(id);
+		showDetailsDialog(id);
 	}
 
 	@Override
@@ -158,7 +158,6 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		android.view.MenuInflater inflater = this.getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
-
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
@@ -408,5 +407,10 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		default:
 			return false;
 		}
+	}
+
+	void showDetailsDialog(long id) {
+		DialogFragment newFragment = DetailsDialogFragment.newInstance(id);
+		newFragment.show(getFragmentManager(), "details_dialog");
 	}
 }
