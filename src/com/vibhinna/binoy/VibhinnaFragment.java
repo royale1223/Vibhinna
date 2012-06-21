@@ -63,31 +63,20 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			assetsManager.copyAssets();
 		}
 		setHasOptionsMenu(true);
-
-		setListShown(false);
-		LoaderManager lm = getLoaderManager();
-		if (lm.getLoader(0) != null) {
-			lm.initLoader(0, null, this);
-		}
+		startLoading();
 	}
 
 	protected void startLoading() {
 		setListShown(false);
-		// first time we call this loader, so we need to create a new one
-		getLoaderManager().initLoader(0, null, this);
+		adapter.notifyDataSetChanged();
+		getListView().invalidateViews();
+		LoaderManager lm = getLoaderManager();
+		lm.initLoader(VFS_LIST_LOADER, null, this);
 	}
 
 	protected void restartLoading() {
 		setListShown(false);
-		adapter.notifyDataSetChanged();
-		getListView().invalidateViews();
-
-		// --------- the other magic lines ----------
-		// call restart because we want the background work to be executed
-		// again
-		Log.d(TAG, "restartLoading(): re-starting loader");
-		getLoaderManager().restartLoader(0, null, this);
-		// --------- end the other magic lines --------
+		getLoaderManager().restartLoader(VFS_LIST_LOADER, null, this);
 	}
 
 	@Override
@@ -100,14 +89,13 @@ public class VibhinnaFragment extends SherlockListFragment implements
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-		adapter.notifyDataSetChanged();
-		Log.d(TAG, "onLoadFinished(): done loading!");
 		adapter.swapCursor(cursor);
 		setListShown(true);
 	}
 
 	@Override
 	public void onLoaderReset(Loader<Cursor> loader) {
+		adapter.swapCursor(null);
 	}
 
 	@Override
@@ -124,8 +112,6 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		String[] from = { "name", "desc", "status", "path", "folder",
 				BaseColumns._ID };
 		int[] to = { R.id.name, R.id.desc, R.id.status, R.id.path };
-
-		getLoaderManager().initLoader(VFS_LIST_LOADER, null, this);
 
 		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null,
 				from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
