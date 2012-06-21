@@ -391,8 +391,7 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		case R.id.menu_refresh:
 			restartLoading();
 			return true;
-
-		case R.id.menu_new_v11:
+		case R.id.menu_new:
 			showNewDialog(this);
 			return true;
 
