@@ -8,7 +8,7 @@ import android.widget.Button;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class VibhinnaActivity extends SherlockFragmentActivity {
-
+	
 	private PropManager propManager;
 
 	/** Called when the activity is first created. */
@@ -18,10 +18,14 @@ public class VibhinnaActivity extends SherlockFragmentActivity {
 		setContentView(R.layout.main_fragment);
 		propManager = new PropManager(this);
 		final Button mButton = (Button) findViewById(R.id.button);
-		if (Integer.parseInt(propManager.multiBootProp()) != 1) {
+		try {
+			if (Integer.parseInt(propManager.multiBootProp()) != 1) {
+				mButton.setText(getString(R.string.mbnactive));
+			} else {
+				mButton.setText(getString(R.string.mbactive));
+			}
+		} catch (NumberFormatException e) {
 			mButton.setText(getString(R.string.mbnactive));
-		} else {
-			mButton.setText(getString(R.string.mbactive));
 		}
 	}
 

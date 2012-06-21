@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
@@ -16,122 +14,52 @@ public class PropManager {
 	private Context mContext;
 
 	public PropManager(Context context) {
-		// Log.e(TAG, "PropManager : context : "+context.toString());
 		mContext = context;
 	}
 
-	public String deviceProp() {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.findWithinHorizon(Pattern.compile("\\[ro.product.model\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in method deviceProp()");
-		// return mContext.getString(R.string.none);
-		// }
-		return System.getProperty("ro.product.model",
-				mContext.getString(R.string.none));
+	private String deviceProp() {
+		return propReader("ro.product.model", mContext.getString(R.string.none));
 	}
 
-	public String displayIdProp() {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.findWithinHorizon(Pattern.compile("\\[ro.build.display.id\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in displayIdProp()");
-		// return mContext.getString(R.string.nand);
-		// }
-		return System.getProperty("ro.build.display.id",
+	private String displayIdProp() {
+		return propReader("ro.build.display.id",
 				mContext.getString(R.string.nand));
 	}
 
-	public String kernelProp() {
+	private String kernelProp() {
 		return System.getProperty("os.name") + " "
 				+ System.getProperty("os.version");
 	}
 
 	public String mbActivePath() {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.findWithinHorizon(Pattern.compile("\\[ro.multiboot.vs\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in mbActivePath()");
-		// return "";
-		// }
-		return System.getProperty("ro.multiboot.vs", Constants.EMPTY);
+		return propReader("ro.multiboot.vs", Constants.EMPTY);
 	}
 
-	public String multiBootDefaultFolderProp() {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.findWithinHorizon(Pattern.compile("\\[ro.multiboot.path\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in multiBootDefaultFolderProp()");
-		// return mContext.getString(R.string.none);
-		// }
-		return System.getProperty("ro.multiboot.path",
-				mContext.getString(R.string.none));
-	}
-
-	public String multibootPartitionProp(String propval) {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.findWithinHorizon(Pattern.compile("\\[ro.multiboot.partition\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in multibootPartitionProp(String)");
-		// return mContext.getString(R.string.none);
-		// }
-		return System.getProperty("ro.multiboot.partition",
-				mContext.getString(R.string.none));
-
+	public String vSNameProp() {
+		String str = mbActivePath();
+		if (!str.equals(Constants.EMPTY))
+			return "Multiboot (" + (new File(str)).getName() + ")";
+		else
+			return mContext.getString(R.string.nand);
 	}
 
 	public String multiBootProp() {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.findWithinHorizon(Pattern.compile("\\[ro.multiboot\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in multiBootProp()");
-		// return "0";
-		// }
-		return System.getProperty("ro.multiboot", "0");
+		return propReader("ro.multiboot", "0");
 	}
 
-	public String multiBootVSPathProp() {
-		// try {
-		// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-		// scanner.useDelimiter("\\n").findWithinHorizon(Pattern.compile("\\[ro.multiboot.vs\\].*\\[(.+?)\\]"),
-		// 0);
-		// return scanner.match().group(1);
-		// } catch (Exception e) {
-		// Log.w("Exception", "error in multiBootVSPathProp()");
-		// return mContext.getString(R.string.none);
-		// }
-		return System.getProperty("ro.multiboot.vs",
-				mContext.getString(R.string.none));
+	private String multiBootVSPathProp() {
+		return propReader("ro.multiboot.vs", mContext.getString(R.string.none));
 	}
 
-	// public String multiBootVSPathPropO() {
-	// try {
-	// Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-	// scanner.findWithinHorizon(Pattern.compile("\\[ro.multiboot.vs\\].*\\[(.+?)\\]"),
-	// 0);
-	// return scanner.match().group(1);
-	// } catch (Exception e) {
-	// Log.w("Exception", "error in multiBootVSPathPropO()");
-	// return mContext.getString(R.string.none);
+	// private String multiBootDefaultFolderProp() {
+	// return propReader("ro.multiboot.path",
+	// mContext.getString(R.string.none));
 	// }
+	//
+	// private String multibootPartitionProp(String propval) {
+	// return propReader("ro.multiboot.partition",
+	// mContext.getString(R.string.none));
+	//
 	// }
 
 	public MatrixCursor propCursor() {
@@ -150,30 +78,21 @@ public class PropManager {
 		return propcursor;
 	}
 
-	public String propReader() {
+	public String propReader(String prop, String defaultValue) {
 		try {
-			return new Scanner(Runtime.getRuntime().exec("/system/bin/getprop")
-					.getInputStream()).useDelimiter("\\A").next();
+			String str = new Scanner(Runtime.getRuntime()
+					.exec("/system/bin/getprop " + prop).getInputStream())
+					.useDelimiter("\\A").next().replaceAll("\\s", "");
+			if (str != Constants.EMPTY && str != null)
+				return str;
+			else
+				return defaultValue;
 		} catch (NoSuchElementException e) {
 			Log.w("NoSuchElementException", "error in propReader()");
-			return Constants.EMPTY;
+			return defaultValue;
 		} catch (IOException e) {
 			Log.w("IOException", "error in propReader()");
-			return Constants.EMPTY;
+			return defaultValue;
 		}
 	}
-
-	public String vSNameProp() {
-		try {
-			Scanner scanner = new Scanner(propReader()).useDelimiter("\\n");
-			scanner.findWithinHorizon(
-					Pattern.compile("\\[ro.multiboot.vs\\].*\\[(.+?)\\]"), 0);
-			return "Multiboot ("
-					+ (new File(scanner.match().group(1))).getName() + ")";
-		} catch (Exception e) {
-			Log.w("Exception", "error in vSNameProp()");
-			return mContext.getString(R.string.nand);
-		}
-	}
-
 }
