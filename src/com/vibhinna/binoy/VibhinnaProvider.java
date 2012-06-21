@@ -82,11 +82,17 @@ public class VibhinnaProvider extends ContentProvider {
 		case VFS_ID:
 			return "vnd.android.cursor.item/vnd.vibhinna.vfs";
 		case VFS:
-			return "vnd.android.cursor.dir/vnd.vibhinna.vfsdir";
+			return "vnd.android.cursor.dir/vnd.vibhinna.vfs_dir";
 		case VFS_LIST:
-			return "vnd.android.cursor.dir/vnd.vibhinna.vfslist";
+			return "vnd.android.cursor.dir/vnd.vibhinna.vfs_list";
 		case VFS_DETAILS:
-			return "vnd.android.cursor.item/vnd.vibhinna.vfsdetails";
+			return "vnd.android.cursor.item/vnd.vibhinna.vfs_details";
+		case VFS_SCAN:
+			return "vnd.android.cursor.item/vnd.vibhinna.vfs_scan";
+		case READ_XML:
+			return "vnd.android.cursor.item/vnd.vibhinna.vfs_read_xml";
+		case WRITE_XML:
+			return "vnd.android.cursor.item/vnd.vibhinna.vfs_write_xml";
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
@@ -149,6 +155,7 @@ public class VibhinnaProvider extends ContentProvider {
 		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
 		Log.d(TAG, "uri :" + uri.toString());
 		int uriType = sURIMatcher.match(uri);
+		Log.d(TAG, "uriType : " + uriType);
 		switch (uriType) {
 		case VFS_ID:
 			queryBuilder.appendWhere(BaseColumns._ID + "="
@@ -350,11 +357,15 @@ public class VibhinnaProvider extends ContentProvider {
 		case VFS_SCAN:
 			int[] change = DatabaseUtils.scanFolder(mDB);
 			Log.i(TAG, change[0] + " VFS added, " + change[1] + " deleted.");
+			break;
 		case WRITE_XML:
 			DatabaseUtils.writeXML(mDB);
+			break;
 		case READ_XML:
 			DatabaseUtils.readXML(mDB);
+			break;
 		default:
+			Log.e(TAG, "unknown uri :" + uri.toString() + ", type : " + uriType);
 			throw new IllegalArgumentException("Unknown URI");
 		}
 
