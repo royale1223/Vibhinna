@@ -50,6 +50,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	protected boolean dataCheckBool = false;
 	protected boolean systemCheckBool = false;
 	int iconid = 1;
+	private ContentResolver resolver;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -62,6 +63,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
 		}
+		resolver = getActivity().getContentResolver();
 		setHasOptionsMenu(true);
 		startLoading();
 	}
@@ -449,7 +451,6 @@ public class VibhinnaFragment extends SherlockListFragment implements
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Add your menu entries here
 		inflater.inflate(R.menu.options_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 		Intent prefsIntent = new Intent(getActivity().getApplicationContext(),
@@ -469,7 +470,34 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			showNewDialog(this);
 			return true;
 		case R.id.menu_settings:
-			getActivity().startActivity(item.getIntent());
+			//getActivity().startActivity(item.getIntent());
+			return true;
+		case R.id.menu_scan:
+			resolver.query(
+					Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
+							+ VibhinnaProvider.VFS_BASE_PATH + "/scan"), null,
+					null, null, null);
+			restartLoading();
+			return true;
+		case R.id.menu_backup:
+			resolver.query(
+					Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
+							+ VibhinnaProvider.VFS_BASE_PATH + "/write_xml"),
+					null, null, null, null);
+			restartLoading();
+			return true;
+		case R.id.menu_restore:
+			resolver.query(
+					Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
+							+ VibhinnaProvider.VFS_BASE_PATH + "/read_xml"),
+					null, null, null, null);
+			restartLoading();
+			return true;
+		case R.id.menu_help:
+			return true;
+		case R.id.menu_about:
+			return true;
+		case R.id.menu_license:
 			return true;
 		default:
 			return false;
