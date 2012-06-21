@@ -23,10 +23,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public static final String VIRTUAL_SYSTEM_COLUMN_NAME = "vsname";
 	public static final String VIRTUAL_SYSTEM_COLUMN_PATH = "vspath";
 	public static final String VIRTUAL_SYSTEM_COLUMN_TYPE = "vstype";
-	private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS " + VFS_DATABASE_TABLE + " ( "
-			+ BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, " + VIRTUAL_SYSTEM_COLUMN_NAME
-			+ " VARCHAR(50), " + VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, " + VIRTUAL_SYSTEM_COLUMN_TYPE
-			+ " INTEGER, " + VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
+	private static final String DATABASE_CREATE = "CREATE TABLE IF NOT EXISTS "
+			+ VFS_DATABASE_TABLE + " ( " + BaseColumns._ID
+			+ " INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, "
+			+ VIRTUAL_SYSTEM_COLUMN_NAME + " VARCHAR(50), "
+			+ VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, "
+			+ VIRTUAL_SYSTEM_COLUMN_TYPE + " INTEGER, "
+			+ VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
 	private static final String TAG = "com.vibhinna.binoy.DataBaseHelper";
 
 	protected Context context;
