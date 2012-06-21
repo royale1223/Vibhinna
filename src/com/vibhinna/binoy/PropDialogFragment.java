@@ -37,10 +37,10 @@ public class PropDialogFragment extends SherlockDialogFragment {
 		if (dcursor.moveToFirst()) {
 			String[] from = { Constants.NAME_DET, Constants.VALUE_DET };
 			int[] to = { R.id.mbname, R.id.mbvalue };
-			SimpleCursorAdapter dadapter = new SimpleCursorAdapter(
+			SimpleCursorAdapter dAdapter = new SimpleCursorAdapter(
 					getSherlockActivity(), R.layout.info_list_row, dcursor,
 					from, to);
-			mbListView.setAdapter(dadapter);
+			mbListView.setAdapter(dAdapter);
 		}
 		return builder.create();
 	}

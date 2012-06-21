@@ -56,24 +56,24 @@ public class VibhinnaProvider extends ContentProvider {
 	}
 
 	@Override
-	public int delete(Uri arg0, String arg1, String[] arg2) {
+	public int delete(Uri uri, String where, String[] selectionArgs) {
 		int count = 0;
-		switch (sURIMatcher.match(arg0)) {
+		switch (sURIMatcher.match(uri)) {
 		case TUTORIALS:
-			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, arg1, arg2);
+			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, where, selectionArgs);
 			break;
 		case TUTORIAL_ID:
 			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE,
 					BaseColumns._ID
 							+ " = "
-							+ arg0.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(arg1) ? " AND (" + arg1 + ')'
-									: ""), arg2);
+							+ uri.getPathSegments().get(1)
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where + ')'
+									: ""), selectionArgs);
 			break;
 		default:
-			throw new IllegalArgumentException("Unknown URI " + arg0);
+			throw new IllegalArgumentException("Unknown URI " + uri);
 		}
-		getContext().getContentResolver().notifyChange(arg0, null);
+		getContext().getContentResolver().notifyChange(uri, null);
 		return count;
 	}
 
