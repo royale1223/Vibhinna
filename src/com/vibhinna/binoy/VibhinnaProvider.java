@@ -27,6 +27,7 @@ public class VibhinnaProvider extends ContentProvider {
 	public static final int TUTORIAL_ID = 1;
 	private static final int TUTORIAL_LIST = 2;
 	private static final int TUTORIAL_DETAILS = 3;
+	private static final int TUTORIAL_SCAN = 4;
 	// private static final int NEW_VFS = 4;
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaProvider";
@@ -34,12 +35,18 @@ public class VibhinnaProvider extends ContentProvider {
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + TUTORIALS_BASE_PATH);
 	public static final Uri LIST_DISPLAY_URI = Uri
 			.parse("content://" + AUTHORITY + "/" + TUTORIALS_BASE_PATH + "/list");
+	private static final int TUTORIAL_WRITE_XML = 5;
+	private static final int TUTORIAL_READ_XML = 6;
+	
 
 	static {
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list", TUTORIAL_LIST);
 		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#", TUTORIAL_DETAILS);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/scan", TUTORIAL_SCAN);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/write_xml", TUTORIAL_WRITE_XML);
+		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/read_xml", TUTORIAL_READ_XML);
 	}
 
 	@Override
