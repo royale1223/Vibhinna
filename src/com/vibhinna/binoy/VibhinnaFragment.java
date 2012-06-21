@@ -1,7 +1,6 @@
 package com.vibhinna.binoy;
 
 import java.io.File;
-import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -383,6 +383,10 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		// TODO Add your menu entries here
 		inflater.inflate(R.menu.options_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
+		Intent prefsIntent = new Intent(getActivity().getApplicationContext(), Preferences.class);
+
+		MenuItem preferences = menu.findItem(R.id.menu_settings);
+		preferences.setIntent(prefsIntent);
 	}
 
 	@Override
@@ -394,7 +398,9 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		case R.id.menu_new:
 			showNewDialog(this);
 			return true;
-
+		case R.id.menu_settings:
+			getActivity().startActivity(item.getIntent());
+			return true;
 		default:
 			return false;
 		}
