@@ -18,8 +18,17 @@
         android:title="@string/menu_more">
         <menu>
             <item
+                android:id="@+id/menu_scan"
+                android:title="@string/menu_scan"/>
+            <item
                 android:id="@+id/menu_settings"
                 android:title="@string/menu_settings"/>
+            <item
+                android:id="@+id/menu_backup"
+                android:title="@string/menu_backup"/>
+            <item
+                android:id="@+id/menu_restore"
+                android:title="@string/menu_restore"/>
             <item
                 android:id="@+id/menu_help"
                 android:title="@string/menu_help"/>
