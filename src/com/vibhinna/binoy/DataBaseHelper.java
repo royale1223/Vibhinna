@@ -1,17 +1,9 @@
 package com.vibhinna.binoy;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 import android.provider.BaseColumns;
-import android.util.Log;
 import android.widget.Toast;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
@@ -30,8 +22,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			+ VIRTUAL_SYSTEM_COLUMN_PATH + " VARCHAR(50) UNIQUE, "
 			+ VIRTUAL_SYSTEM_COLUMN_TYPE + " INTEGER, "
 			+ VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
-	private static final String TAG = "com.vibhinna.binoy.DataBaseHelper";
-
 	protected Context context;
 
 	public DataBaseHelper(Context mContext) {
