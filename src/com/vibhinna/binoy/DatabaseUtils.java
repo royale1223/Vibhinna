@@ -140,7 +140,7 @@ public class DatabaseUtils {
 
 		Cursor cursor = resolver.query(
 				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
-						+ VibhinnaProvider.TUTORIALS_BASE_PATH), null, null,
+						+ VibhinnaProvider.VFS_BASE_PATH), null, null,
 				null, null);
 		XmlSerializer serializer = Xml.newSerializer();
 		try {
@@ -217,7 +217,7 @@ public class DatabaseUtils {
 					resolver.delete(
 							Uri.parse("content://" + VibhinnaProvider.AUTHORITY
 									+ "/"
-									+ VibhinnaProvider.TUTORIALS_BASE_PATH),
+									+ VibhinnaProvider.VFS_BASE_PATH),
 							DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH + " IS ?",
 							new String[] { path });
 					// database.delete(
@@ -234,7 +234,7 @@ public class DatabaseUtils {
 					resolver.insert(
 							Uri.parse("content://" + VibhinnaProvider.AUTHORITY
 									+ "/"
-									+ VibhinnaProvider.TUTORIALS_BASE_PATH),
+									+ VibhinnaProvider.VFS_BASE_PATH),
 							values);
 					// database.insert(DataBaseHelper.VFS_DATABASE_TABLE, null,
 					// values);

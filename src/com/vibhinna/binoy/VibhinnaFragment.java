@@ -275,7 +275,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 											Uri.parse("content://"
 													+ VibhinnaProvider.AUTHORITY
 													+ "/"
-													+ VibhinnaProvider.TUTORIALS_BASE_PATH
+													+ VibhinnaProvider.VFS_BASE_PATH
 													+ "/" + itemid), values,
 											null, null);
 									iconid = 1;

@@ -23,46 +23,48 @@ public class VibhinnaProvider extends ContentProvider {
 	private SQLiteDatabase mDB;
 	private Context context;
 	public static final String AUTHORITY = "com.vibhinna.binoy.VibhinnaProvider";
-	public static final int TUTORIALS = 0;
-	public static final int TUTORIAL_ID = 1;
-	private static final int TUTORIAL_LIST = 2;
-	private static final int TUTORIAL_DETAILS = 3;
-	private static final int TUTORIAL_SCAN = 4;
+	public static final int VFS = 0;
+	public static final int VFS_ID = 1;
+	private static final int VFS_LIST = 2;
+	private static final int VFS_DETAILS = 3;
+	private static final int VFS_SCAN = 4;
+	private static final int WRITE_XML = 5;
+	private static final int READ_XML = 6;
 	// private static final int NEW_VFS = 4;
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaProvider";
-	public static final String TUTORIALS_BASE_PATH = "vfs";
+	public static final String VFS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
-			+ "/" + TUTORIALS_BASE_PATH);
+			+ "/" + VFS_BASE_PATH);
 	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
-			+ AUTHORITY + "/" + TUTORIALS_BASE_PATH + "/list");
-	private static final int TUTORIAL_WRITE_XML = 5;
-	private static final int TUTORIAL_READ_XML = 6;
+			+ AUTHORITY + "/" + VFS_BASE_PATH + "/list");
+
 
 	static {
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH, TUTORIALS);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/#", TUTORIAL_ID);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/list",
-				TUTORIAL_LIST);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/details/#",
-				TUTORIAL_DETAILS);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/scan",
-				TUTORIAL_SCAN);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/write_xml",
-				TUTORIAL_WRITE_XML);
-		sURIMatcher.addURI(AUTHORITY, TUTORIALS_BASE_PATH + "/read_xml",
-				TUTORIAL_READ_XML);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH, VFS);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/#", VFS_ID);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/list",
+				VFS_LIST);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/details/#",
+				VFS_DETAILS);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/scan",
+				VFS_SCAN);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/write_xml",
+				WRITE_XML);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/read_xml",
+				READ_XML);
+		
 	}
 
 	@Override
 	public int delete(Uri uri, String where, String[] selectionArgs) {
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
-		case TUTORIALS:
+		case VFS:
 			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, where, selectionArgs);
 			break;
-		case TUTORIAL_ID:
+		case VFS_ID:
 			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE,
 					BaseColumns._ID
 							+ " = "
@@ -81,13 +83,13 @@ public class VibhinnaProvider extends ContentProvider {
 	public String getType(Uri uri) {
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
-		case TUTORIAL_ID:
+		case VFS_ID:
 			return "vnd.android.cursor.item/vnd.vibhinna.vfs";
-		case TUTORIALS:
+		case VFS:
 			return "vnd.android.cursor.dir/vnd.vibhinna.vfsdir";
-		case TUTORIAL_LIST:
+		case VFS_LIST:
 			return "vnd.android.cursor.dir/vnd.vibhinna.vfslist";
-		case TUTORIAL_DETAILS:
+		case VFS_DETAILS:
 			return "vnd.android.cursor.item/vnd.vibhinna.vfsdetails";
 		default:
 			throw new IllegalArgumentException("Unknown URI");
@@ -121,11 +123,11 @@ public class VibhinnaProvider extends ContentProvider {
 		Log.d(TAG, "update");
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
-		case TUTORIALS:
+		case VFS:
 			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
 					selection, selectionArgs);
 			break;
-		case TUTORIAL_ID:
+		case VFS_ID:
 			Log.d(TAG, "update : id = " + uri.getLastPathSegment());
 			// count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
 			// BaseColumns._ID
@@ -152,14 +154,14 @@ public class VibhinnaProvider extends ContentProvider {
 		Log.d(TAG, "uri :" + uri.toString());
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
-		case TUTORIAL_ID:
+		case VFS_ID:
 			queryBuilder.appendWhere(BaseColumns._ID + "="
 					+ uri.getLastPathSegment());
 			break;
-		case TUTORIALS:
+		case VFS:
 			// no filter
 			break;
-		case TUTORIAL_LIST:
+		case VFS_LIST:
 			Cursor c = query(CONTENT_URI, projection, selection, selectionArgs,
 					sortOrder);
 			MatrixCursor cursor = new MatrixCursor(
@@ -212,7 +214,7 @@ public class VibhinnaProvider extends ContentProvider {
 			}
 			c.close();
 			return cursor;
-		case TUTORIAL_DETAILS:
+		case VFS_DETAILS:
 			String[] vsinfo = new String[29];
 			Cursor dbcursor = mDB
 					.query(DataBaseHelper.VFS_DATABASE_TABLE,

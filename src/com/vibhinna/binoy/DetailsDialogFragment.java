@@ -36,7 +36,7 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		String[] vsinfo = new String[29];
 		Cursor cursor = getActivity().getContentResolver().query(
 				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
-						+ VibhinnaProvider.TUTORIALS_BASE_PATH + "/details/"
+						+ VibhinnaProvider.VFS_BASE_PATH + "/details/"
 						+ id), null, null, null, null);
 		cursor.moveToFirst();
 		for (int i = 0; i < cursor.getColumnCount(); i++) {
