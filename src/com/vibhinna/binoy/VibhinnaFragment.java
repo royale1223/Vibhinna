@@ -418,11 +418,15 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	}
 
 	/**
-	 * Shows New VFS dialog, which will create a new VFS
-	 * @param vibhinnaFragment 
+	 * Shows New VFS dialog according to API, which will create a new VFS
+	 * 
+	 * @param vibhinnaFragment
 	 */
 	private void showNewDialog(VibhinnaFragment vibhinnaFragment) {
-		DialogFragment newFragment = NewDialogFragment.newInstance(vibhinnaFragment);
-		newFragment.show(getFragmentManager(), "dialog");
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			NewDialogFragment.newInstance(vibhinnaFragment).show(getFragmentManager(), "new_dialog");
+		} else {
+			NewDialogFragmentOld.newInstance(vibhinnaFragment).show(getFragmentManager(), "new_dialog");
+		}
 	}
 }
