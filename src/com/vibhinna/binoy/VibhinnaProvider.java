@@ -30,7 +30,6 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final int VFS_SCAN = 4;
 	private static final int WRITE_XML = 5;
 	private static final int READ_XML = 6;
-	// private static final int NEW_VFS = 4;
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaProvider";
@@ -122,7 +121,6 @@ public class VibhinnaProvider extends ContentProvider {
 	@Override
 	public int update(Uri uri, ContentValues values, String selection,
 			String[] selectionArgs) {
-		Log.d(TAG, "update");
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case VFS:
@@ -130,13 +128,6 @@ public class VibhinnaProvider extends ContentProvider {
 					selection, selectionArgs);
 			break;
 		case VFS_ID:
-			Log.d(TAG, "update : id = " + uri.getLastPathSegment());
-			// count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
-			// BaseColumns._ID
-			// + " = "
-			// + uri.getLastPathSegment()
-			// + (!TextUtils.isEmpty(selection) ? " AND ("
-			// + selection + ')' : ""), selectionArgs);
 			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
 					BaseColumns._ID + " = " + uri.getLastPathSegment(),
 					selectionArgs);
@@ -153,9 +144,7 @@ public class VibhinnaProvider extends ContentProvider {
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
-		Log.d(TAG, "uri :" + uri.toString());
 		int uriType = sURIMatcher.match(uri);
-		Log.d(TAG, "uriType : " + uriType);
 		switch (uriType) {
 		case VFS_ID:
 			queryBuilder.appendWhere(BaseColumns._ID + "="
