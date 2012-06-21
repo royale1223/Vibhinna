@@ -13,7 +13,7 @@ public class HoloAlertDialogBuilder extends AlertDialog.Builder {
 	private TextView mTitle;
 	private ImageView mIcon;
 	private TextView mMessage;
-	
+
 	public HoloAlertDialogBuilder(Context context) {
 		super(context);
 		mContext = context;
@@ -22,16 +22,19 @@ public class HoloAlertDialogBuilder extends AlertDialog.Builder {
 		Boolean useFullLayout = true;
 
 		if (useFullLayout) {
-			View customTitle = View.inflate(mContext, R.layout.alert_dialog_title, null);
+			View customTitle = View.inflate(mContext,
+					R.layout.alert_dialog_title, null);
 			mTitle = (TextView) customTitle.findViewById(R.id.alertTitle);
 			mIcon = (ImageView) customTitle.findViewById(R.id.icon);
 			setCustomTitle(customTitle);
 
-			View customMessage = View.inflate(mContext, R.layout.alert_dialog_message, null);
+			View customMessage = View.inflate(mContext,
+					R.layout.alert_dialog_message, null);
 			mMessage = (TextView) customMessage.findViewById(R.id.message);
 			setView(customMessage);
 		} else {
-			View customView = View.inflate(mContext, R.layout.alert_dialog_holo, null);
+			View customView = View.inflate(mContext,
+					R.layout.alert_dialog_holo, null);
 			mTitle = (TextView) customView.findViewById(R.id.alertTitle);
 			mIcon = (ImageView) customView.findViewById(R.id.icon);
 			mMessage = (TextView) customView.findViewById(R.id.message);

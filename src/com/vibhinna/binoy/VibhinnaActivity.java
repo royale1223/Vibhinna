@@ -8,9 +8,9 @@ import android.widget.Button;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class VibhinnaActivity extends SherlockFragmentActivity {
-	
+
 	private PropManager propManager;
-	
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,10 +28,10 @@ public class VibhinnaActivity extends SherlockFragmentActivity {
 	public void onButtonClicked(View v) {
 		showPropDialog();
 	}
-	
+
 	private void showPropDialog() {
-	    // Create and show the dialog.
-	    DialogFragment newFragment = PropDialogFragment.newInstance();
-	    newFragment.show(getSupportFragmentManager(), "dialog");
+		// Create and show the dialog.
+		DialogFragment newFragment = PropDialogFragment.newInstance();
+		newFragment.show(getSupportFragmentManager(), "dialog");
 	}
 }

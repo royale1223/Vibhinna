@@ -25,7 +25,8 @@ public class ProcessManager {
 		}
 		Log.d(TAG, "execute : " + command.toString());
 		try {
-			return convertStreamToString(Runtime.getRuntime().exec(command.toString()).getErrorStream());
+			return convertStreamToString(Runtime.getRuntime()
+					.exec(command.toString()).getErrorStream());
 		} catch (IOException e) {
 			Log.d(TAG, "Error!");
 			return Constants.EMPTY;
@@ -46,7 +47,8 @@ public class ProcessManager {
 		}
 		Log.d(TAG, "execute : " + command.toString());
 		try {
-			return convertStreamToString(Runtime.getRuntime().exec(command.toString()).getInputStream());
+			return convertStreamToString(Runtime.getRuntime()
+					.exec(command.toString()).getInputStream());
 		} catch (IOException e) {
 			Log.d(TAG, "Error!");
 			return Constants.EMPTY;

@@ -23,20 +23,23 @@ public class PropDialogFragment extends SherlockDialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		getActivity();
-		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.button_dialog, null);
 		propManager = new PropManager(getSherlockActivity());
-		HoloAlertDialogBuilder builder = new HoloAlertDialogBuilder(getSherlockActivity());
+		HoloAlertDialogBuilder builder = new HoloAlertDialogBuilder(
+				getSherlockActivity());
 		builder.setView(view);
 		ListView mbListView = (ListView) view.findViewById(R.id.mblist);
-		builder.setTitle(getActivity().getString(R.string.sysinfo)).setNeutralButton(
-				getActivity().getString(R.string.okay), null);
+		builder.setTitle(getActivity().getString(R.string.sysinfo))
+				.setNeutralButton(getActivity().getString(R.string.okay), null);
 		MatrixCursor dcursor = propManager.propCursor();
 		if (dcursor.moveToFirst()) {
 			String[] from = { Constants.NAME_DET, Constants.VALUE_DET };
 			int[] to = { R.id.mbname, R.id.mbvalue };
-			SimpleCursorAdapter dadapter = new SimpleCursorAdapter(getSherlockActivity(), R.layout.info_list_row,
-					dcursor, from, to);
+			SimpleCursorAdapter dadapter = new SimpleCursorAdapter(
+					getSherlockActivity(), R.layout.info_list_row, dcursor,
+					from, to);
 			mbListView.setAdapter(dadapter);
 		}
 		return builder.create();

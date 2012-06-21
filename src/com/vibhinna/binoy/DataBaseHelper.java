@@ -31,9 +31,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Toast.makeText(context, "Creating DataBase for first time...", 2000).show();
+		Toast.makeText(context, "Creating DataBase for first time...", 2000)
+				.show();
 		db.execSQL(DATABASE_CREATE);
-		DatabaseUtils.scanFolder(db) ;
+		DatabaseUtils.scanFolder(db);
 	}
 
 	@Override

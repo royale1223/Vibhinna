@@ -20,8 +20,9 @@ public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 	private LayoutInflater mInflater;
 	int defaultColor = 0;
 
-	public VibhinnaAdapter(Context context, int layout, Cursor c, String[] from, int[] to,int flags) {
-		super(context, layout, c, from, to,flags);
+	public VibhinnaAdapter(Context context, int layout, Cursor c,
+			String[] from, int[] to, int flags) {
+		super(context, layout, c, from, to, flags);
 		propmanager = new PropManager(mContext);
 		mbpath = sdpath + propmanager.mbActivePath();
 		mContext = context;
@@ -67,7 +68,8 @@ public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 		holder.desc.setText(mCursor.getString(2));
 		holder.status.setText(mCursor.getString(5));
 		holder.path.setText(mCursor.getString(7));
-		holder.icon.setImageResource(MiscMethods.getIconRes(Integer.parseInt(mCursor.getString(4))));
+		holder.icon.setImageResource(MiscMethods.getIconRes(Integer
+				.parseInt(mCursor.getString(4))));
 		if ("0".equals(mCursor.getString(6))) {
 			holder.status.setTextColor(Color.RED);
 		} else {

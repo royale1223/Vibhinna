@@ -41,7 +41,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class VibhinnaFragment extends SherlockListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class VibhinnaFragment extends SherlockListFragment implements
+		LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int VFS_LIST_LOADER = 0x01;
 	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
@@ -55,7 +56,8 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		super.onActivityCreated(savedInstanceState);
 		setRetainInstance(true);
 		registerForContextMenu(getListView());
-		if (!Constants.BINARY_FOLDER.exists() || Constants.BINARY_FOLDER.list().length < 3) {
+		if (!Constants.BINARY_FOLDER.exists()
+				|| Constants.BINARY_FOLDER.list().length < 3) {
 			Constants.BINARY_FOLDER.mkdirs();
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
@@ -90,8 +92,9 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		CursorLoader cursorLoader = new CursorLoader(getActivity(), VibhinnaProvider.LIST_DISPLAY_URI,
-				Constants.allColumns, null, null, null);
+		CursorLoader cursorLoader = new CursorLoader(getActivity(),
+				VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null,
+				null, null);
 		return cursorLoader;
 	}
 
@@ -118,13 +121,14 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 
 		setHasOptionsMenu(true);
 
-		String[] from = { "name", "desc", "status", "path", "folder", BaseColumns._ID };
+		String[] from = { "name", "desc", "status", "path", "folder",
+				BaseColumns._ID };
 		int[] to = { R.id.name, R.id.desc, R.id.status, R.id.path };
 
 		getLoaderManager().initLoader(VFS_LIST_LOADER, null, this);
 
-		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null, from, to,
-				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null,
+				from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
 
@@ -134,10 +138,12 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterView.AdapterContextMenuInfo info;
-		PropManager propmanager = new PropManager(this.getActivity().getApplicationContext());
+		PropManager propmanager = new PropManager(this.getActivity()
+				.getApplicationContext());
 		try {
 			// Casts the incoming data object into the type for AdapterView
 			// objects.
@@ -153,17 +159,21 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		if (cursor.equals(null) || s1.equals(s2))
 			return;
 		menu.setHeaderTitle(cursor.getString(1));
-		android.view.MenuInflater inflater = this.getActivity().getMenuInflater();
+		android.view.MenuInflater inflater = this.getActivity()
+				.getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
 		final Context context = getActivity();
-		final ContentResolver mContentResolver = getActivity().getContentResolver();
-		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item.getMenuInfo();
+		final ContentResolver mContentResolver = getActivity()
+				.getContentResolver();
+		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
+				.getMenuInfo();
 		// final DataSource datasource = new DataSource(this);
-		final Cursor item_cursor = (Cursor) getListAdapter().getItem(menuInfo.position);
+		final Cursor item_cursor = (Cursor) getListAdapter().getItem(
+				menuInfo.position);
 		if (item_cursor == null) {
 			// For some reason the requested item isn't available, do nothing
 			return false;
@@ -176,100 +186,148 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		switch (item.getItemId()) {
 		case R.id.edit:
 			LayoutInflater factory = LayoutInflater.from(context);
-			final View editVSView = factory.inflate(R.layout.edit_vs_layout, null);
-			final EditText nameEditText = (EditText) editVSView.findViewById(R.id.vsname);
-			final EditText descriptionEditText = (EditText) editVSView.findViewById(R.id.vsdesc);
-			final Spinner iconSelectSpinner = (Spinner) editVSView.findViewById(R.id.spinner);
-			final ImageView iconPreview = (ImageView) editVSView.findViewById(R.id.seticonimage);
-			ArrayAdapter<CharSequence> iconSelectSpinnerAdapter = ArrayAdapter.createFromResource(context,
-					R.array.icon_array, android.R.layout.simple_spinner_item);
-			iconSelectSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			final View editVSView = factory.inflate(R.layout.edit_vs_layout,
+					null);
+			final EditText nameEditText = (EditText) editVSView
+					.findViewById(R.id.vsname);
+			final EditText descriptionEditText = (EditText) editVSView
+					.findViewById(R.id.vsdesc);
+			final Spinner iconSelectSpinner = (Spinner) editVSView
+					.findViewById(R.id.spinner);
+			final ImageView iconPreview = (ImageView) editVSView
+					.findViewById(R.id.seticonimage);
+			ArrayAdapter<CharSequence> iconSelectSpinnerAdapter = ArrayAdapter
+					.createFromResource(context, R.array.icon_array,
+							android.R.layout.simple_spinner_item);
+			iconSelectSpinnerAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			iconSelectSpinner.setAdapter(iconSelectSpinnerAdapter);
 			iconSelectSpinner.setSelection(iconid);
 			iconSelectSpinner.setAdapter(iconSelectSpinnerAdapter);
 			iconSelectSpinner.setSelection(iconid);
-			iconSelectSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					iconid = arg2;
-					iconPreview.setImageResource(MiscMethods.getIconRes(arg2));
-				}
+			iconSelectSpinner
+					.setOnItemSelectedListener(new OnItemSelectedListener() {
+						@Override
+						public void onItemSelected(AdapterView<?> arg0,
+								View arg1, int arg2, long arg3) {
+							iconid = arg2;
+							iconPreview.setImageResource(MiscMethods
+									.getIconRes(arg2));
+						}
 
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
+						@Override
+						public void onNothingSelected(AdapterView<?> arg0) {
 
-				}
-			});
+						}
+					});
 			descriptionEditText.setText(folderdesc);
 			nameEditText.setText(foldername);
-			new AlertDialog.Builder(context).setTitle(getString(R.string.edits) + item_cursor.getString(1))
+			new AlertDialog.Builder(context)
+					.setTitle(
+							getString(R.string.edits)
+									+ item_cursor.getString(1))
 					.setView(editVSView)
-					.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+					.setPositiveButton(getString(R.string.okay),
+							new DialogInterface.OnClickListener() {
 
-						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
-							String updatedName = foldername;
-							try {
-								updatedName = nameEditText.getText().toString();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							String updatedDescription = folderdesc;
-							try {
-								updatedDescription = descriptionEditText.getText().toString();
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							File finalFile = new File("/mnt/sdcard/multiboot/" + updatedName);
-							// get new name if already taken
-							if (!(new File(initialFilePath)).equals(finalFile)) {
-								finalFile = MiscMethods.avoidDuplicateFile(finalFile);
-								(new File(initialFilePath)).renameTo(finalFile);
-							}
-							ContentValues values = new ContentValues();
-							values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME, finalFile.getName());
-							values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH, finalFile.getPath());
-							values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION, updatedDescription);
-							values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE, iconid);
-							mContentResolver.update(
-									Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
-											+ VibhinnaProvider.TUTORIALS_BASE_PATH + "/" + itemid), values, null, null);
-							iconid = 1;
-							restartLoading();
-						}
-					}).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int whichButton) {
-							// Canceled.
-						}
-					}).show();
+								@Override
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									String updatedName = foldername;
+									try {
+										updatedName = nameEditText.getText()
+												.toString();
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									String updatedDescription = folderdesc;
+									try {
+										updatedDescription = descriptionEditText
+												.getText().toString();
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+									File finalFile = new File(
+											"/mnt/sdcard/multiboot/"
+													+ updatedName);
+									// get new name if already taken
+									if (!(new File(initialFilePath))
+											.equals(finalFile)) {
+										finalFile = MiscMethods
+												.avoidDuplicateFile(finalFile);
+										(new File(initialFilePath))
+												.renameTo(finalFile);
+									}
+									ContentValues values = new ContentValues();
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+											finalFile.getName());
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+											finalFile.getPath());
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+											updatedDescription);
+									values.put(
+											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+											iconid);
+									mContentResolver.update(
+											Uri.parse("content://"
+													+ VibhinnaProvider.AUTHORITY
+													+ "/"
+													+ VibhinnaProvider.TUTORIALS_BASE_PATH
+													+ "/" + itemid), values,
+											null, null);
+									iconid = 1;
+									restartLoading();
+								}
+							})
+					.setNegativeButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									// Canceled.
+								}
+							}).show();
 			return true;
 		case R.id.delete:
-			new AlertDialog.Builder(context).setTitle(getString(R.string.delete) + item_cursor.getString(1))
+			new AlertDialog.Builder(context)
+					.setTitle(
+							getString(R.string.delete)
+									+ item_cursor.getString(1))
 					.setMessage(getString(R.string.rusure))
-					.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							try {
-								MiscMethods.removeDirectory(new File(initialFilePath));
-								restartLoading();
-							} catch (Exception e) {
-								e.printStackTrace();
-								return;
-							}
-						}
-					}).setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-						}
-					}).create().show();
+					.setPositiveButton(getString(R.string.okay),
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+									try {
+										MiscMethods.removeDirectory(new File(
+												initialFilePath));
+										restartLoading();
+									} catch (Exception e) {
+										e.printStackTrace();
+										return;
+									}
+								}
+							})
+					.setNeutralButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+								}
+							}).create().show();
 			return true;
 		case R.id.format:
 			factory = LayoutInflater.from(context);
-			final View formatView = factory.inflate(R.layout.format_dialog, null);
+			final View formatView = factory.inflate(R.layout.format_dialog,
+					null);
 			CheckBox chkCache = (CheckBox) formatView.findViewById(R.id.cache);
 			CheckBox chkData = (CheckBox) formatView.findViewById(R.id.data);
-			CheckBox chkSystem = (CheckBox) formatView.findViewById(R.id.system);
+			CheckBox chkSystem = (CheckBox) formatView
+					.findViewById(R.id.system);
 			chkCache.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -300,78 +358,103 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 					}
 				}
 			});
-			new AlertDialog.Builder(context).setTitle(getString(R.string.format) + item_cursor.getString(1) + "?")
+			new AlertDialog.Builder(context)
+					.setTitle(
+							getString(R.string.format)
+									+ item_cursor.getString(1) + "?")
 					.setView(formatView)
-					.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-							final ProgressDialog processdialog = ProgressDialog.show(context, Constants.EMPTY,
-									Constants.EMPTY, true);
-							final Handler handler = new Handler() {
+					.setPositiveButton(getString(R.string.okay),
+							new DialogInterface.OnClickListener() {
 								@Override
-								public void handleMessage(Message msg) {
-									switch (msg.arg1) {
-									case 0:
-										processdialog.setMessage(getString(R.string.formating) + initialFilePath
-												+ getString(R.string.cachext3));
-										break;
-									case 1:
-										processdialog.setMessage(getString(R.string.formating) + initialFilePath
-												+ getString(R.string.dataext3));
-										break;
-									case 2:
-										processdialog.setMessage(getString(R.string.formating) + initialFilePath
-												+ getString(R.string.systemext3));
-										break;
-									case 3:
-										processdialog.dismiss();
-										break;
-									}
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
+									final ProgressDialog processdialog = ProgressDialog
+											.show(context, Constants.EMPTY,
+													Constants.EMPTY, true);
+									final Handler handler = new Handler() {
+										@Override
+										public void handleMessage(Message msg) {
+											switch (msg.arg1) {
+											case 0:
+												processdialog
+														.setMessage(getString(R.string.formating)
+																+ initialFilePath
+																+ getString(R.string.cachext3));
+												break;
+											case 1:
+												processdialog
+														.setMessage(getString(R.string.formating)
+																+ initialFilePath
+																+ getString(R.string.dataext3));
+												break;
+											case 2:
+												processdialog
+														.setMessage(getString(R.string.formating)
+																+ initialFilePath
+																+ getString(R.string.systemext3));
+												break;
+											case 3:
+												processdialog.dismiss();
+												break;
+											}
+										}
+									};
+									Thread formatVFS = new Thread() {
+										@Override
+										public void run() {
+											String[] shellinput = {
+													Constants.EMPTY,
+													Constants.EMPTY,
+													Constants.EMPTY,
+													Constants.EMPTY,
+													Constants.EMPTY };
+											shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+											shellinput[1] = initialFilePath;
+											final Message m0 = new Message();
+											final Message m1 = new Message();
+											final Message m2 = new Message();
+											final Message endmessage = new Message();
+											m0.arg1 = 0;
+											m1.arg1 = 1;
+											m2.arg1 = 2;
+											endmessage.arg1 = 3;
+											if (cacheCheckBool) {
+												handler.sendMessage(m0);
+												shellinput[2] = Constants.CACHE_IMG;
+												ProcessManager
+														.inputStreamReader(
+																shellinput, 20);
+												cacheCheckBool = false;
+											}
+											if (dataCheckBool) {
+												handler.sendMessage(m1);
+												shellinput[2] = Constants.DATA_IMG;
+												ProcessManager
+														.inputStreamReader(
+																shellinput, 20);
+												dataCheckBool = false;
+											}
+											if (systemCheckBool) {
+												handler.sendMessage(m2);
+												shellinput[2] = Constants.SYSTEM_IMG;
+												ProcessManager
+														.inputStreamReader(
+																shellinput, 20);
+												systemCheckBool = false;
+											}
+											handler.sendMessage(endmessage);
+										}
+									};
+									formatVFS.start();
 								}
-							};
-							Thread formatVFS = new Thread() {
+							})
+					.setNeutralButton(getString(R.string.cancel),
+							new DialogInterface.OnClickListener() {
 								@Override
-								public void run() {
-									String[] shellinput = { Constants.EMPTY, Constants.EMPTY, Constants.EMPTY,
-											Constants.EMPTY, Constants.EMPTY };
-									shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-									shellinput[1] = initialFilePath;
-									final Message m0 = new Message();
-									final Message m1 = new Message();
-									final Message m2 = new Message();
-									final Message endmessage = new Message();
-									m0.arg1 = 0;
-									m1.arg1 = 1;
-									m2.arg1 = 2;
-									endmessage.arg1 = 3;
-									if (cacheCheckBool) {
-										handler.sendMessage(m0);
-										shellinput[2] = Constants.CACHE_IMG;
-										ProcessManager.inputStreamReader(shellinput, 20);
-										cacheCheckBool = false;
-									}
-									if (dataCheckBool) {
-										handler.sendMessage(m1);
-										shellinput[2] = Constants.DATA_IMG;
-										ProcessManager.inputStreamReader(shellinput, 20);
-										dataCheckBool = false;
-									}
-									if (systemCheckBool) {
-										handler.sendMessage(m2);
-										shellinput[2] = Constants.SYSTEM_IMG;
-										ProcessManager.inputStreamReader(shellinput, 20);
-										systemCheckBool = false;
-									}
-									handler.sendMessage(endmessage);
+								public void onClick(
+										DialogInterface dialogInterface, int i) {
 								}
-							};
-							formatVFS.start();
-						}
-					}).setNeutralButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialogInterface, int i) {
-						}
-					}).create().show();
+							}).create().show();
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -383,7 +466,8 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 		// TODO Add your menu entries here
 		inflater.inflate(R.menu.options_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
-		Intent prefsIntent = new Intent(getActivity().getApplicationContext(), Preferences.class);
+		Intent prefsIntent = new Intent(getActivity().getApplicationContext(),
+				Preferences.class);
 
 		MenuItem preferences = menu.findItem(R.id.menu_settings);
 		preferences.setIntent(prefsIntent);
@@ -424,9 +508,11 @@ public class VibhinnaFragment extends SherlockListFragment implements LoaderMana
 	 */
 	private void showNewDialog(VibhinnaFragment vibhinnaFragment) {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			NewDialogFragment.newInstance(vibhinnaFragment).show(getFragmentManager(), "new_dialog");
+			NewDialogFragment.newInstance(vibhinnaFragment).show(
+					getFragmentManager(), "new_dialog");
 		} else {
-			NewDialogFragmentOld.newInstance(vibhinnaFragment).show(getFragmentManager(), "new_dialog");
+			NewDialogFragmentOld.newInstance(vibhinnaFragment).show(
+					getFragmentManager(), "new_dialog");
 		}
 	}
 }

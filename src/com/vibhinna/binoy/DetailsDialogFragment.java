@@ -35,8 +35,9 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		final View view = inflater.inflate(R.layout.vs_details, null);
 		String[] vsinfo = new String[29];
 		Cursor cursor = getActivity().getContentResolver().query(
-				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/" + VibhinnaProvider.TUTORIALS_BASE_PATH
-						+ "/details/" + id), null, null, null, null);
+				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
+						+ VibhinnaProvider.TUTORIALS_BASE_PATH + "/details/"
+						+ id), null, null, null, null);
 		cursor.moveToFirst();
 		for (int i = 0; i < cursor.getColumnCount(); i++) {
 			vsinfo[i] = cursor.getString(i);
@@ -75,8 +76,9 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		if (vsinfo[9] == Constants.N_A) {
 			cspace.setText(getActivity().getString(R.string.freespna));
 		} else
-			cspace.setText(getActivity().getString(R.string.freesp) + vsinfo[9] + getActivity().getString(R.string.miB)
-					+ vsinfo[8] + getActivity().getString(R.string.miBf));
+			cspace.setText(getActivity().getString(R.string.freesp) + vsinfo[9]
+					+ getActivity().getString(R.string.miB) + vsinfo[8]
+					+ getActivity().getString(R.string.miBf));
 		TextView cbcount = (TextView) view.findViewById(R.id.cbcount);
 		cbcount.setText(getActivity().getString(R.string.bcount) + vsinfo[10]);
 		TextView cfblock = (TextView) view.findViewById(R.id.cfblock);
@@ -96,8 +98,9 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		if (vsinfo[16] == Constants.N_A) {
 			dspace.setText(getActivity().getString(R.string.freespna));
 		} else
-			dspace.setText(getActivity().getString(R.string.freesp) + vsinfo[17]
-					+ getActivity().getString(R.string.miB) + vsinfo[16] + getActivity().getString(R.string.miBf));
+			dspace.setText(getActivity().getString(R.string.freesp)
+					+ vsinfo[17] + getActivity().getString(R.string.miB)
+					+ vsinfo[16] + getActivity().getString(R.string.miBf));
 		TextView dbcount = (TextView) view.findViewById(R.id.dbcount);
 		dbcount.setText(getActivity().getString(R.string.bcount) + vsinfo[18]);
 		TextView dfblock = (TextView) view.findViewById(R.id.dfblock);
@@ -117,15 +120,17 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		if (vsinfo[25] == Constants.N_A) {
 			sspace.setText(getActivity().getString(R.string.freespna));
 		} else
-			sspace.setText(getActivity().getString(R.string.freesp) + vsinfo[25]
-					+ getActivity().getString(R.string.miB) + vsinfo[24] + getActivity().getString(R.string.miBf));
+			sspace.setText(getActivity().getString(R.string.freesp)
+					+ vsinfo[25] + getActivity().getString(R.string.miB)
+					+ vsinfo[24] + getActivity().getString(R.string.miBf));
 		TextView sbcount = (TextView) view.findViewById(R.id.sbcount);
 		sbcount.setText(getActivity().getString(R.string.bcount) + vsinfo[26]);
 		TextView sfblock = (TextView) view.findViewById(R.id.sfblock);
 		sfblock.setText(getActivity().getString(R.string.fbcount) + vsinfo[27]);
 		TextView sbsize = (TextView) view.findViewById(R.id.sbsize);
 		sbsize.setText(getActivity().getString(R.string.blsiz) + vsinfo[28]);
-		return showDialogWithNoTopSpace(view, new HoloAlertDialogBuilder(getActivity()).setView(view).create());
+		return showDialogWithNoTopSpace(view, new HoloAlertDialogBuilder(
+				getActivity()).setView(view).create());
 	}
 
 	/**
@@ -136,39 +141,45 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 	 * @param dialog
 	 *            The dialog to display without top spacing
 	 */
-	public static Dialog showDialogWithNoTopSpace(final View customView, final Dialog dialog) {
+	public static Dialog showDialogWithNoTopSpace(final View customView,
+			final Dialog dialog) {
 		// Now we setup a listener to detect as soon as the dialog has shown.
-		customView.getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				// Check if your view has been laid out yet
-				if (customView.getHeight() > 0) {
-					// If it has been, we will search the view hierarchy for the
-					// view that is responsible for the extra space.
-					LinearLayout dialogLayout = findDialogLinearLayout(customView);
-					if (dialogLayout == null) {
-						// Could find it. Unexpected.
+		customView.getViewTreeObserver().addOnGlobalLayoutListener(
+				new OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						// Check if your view has been laid out yet
+						if (customView.getHeight() > 0) {
+							// If it has been, we will search the view hierarchy
+							// for the
+							// view that is responsible for the extra space.
+							LinearLayout dialogLayout = findDialogLinearLayout(customView);
+							if (dialogLayout == null) {
+								// Could find it. Unexpected.
 
-					} else {
-						// Found it, now remove the height of the title area
-						View child = dialogLayout.getChildAt(0);
-						if (child != customView) {
-							// remove height
-							LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child.getLayoutParams();
-							lp.height = 0;
-							child.setLayoutParams(lp);
+							} else {
+								// Found it, now remove the height of the title
+								// area
+								View child = dialogLayout.getChildAt(0);
+								if (child != customView) {
+									// remove height
+									LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) child
+											.getLayoutParams();
+									lp.height = 0;
+									child.setLayoutParams(lp);
 
-						} else {
-							// Could find it. Unexpected.
+								} else {
+									// Could find it. Unexpected.
+								}
+							}
+
+							// Done with the listener
+							customView.getViewTreeObserver()
+									.removeGlobalOnLayoutListener(this);
 						}
 					}
 
-					// Done with the listener
-					customView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-				}
-			}
-
-		});
+				});
 		// Show the dialog
 		return dialog;
 	}
