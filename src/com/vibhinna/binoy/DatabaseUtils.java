@@ -2,17 +2,39 @@ package com.vibhinna.binoy;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import org.xmlpull.v1.XmlSerializer;
+
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.nfc.Tag;
 import android.os.Environment;
 import android.provider.BaseColumns;
 import android.util.Log;
+import android.util.Xml;
 
 public class DatabaseUtils {
 	private static final String TAG = null;
+	private static final String XML_DUMP_PATH = "/mnt/sdcard/multiboot/.mbm/vfsdbdump.xml";
+	private static final String MBM_CONFIG_FOLDER = "/mnt/sdcard/multiboot/.mbm";
+	private static final File xmldumpfile = new File(XML_DUMP_PATH);
+	private static final File mbmconfigdir = new File(MBM_CONFIG_FOLDER);
+	private static final String VFS_ELEMENT_ROOT = "vfs";
 
 	public static int[] scanFolder(SQLiteDatabase db) {
 		int added = 0, deleted = 0;
@@ -44,8 +66,7 @@ public class DatabaseUtils {
 								new String[] { pathcursora.getString(1) });
 						deleted = deleted++;
 						// writeXML();
-					} else
-						Log.d(TAG, pathcursora.getString(0) + " is valid, kept");
+					}
 				} while (pathcursora.moveToNext());
 			}
 			pathcursora.close();
@@ -92,6 +113,135 @@ public class DatabaseUtils {
 			return new int[] { added, deleted };
 		} else {
 			return new int[] { 0, 0 };
+		}
+	}
+
+	public void writeXML(ContentResolver resolver) {
+		Log.d(TAG, "writeXML()");
+		if (!mbmconfigdir.exists()) {
+			mbmconfigdir.mkdirs();
+		}
+		if (xmldumpfile.exists()) {
+			xmldumpfile.delete();
+		}
+		try {
+			xmldumpfile.createNewFile();
+		} catch (IOException e) {
+			Log.w(TAG, "exception in createNewFile() method");
+		}
+		// we have to bind the new file with a FileOutputStream
+		FileOutputStream fileos = null;
+		try {
+			fileos = new FileOutputStream(xmldumpfile);
+		} catch (FileNotFoundException e) {
+			Log.w(TAG, "can't create FileOutputStream");
+		}
+		// we create a XmlSerializer in order to write xml data
+
+		Cursor cursor = resolver.query(
+				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
+						+ VibhinnaProvider.TUTORIALS_BASE_PATH), null, null,
+				null, null);
+		XmlSerializer serializer = Xml.newSerializer();
+		try {
+			// we set the FileOutputStream as output for the serializer, using
+			// UTF-8 encoding
+			serializer.setOutput(fileos, "UTF-8");
+			// Write <?xml declaration with encoding (if encoding not null) and
+			// standalone flag (if standalone not null)
+			serializer.startDocument(null, Boolean.valueOf(true));
+			// set indentation option
+			serializer.setFeature(
+					"http://xmlpull.org/v1/doc/features.html#indent-output",
+					true);
+			serializer.startTag(null, "xmldump");
+			// i indent code just to have a view similar to xml-tree
+			// read from cursor and write child tags
+			cursor.moveToFirst();
+			do {
+				serializer.startTag(null, VFS_ELEMENT_ROOT);
+				serializer.attribute(null, "name", cursor.getString(1));
+				serializer.attribute(null, "path", cursor.getString(2));
+				serializer.attribute(null, "type", cursor.getString(3));
+				serializer.attribute(null, "desc", cursor.getString(4));
+				serializer.endTag(null, VFS_ELEMENT_ROOT);
+			} while (cursor.moveToNext());
+			serializer.endTag(null, "xmldump");
+			serializer.endDocument();
+			// write xml data into the FileOutputStream
+			serializer.flush();
+			// finally we close the file stream
+			fileos.close();
+			// TextView tv = (TextView)this.findViewById(R.id.result);
+			// tv.setText("file has been created on SD card");
+		} catch (Exception e) {
+			Log.w(TAG, "error occurred while creating xml file");
+		}
+		cursor.close();
+	}
+
+	private Document getDumpDoc() {
+		// get the factory
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		Document dom = null;
+		try {
+			// Using factory get an instance of document builder
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			// parse using builder to get DOM representation of the XML file
+			dom = db.parse("file:" + XML_DUMP_PATH);
+		} catch (ParserConfigurationException pce) {
+			pce.printStackTrace();
+		} catch (SAXException se) {
+			se.printStackTrace();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		return dom;
+	}
+
+	public void readXML(ContentResolver resolver) {
+		// get the root element
+		Log.d(TAG, "readXML()");
+		try {
+			Element docEle = getDumpDoc().getDocumentElement();
+			// get a nodelist of elements
+			NodeList nl = docEle.getElementsByTagName("vfs");
+			// Log.d(Tag.getTag(this),"nl length : " + nl.getLength());
+			if (nl != null && nl.getLength() > 0) {
+				for (int i = 0; i < nl.getLength(); i++) {
+					Element el = (Element) nl.item(i);
+					String name = el.getAttribute("name");
+					String path = el.getAttribute("path");
+					String type = el.getAttribute("type");
+					String desc = el.getAttribute("desc");
+					resolver.delete(
+							Uri.parse("content://" + VibhinnaProvider.AUTHORITY
+									+ "/"
+									+ VibhinnaProvider.TUTORIALS_BASE_PATH),
+							DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH + " IS ?",
+							new String[] { path });
+					// database.delete(
+					// DataBaseHelper.VFS_DATABASE_TABLE,
+					// DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH + " IS ?",
+					// new String[] { path });
+					ContentValues values = new ContentValues();
+					values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME, name);
+					values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH, path);
+					values.put(
+							DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+							desc);
+					values.put(DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE, type);
+					resolver.insert(
+							Uri.parse("content://" + VibhinnaProvider.AUTHORITY
+									+ "/"
+									+ VibhinnaProvider.TUTORIALS_BASE_PATH),
+							values);
+					// database.insert(DataBaseHelper.VFS_DATABASE_TABLE, null,
+					// values);
+				}
+			}
+		} catch (Exception e) {
+			Log.w(TAG, "exception in readXML() method");
 		}
 	}
 }
