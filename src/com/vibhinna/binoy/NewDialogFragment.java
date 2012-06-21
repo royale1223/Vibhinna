@@ -54,7 +54,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 	// ProcessManager processManager;
 
 	/**
-	 * creates a new instance of PropDialogFragment
+	 * creates a new instance of NewDialogFragment
 	 * 
 	 * @param vibhinnaFragment
 	 */
