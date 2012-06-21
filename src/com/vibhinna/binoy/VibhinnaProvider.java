@@ -40,21 +40,16 @@ public class VibhinnaProvider extends ContentProvider {
 	public static final Uri LIST_DISPLAY_URI = Uri.parse("content://"
 			+ AUTHORITY + "/" + VFS_BASE_PATH + "/list");
 
-
 	static {
 		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH, VFS);
 		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/#", VFS_ID);
-		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/list",
-				VFS_LIST);
-		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/details/#",
-				VFS_DETAILS);
-		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/scan",
-				VFS_SCAN);
-		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/write_xml",
-				WRITE_XML);
-		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/read_xml",
-				READ_XML);
-		
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/list", VFS_LIST);
+		sURIMatcher
+				.addURI(AUTHORITY, VFS_BASE_PATH + "/details/#", VFS_DETAILS);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/scan", VFS_SCAN);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/write_xml", WRITE_XML);
+		sURIMatcher.addURI(AUTHORITY, VFS_BASE_PATH + "/read_xml", READ_XML);
+
 	}
 
 	@Override
@@ -62,15 +57,16 @@ public class VibhinnaProvider extends ContentProvider {
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case VFS:
-			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, where, selectionArgs);
+			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, where,
+					selectionArgs);
 			break;
 		case VFS_ID:
 			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE,
 					BaseColumns._ID
 							+ " = "
 							+ uri.getPathSegments().get(1)
-							+ (!TextUtils.isEmpty(where) ? " AND (" + where + ')'
-									: ""), selectionArgs);
+							+ (!TextUtils.isEmpty(where) ? " AND (" + where
+									+ ')' : ""), selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -351,12 +347,18 @@ public class VibhinnaProvider extends ContentProvider {
 			MatrixCursor matcursor = new MatrixCursor(key);
 			matcursor.addRow(vsinfo);
 			return matcursor;
+		case VFS_SCAN:
+			int[] change = DatabaseUtils.scanFolder(mDB);
+			Log.i(TAG, change[0] + " VFS added, " + change[1] + " deleted.");
+		case WRITE_XML:
+			DatabaseUtils.writeXML(mDB);
+		case READ_XML:
+			DatabaseUtils.readXML(mDB);
 		default:
 			throw new IllegalArgumentException("Unknown URI");
 		}
 
-		Cursor cursor = queryBuilder.query(
-				mDataBaseHelper.getReadableDatabase(), projection, selection,
+		Cursor cursor = queryBuilder.query(mDB, projection, selection,
 				selectionArgs, null, null, sortOrder);
 
 		cursor.setNotificationUri(context.getContentResolver(), uri);
