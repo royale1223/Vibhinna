@@ -44,7 +44,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class VibhinnaFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int VFS_LIST_LOADER = 0x01;
-	private static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
+	protected static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
 	private VibhinnaAdapter adapter;
 	protected boolean cacheCheckBool = false;
 	protected boolean dataCheckBool = false;
