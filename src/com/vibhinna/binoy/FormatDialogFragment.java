@@ -20,7 +20,6 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class FormatDialogFragment extends SherlockDialogFragment {
-	private static VibhinnaFragment mVibFragment;
 	private static SherlockFragmentActivity mContext;
 	private static ContentResolver mResolver;
 
@@ -35,8 +34,7 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 	static FormatDialogFragment newInstance(VibhinnaFragment vibhinnaFragment,
 			long id) {
 		FormatDialogFragment fragment = new FormatDialogFragment();
-		mVibFragment = vibhinnaFragment;
-		mContext = mVibFragment.getSherlockActivity();
+		mContext = vibhinnaFragment.getSherlockActivity();
 		mResolver = mContext.getContentResolver();
 		mCursor = mResolver.query(
 				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
@@ -52,6 +50,7 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		super.onCreateDialog(savedInstanceState);
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		final View formatView = factory.inflate(R.layout.format_dialog, null);
 		AlertDialog.Builder builder;
