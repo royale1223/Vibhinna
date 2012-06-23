@@ -10,34 +10,33 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnFocusChangeListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.NumberPicker.OnValueChangeListener;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class NewDialogFragment extends SherlockDialogFragment {
 
 	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
-	private static Context context;
-	private static VibhinnaFragment mVibhinnaFragment;
-	private static ContentResolver contentResolver;
+	private static Context mContext;
+	private static VibhinnaFragment mVibFragment;
+	private static ContentResolver mResolver;
 
 	private int iconid;
 	private int CACHE_SIZE;
@@ -51,18 +50,20 @@ public class NewDialogFragment extends SherlockDialogFragment {
 	private String newName;
 	private File defaultFolder;
 
+	Handler handler;
+
 	// ProcessManager processManager;
 
 	/**
 	 * creates a new instance of NewDialogFragment
 	 * 
-	 * @param vibhinnaFragment
+	 * @param vibFragment
 	 */
-	static NewDialogFragment newInstance(VibhinnaFragment vibhinnaFragment) {
+	static NewDialogFragment newInstance(VibhinnaFragment vibFragment) {
 		NewDialogFragment fragment = new NewDialogFragment();
-		mVibhinnaFragment = vibhinnaFragment;
-		context = mVibhinnaFragment.getSherlockActivity();
-		contentResolver = context.getContentResolver();
+		mVibFragment = vibFragment;
+		mContext = mVibFragment.getSherlockActivity();
+		mResolver = mContext.getContentResolver();
 		return fragment;
 	}
 
@@ -75,14 +76,14 @@ public class NewDialogFragment extends SherlockDialogFragment {
 
 		validName = true;
 
-		newName = context.getString(R.string.untitled);
+		newName = mContext.getString(R.string.untitled);
 		defaultFolder = new File(Constants.MULTI_BOOT_PATH + newName);
-		newvsdesc = context.getString(R.string.newvfsi)
+		newvsdesc = mContext.getString(R.string.newvfsi)
 				+ defaultFolder.getPath() + ")";
 
 		// processManager = new ProcessManager();
 
-		LayoutInflater newVFSDialogInflater = LayoutInflater.from(context);
+		LayoutInflater newVFSDialogInflater = LayoutInflater.from(mContext);
 		final View view = newVFSDialogInflater.inflate(R.layout.new_vs_dialog,
 				null);
 		if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) != Color.RED) {
@@ -101,15 +102,16 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		memory.setTextColor(MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE,
 				SYSTEM_SIZE));
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				context, R.array.icon_array,
+				mContext, R.array.icon_array,
 				android.R.layout.simple_spinner_item);
-		if (context == null) {
+		if (mContext == null) {
 			Log.d(TAG, "context is null");
 		}
-		final AlertDialog dialog = new AlertDialog.Builder(context)
-				.setTitle(context.getString(R.string.createvfs))
+
+		final AlertDialog dialog = new AlertDialog.Builder(mContext)
+				.setTitle(mContext.getString(R.string.createvfs))
 				.setView(view)
-				.setPositiveButton(context.getString(R.string.okay),
+				.setPositiveButton(mContext.getString(R.string.okay),
 						new DialogInterface.OnClickListener() {
 
 							@Override
@@ -121,90 +123,90 @@ public class NewDialogFragment extends SherlockDialogFragment {
 														+ newName));
 								ContentValues values = new ContentValues();
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
 										newFolder.getName());
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
 										newFolder.getPath());
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
 										newvsdesc);
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
 										iconid + "");
-								contentResolver.insert(
+								mResolver.insert(
 										VibhinnaProvider.CONTENT_URI, values);
 								newFolder.mkdir();
 								final ProgressDialog processdialog = ProgressDialog
-										.show(context,
+										.show(mContext,
 												Constants.EMPTY,
-												(context.getString(R.string.mknewfold) + newvsdesc),
+												(mContext.getString(R.string.mknewfold) + newvsdesc),
 												true);
-								final Handler handler = new Handler() {
+								handler = new Handler() {
 									@Override
 									public void handleMessage(Message msg) {
 										switch (msg.arg1) {
 										case 1: {
-											processdialog.setMessage(context
+											processdialog.setMessage(mContext
 													.getString(R.string.creating)
 													+ newFolder.getPath()
-													+ context
+													+ mContext
 															.getString(R.string.cacheimg));
 											return;
 										}
 										case 2: {
-											processdialog.setMessage(context
+											processdialog.setMessage(mContext
 													.getString(R.string.formating)
 													+ newFolder.getPath()
-													+ context
+													+ mContext
 															.getString(R.string.cachext3));
 											return;
 										}
 										case 3: {
-											processdialog.setMessage(context
+											processdialog.setMessage(mContext
 													.getString(R.string.creating)
 													+ newFolder.getPath()
-													+ context
+													+ mContext
 															.getString(R.string.dataimg));
 											return;
 										}
 										case 4: {
-											processdialog.setMessage(context
+											processdialog.setMessage(mContext
 													.getString(R.string.formating)
 													+ newFolder.getPath()
-													+ context
+													+ mContext
 															.getString(R.string.dataext3));
 											return;
 										}
 										case 5: {
-											processdialog.setMessage(context
+											processdialog.setMessage(mContext
 													.getString(R.string.creating)
 													+ newFolder.getPath()
-													+ context
+													+ mContext
 															.getString(R.string.systemimg));
 											return;
 										}
 										case 6: {
-											processdialog.setMessage(context
+											processdialog.setMessage(mContext
 													.getString(R.string.formating)
 													+ newFolder.getPath()
-													+ context
+													+ mContext
 															.getString(R.string.systemext3));
 											return;
-
 										}
 										default: {
-											mVibhinnaFragment.restartLoading();
+											mVibFragment.restartLoading();
 											processdialog.dismiss();
 											return;
 										}
 										}
 									}
 								};
-								Thread createVFS = new Thread() {
 
-									@Override
-									public void run() {
+								class CreateVFSTask extends
+										AsyncTask<Void, Void, Void> {
+									protected Void doInBackground(
+											Void... voids) {
 										String cachesize = CACHE_SIZE + "";
 										String datasize = DATA_SIZE + "";
 										String systemsize = SYSTEM_SIZE + "";
@@ -263,12 +265,13 @@ public class NewDialogFragment extends SherlockDialogFragment {
 												shellinput, 20);
 										final Message endmessage = new Message();
 										handler.sendMessage(endmessage);
+										return null;
 									}
-								};
-								createVFS.start();
+								}
+								new CreateVFSTask().execute();
 							}
 						})
-				.setNegativeButton(context.getString(R.string.cancel),
+				.setNegativeButton(mContext.getString(R.string.cancel),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -284,7 +287,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 					filtered_str = filtered_str.replaceAll("[\\s&/&*]", "");
 					s.clear();
 					s.append(filtered_str);
-					Toast.makeText(context, "Illegal character!",
+					Toast.makeText(mContext, "Illegal character!",
 							Toast.LENGTH_SHORT).show();
 				}
 				if (s.length() > 0) {
@@ -300,13 +303,11 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-
 			}
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-
 			}
 		};
 		evsname.addTextChangedListener(vsNameWatcher);
@@ -315,13 +316,11 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			@Override
 			public void beforeTextChanged(CharSequence paramCharSequence,
 					int paramInt1, int paramInt2, int paramInt3) {
-
 			}
 
 			@Override
 			public void onTextChanged(CharSequence paramCharSequence,
 					int paramInt1, int paramInt2, int paramInt3) {
-
 			}
 
 			@Override
@@ -342,7 +341,6 @@ public class NewDialogFragment extends SherlockDialogFragment {
 				iconid = arg2;
 				memory.setCompoundDrawablesWithIntrinsicBounds(0,
 						MiscMethods.getIconRes(arg2), 0, 0);
-
 			}
 
 			@Override
@@ -381,14 +379,6 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			}
 		};
 		cacheSizePicker.setOnValueChangedListener(cacheOnValueChangeListener);
-		OnFocusChangeListener fclCache = new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-			}
-		};
-		((EditText) cacheSizePicker.getChildAt(1))
-				.setOnFocusChangeListener(fclCache);
-		((EditText) cacheSizePicker.getChildAt(1))
-				.setInputType(InputType.TYPE_NULL);
 
 		final NumberPicker dataSizePicker = (NumberPicker) view
 				.findViewById(R.id.data_size_picker);
@@ -418,15 +408,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			}
 		};
 		dataSizePicker.setOnValueChangedListener(dataOnValueChangeListener);
-		OnFocusChangeListener fclData = new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-			}
-		};
-		((EditText) dataSizePicker.getChildAt(1))
-				.setOnFocusChangeListener(fclData);
-		((EditText) dataSizePicker.getChildAt(1))
-				.setInputType(InputType.TYPE_NULL);
-
+		
 		final NumberPicker systemSizePicker = (NumberPicker) view
 				.findViewById(R.id.system_size_picker);
 		if (systemSizePicker == null) {
@@ -454,15 +436,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			}
 		};
 		systemSizePicker.setOnValueChangedListener(systemOnValueChangeListener);
-		OnFocusChangeListener fclSystem = new OnFocusChangeListener() {
-			public void onFocusChange(View v, boolean hasFocus) {
-			}
-		};
-		((EditText) systemSizePicker.getChildAt(1))
-				.setOnFocusChangeListener(fclSystem);
-		((EditText) systemSizePicker.getChildAt(1))
-				.setInputType(InputType.TYPE_NULL);
-
+		
 		return dialog;
 	}
 
