@@ -5,7 +5,6 @@ import java.io.File;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,16 +19,10 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -150,9 +143,6 @@ public class VibhinnaFragment extends SherlockListFragment implements
 
 	@Override
 	public boolean onContextItemSelected(android.view.MenuItem item) {
-		final Context context = getActivity();
-		final ContentResolver mContentResolver = getActivity()
-				.getContentResolver();
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		// final DataSource datasource = new DataSource(this);
@@ -162,121 +152,21 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			// For some reason the requested item isn't available, do nothing
 			return false;
 		}
-		final String initialFilePath = item_cursor.getString(7);
-		final String foldername = item_cursor.getString(1);
-		final String folderdesc = item_cursor.getString(2);
+		final String vPath = item_cursor.getString(7);
 		iconid = Integer.parseInt(item_cursor.getString(4));
-		final int itemid = Integer.parseInt(item_cursor.getString(0));
+		int itemid;
+		try {
+			itemid = Integer.parseInt(item_cursor.getString(0));
+		} catch (NumberFormatException e1) {
+			e1.printStackTrace();
+			return false;
+		}
 		switch (item.getItemId()) {
 		case R.id.edit:
-			LayoutInflater factory = LayoutInflater.from(context);
-			final View editVSView = factory.inflate(R.layout.edit_vs_layout,
-					null);
-			final EditText nameEditText = (EditText) editVSView
-					.findViewById(R.id.vsname);
-			final EditText descriptionEditText = (EditText) editVSView
-					.findViewById(R.id.vsdesc);
-			final Spinner iconSelectSpinner = (Spinner) editVSView
-					.findViewById(R.id.spinner);
-			final ImageView iconPreview = (ImageView) editVSView
-					.findViewById(R.id.seticonimage);
-			ArrayAdapter<CharSequence> iconSelectSpinnerAdapter = ArrayAdapter
-					.createFromResource(context, R.array.icon_array,
-							android.R.layout.simple_spinner_item);
-			iconSelectSpinnerAdapter
-					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			iconSelectSpinner.setAdapter(iconSelectSpinnerAdapter);
-			iconSelectSpinner.setSelection(iconid);
-			iconSelectSpinner.setAdapter(iconSelectSpinnerAdapter);
-			iconSelectSpinner.setSelection(iconid);
-			iconSelectSpinner
-					.setOnItemSelectedListener(new OnItemSelectedListener() {
-						@Override
-						public void onItemSelected(AdapterView<?> arg0,
-								View arg1, int arg2, long arg3) {
-							iconid = arg2;
-							iconPreview.setImageResource(MiscMethods
-									.getIconRes(arg2));
-						}
-
-						@Override
-						public void onNothingSelected(AdapterView<?> arg0) {
-
-						}
-					});
-			descriptionEditText.setText(folderdesc);
-			nameEditText.setText(foldername);
-			new AlertDialog.Builder(context)
-					.setTitle(
-							getString(R.string.edits)
-									+ item_cursor.getString(1))
-					.setView(editVSView)
-					.setPositiveButton(getString(R.string.okay),
-							new DialogInterface.OnClickListener() {
-
-								@Override
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									String updatedName = foldername;
-									try {
-										updatedName = nameEditText.getText()
-												.toString();
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-									String updatedDescription = folderdesc;
-									try {
-										updatedDescription = descriptionEditText
-												.getText().toString();
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-									File finalFile = new File(
-											"/mnt/sdcard/multiboot/"
-													+ updatedName);
-									// get new name if already taken
-									if (!(new File(initialFilePath))
-											.equals(finalFile)) {
-										finalFile = MiscMethods
-												.avoidDuplicateFile(finalFile);
-										(new File(initialFilePath))
-												.renameTo(finalFile);
-									}
-									ContentValues values = new ContentValues();
-									values.put(
-											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-											finalFile.getName());
-									values.put(
-											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-											finalFile.getPath());
-									values.put(
-											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
-											updatedDescription);
-									values.put(
-											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
-											iconid);
-									mContentResolver.update(
-											Uri.parse("content://"
-													+ VibhinnaProvider.AUTHORITY
-													+ "/"
-													+ VibhinnaProvider.VFS_BASE_PATH
-													+ "/" + itemid), values,
-											null, null);
-									iconid = 1;
-									restartLoading();
-								}
-							})
-					.setNegativeButton(getString(R.string.cancel),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int whichButton) {
-									// Canceled.
-								}
-							}).show();
+			showEditDialog(this, itemid);
 			return true;
 		case R.id.delete:
-			new AlertDialog.Builder(context)
+			new AlertDialog.Builder(getActivity())
 					.setTitle(
 							getString(R.string.delete)
 									+ item_cursor.getString(1))
@@ -288,7 +178,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 										DialogInterface dialogInterface, int i) {
 									try {
 										MiscMethods.removeDirectory(new File(
-												initialFilePath));
+												vPath));
 										restartLoading();
 									} catch (Exception e) {
 										e.printStackTrace();
@@ -403,5 +293,10 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	private void showFormatDialog(VibhinnaFragment vibhinnaFragment, long id) {
 		FormatDialogFragment.newInstance(vibhinnaFragment, id).show(
 				getFragmentManager(), "format_dialog");
+	}
+
+	private void showEditDialog(VibhinnaFragment vibhinnaFragment, int id) {
+		EditDialogFragment.newInstance(vibhinnaFragment, id).show(
+				getFragmentManager(), "edit_dialog");
 	}
 }
