@@ -54,8 +54,12 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		LayoutInflater factory = LayoutInflater.from(mContext);
 		final View formatView = factory.inflate(R.layout.format_dialog, null);
-
-		final AlertDialog dialog = new AlertDialog.Builder(mContext)
+		AlertDialog.Builder builder;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+			builder = new AlertDialog.Builder(mContext);
+		else
+			builder = new HoloAlertDialogBuilder(mContext);
+		final AlertDialog dialog = builder
 				.setTitle(mContext.getString(R.string.format) + mName + "?")
 				.setView(formatView)
 				.setPositiveButton(mContext.getString(R.string.okay),

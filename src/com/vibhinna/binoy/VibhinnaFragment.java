@@ -146,30 +146,32 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		// final DataSource datasource = new DataSource(this);
-		final Cursor item_cursor = (Cursor) getListAdapter().getItem(
+		final Cursor cursor = (Cursor) getListAdapter().getItem(
 				menuInfo.position);
-		if (item_cursor == null) {
+		if (cursor == null) {
 			// For some reason the requested item isn't available, do nothing
 			return false;
 		}
-		final String vPath = item_cursor.getString(7);
-		iconid = Integer.parseInt(item_cursor.getString(4));
-		int itemid;
+		final String vPath = cursor.getString(7);
+		iconid = Integer.parseInt(cursor.getString(4));
+		int _id;
 		try {
-			itemid = Integer.parseInt(item_cursor.getString(0));
+			_id = Integer.parseInt(cursor.getString(0));
 		} catch (NumberFormatException e1) {
 			e1.printStackTrace();
 			return false;
 		}
 		switch (item.getItemId()) {
 		case R.id.edit:
-			showEditDialog(this, itemid);
+			showEditDialog(this, _id);
 			return true;
 		case R.id.delete:
-			new AlertDialog.Builder(getActivity())
-					.setTitle(
-							getString(R.string.delete)
-									+ item_cursor.getString(1))
+			AlertDialog.Builder builder;
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+				builder = new AlertDialog.Builder(getActivity());
+			else
+				builder = new HoloAlertDialogBuilder(getActivity());
+			builder.setTitle(getString(R.string.delete) + cursor.getString(1))
 					.setMessage(getString(R.string.rusure))
 					.setPositiveButton(getString(R.string.okay),
 							new DialogInterface.OnClickListener() {
@@ -195,7 +197,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 							}).create().show();
 			return true;
 		case R.id.format:
-			showFormatDialog(this, itemid);
+			showFormatDialog(this, _id);
 			return true;
 		default:
 			return super.onContextItemSelected(item);

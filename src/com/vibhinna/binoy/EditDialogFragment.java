@@ -98,7 +98,12 @@ public class EditDialogFragment extends SherlockDialogFragment {
 				});
 		descriptionEditText.setText(mDesc);
 		nameEditText.setText(mName);
-		Dialog dialog = new AlertDialog.Builder(mContext)
+		AlertDialog.Builder builder;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+			builder = new AlertDialog.Builder(mContext);
+		else
+			builder = new HoloAlertDialogBuilder(mContext);
+		Dialog dialog = builder
 				.setTitle(getString(R.string.edits) + mCursor.getString(1))
 				.setView(editVSView)
 				.setPositiveButton(getString(R.string.okay),
