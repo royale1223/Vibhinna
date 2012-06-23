@@ -179,18 +179,18 @@ Web Site: http://www.ubuntumaster.tk/
         <item>Pikachu MIUI</item>
         <item>WhiteRabbit MIUI</item>
         <item>WIUI</item>
-        <item>AKOP</item>
+        <item>AOKP</item>
         <item>CodeName</item>
         <item>MIUI v4</item>
         <item>Cherry Picks</item>
         <item>Epsylon3</item>
         <item>Quarx2k</item>
         <item>CyanogenMod</item>
-        <item >Argen2Stone 3</item>
-        <item >Defy Froyo Sense</item>
-        <item >DianXin OS</item>
-        <item >Nothing But Speed</item>
-        <item >BareBone</item>
+        <item>Argen2Stone 3</item>
+        <item>Defy Froyo Sense</item>
+        <item>DianXin OS</item>
+        <item>Nothing But Speed</item>
+        <item>BareBone</item>
     </string-array>
 
     <string name="createvfs">Create new VFS</string>
