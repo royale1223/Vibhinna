@@ -30,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
@@ -332,7 +333,9 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			showNewVFSDialog(this);
 			return true;
 		case R.id.menu_settings:
-			//getActivity().startActivity(item.getIntent());
+			// getActivity().startActivity(item.getIntent());
+			Toast.makeText(getActivity(), "This is a stub!! Move on.",
+					Toast.LENGTH_SHORT);
 			return true;
 		case R.id.menu_scan:
 			resolver.query(
@@ -356,10 +359,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			restartLoading();
 			return true;
 		case R.id.menu_help:
+			Toast.makeText(getActivity(), "This is a stub!! Move on.",
+					Toast.LENGTH_SHORT);
 			return true;
 		case R.id.menu_about:
+			Toast.makeText(getActivity(), "This is a stub!! Move on.",
+					Toast.LENGTH_SHORT);
 			return true;
 		case R.id.menu_license:
+			Toast.makeText(getActivity(), "This is a stub!! Move on.",
+					Toast.LENGTH_SHORT);
 			return true;
 		default:
 			return false;
