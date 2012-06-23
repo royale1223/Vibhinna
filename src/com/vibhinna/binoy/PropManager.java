@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+
 import android.content.Context;
+import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 import android.util.Log;
@@ -17,16 +19,16 @@ public class PropManager {
 		mContext = context;
 	}
 
-	private String deviceProp() {
+	private String getDevice() {
 		return propReader("ro.product.model", mContext.getString(R.string.none));
 	}
 
-	private String displayIdProp() {
+	private String getROM() {
 		return propReader("ro.build.display.id",
 				mContext.getString(R.string.nand));
 	}
 
-	private String kernelProp() {
+	private String getKernel() {
 		return System.getProperty("os.name") + " "
 				+ System.getProperty("os.version");
 	}
@@ -47,34 +49,23 @@ public class PropManager {
 		return propReader("ro.multiboot", "0");
 	}
 
-	private String multiBootVSPathProp() {
+	private String getMultiBootPath() {
 		return propReader("ro.multiboot.vs", mContext.getString(R.string.none));
 	}
 
-	// private String multiBootDefaultFolderProp() {
-	// return propReader("ro.multiboot.path",
-	// mContext.getString(R.string.none));
-	// }
-	//
-	// private String multibootPartitionProp(String propval) {
-	// return propReader("ro.multiboot.partition",
-	// mContext.getString(R.string.none));
-	//
-	// }
-
-	public MatrixCursor propCursor() {
+	public Cursor propCursor() {
 		MatrixCursor propcursor = new MatrixCursor(new String[] {
 				BaseColumns._ID, "name", "value" });
 		propcursor.addRow(new Object[] { 1,
 				mContext.getString(R.string.currsys), vSNameProp() });
 		propcursor.addRow(new Object[] { 2,
-				mContext.getString(R.string.currrom), displayIdProp() });
+				mContext.getString(R.string.currrom), getROM() });
 		propcursor.addRow(new Object[] { 3,
-				mContext.getString(R.string.currkernel), kernelProp() });
+				mContext.getString(R.string.currkernel), getKernel() });
 		propcursor.addRow(new Object[] { 4,
-				mContext.getString(R.string.currpath), multiBootVSPathProp() });
+				mContext.getString(R.string.currpath), getMultiBootPath() });
 		propcursor.addRow(new Object[] { 5,
-				mContext.getString(R.string.device), deviceProp() });
+				mContext.getString(R.string.device), getDevice() });
 		return propcursor;
 	}
 

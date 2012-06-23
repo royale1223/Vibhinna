@@ -1,24 +1,25 @@
 package com.vibhinna.binoy;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.widget.SimpleCursorAdapter;
 
-import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockListFragment;
 
-public class SystemInfoFragment extends SherlockFragment {
+public class SystemInfoFragment extends SherlockListFragment {
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.system_info, container, false);
-		return view;
-	}
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		// setup all widgets here
+		setHasOptionsMenu(true);
+
+		String[] from = { "name", "value" };
+		int[] to = { R.id.system_info_name, R.id.system_info_value };
+
+		SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
+				R.layout.system_info_row,
+				new PropManager(getActivity()).propCursor(), from, to,
+				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		setListAdapter(adapter);
 	}
 }
