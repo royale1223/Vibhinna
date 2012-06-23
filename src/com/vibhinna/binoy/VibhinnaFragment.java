@@ -4,7 +4,6 @@ import java.io.File;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,8 +12,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.BaseColumns;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
@@ -25,12 +22,10 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -309,140 +304,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 							}).create().show();
 			return true;
 		case R.id.format:
-			factory = LayoutInflater.from(context);
-			final View formatView = factory.inflate(R.layout.format_dialog,
-					null);
-			CheckBox chkCache = (CheckBox) formatView.findViewById(R.id.cache);
-			CheckBox chkData = (CheckBox) formatView.findViewById(R.id.data);
-			CheckBox chkSystem = (CheckBox) formatView
-					.findViewById(R.id.system);
-			chkCache.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (((CheckBox) v).isChecked()) {
-						cacheCheckBool = true;
-					} else {
-						cacheCheckBool = false;
-					}
-				}
-			});
-			chkData.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (((CheckBox) v).isChecked()) {
-						dataCheckBool = true;
-					} else {
-						dataCheckBool = false;
-					}
-				}
-			});
-			chkSystem.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (((CheckBox) v).isChecked()) {
-						systemCheckBool = true;
-					} else {
-						systemCheckBool = false;
-					}
-				}
-			});
-			new AlertDialog.Builder(context)
-					.setTitle(
-							getString(R.string.format)
-									+ item_cursor.getString(1) + "?")
-					.setView(formatView)
-					.setPositiveButton(getString(R.string.okay),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(
-										DialogInterface dialogInterface, int i) {
-									final ProgressDialog processdialog = ProgressDialog
-											.show(context, Constants.EMPTY,
-													Constants.EMPTY, true);
-									final Handler handler = new Handler() {
-										@Override
-										public void handleMessage(Message msg) {
-											switch (msg.arg1) {
-											case 0:
-												processdialog
-														.setMessage(getString(R.string.formating)
-																+ initialFilePath
-																+ getString(R.string.cachext3));
-												break;
-											case 1:
-												processdialog
-														.setMessage(getString(R.string.formating)
-																+ initialFilePath
-																+ getString(R.string.dataext3));
-												break;
-											case 2:
-												processdialog
-														.setMessage(getString(R.string.formating)
-																+ initialFilePath
-																+ getString(R.string.systemext3));
-												break;
-											case 3:
-												processdialog.dismiss();
-												break;
-											}
-										}
-									};
-									Thread formatVFS = new Thread() {
-										@Override
-										public void run() {
-											String[] shellinput = {
-													Constants.EMPTY,
-													Constants.EMPTY,
-													Constants.EMPTY,
-													Constants.EMPTY,
-													Constants.EMPTY };
-											shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-											shellinput[1] = initialFilePath;
-											final Message m0 = new Message();
-											final Message m1 = new Message();
-											final Message m2 = new Message();
-											final Message endmessage = new Message();
-											m0.arg1 = 0;
-											m1.arg1 = 1;
-											m2.arg1 = 2;
-											endmessage.arg1 = 3;
-											if (cacheCheckBool) {
-												handler.sendMessage(m0);
-												shellinput[2] = Constants.CACHE_IMG;
-												ProcessManager
-														.inputStreamReader(
-																shellinput, 20);
-												cacheCheckBool = false;
-											}
-											if (dataCheckBool) {
-												handler.sendMessage(m1);
-												shellinput[2] = Constants.DATA_IMG;
-												ProcessManager
-														.inputStreamReader(
-																shellinput, 20);
-												dataCheckBool = false;
-											}
-											if (systemCheckBool) {
-												handler.sendMessage(m2);
-												shellinput[2] = Constants.SYSTEM_IMG;
-												ProcessManager
-														.inputStreamReader(
-																shellinput, 20);
-												systemCheckBool = false;
-											}
-											handler.sendMessage(endmessage);
-										}
-									};
-									formatVFS.start();
-								}
-							})
-					.setNeutralButton(getString(R.string.cancel),
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(
-										DialogInterface dialogInterface, int i) {
-								}
-							}).create().show();
+			showFormatDialog(this, itemid);
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -528,5 +390,10 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			NewDialogFragmentOld.newInstance(vibhinnaFragment).show(
 					getFragmentManager(), "new_dialog");
 		}
+	}
+
+	private void showFormatDialog(VibhinnaFragment vibhinnaFragment, long id) {
+		FormatDialogFragment.newInstance(vibhinnaFragment, id).show(
+				getFragmentManager(), "format_dialog");
 	}
 }
