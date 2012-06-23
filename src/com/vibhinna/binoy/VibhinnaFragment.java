@@ -73,7 +73,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 		CursorLoader cursorLoader = new CursorLoader(getActivity(),
 				VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null,
-				null, null);
+				null, DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME);
 		return cursorLoader;
 	}
 
