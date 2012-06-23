@@ -349,7 +349,6 @@ public class VibhinnaFragment extends SherlockListFragment implements
 					Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
 							+ VibhinnaProvider.VFS_BASE_PATH + "/write_xml"),
 					null, null, null, null);
-			restartLoading();
 			return true;
 		case R.id.menu_restore:
 			resolver.query(
