@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
 
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
 	private static final int DATABASE_VERSION = 1;
 	public static final String VFS_DATABASE_NAME = "vs_db";
@@ -24,7 +24,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			+ VIRTUAL_SYSTEM_COLUMN_DESCRIPTION + " VARCHAR(200))";
 	protected Context context;
 
-	public DataBaseHelper(Context mContext) {
+	public DatabaseHelper(Context mContext) {
 		super(mContext, VFS_DATABASE_NAME, null, DATABASE_VERSION);
 		this.context = mContext;
 	}

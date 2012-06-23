@@ -33,10 +33,10 @@ public class Constants {
 	public static final int MIN_IMG_SIZE = 1;
 	public static final int SYSTEM_SIZE = 350;
 	public static final String[] allColumns = { BaseColumns._ID,
-			DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-			DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-			DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
-			DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
+			DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+			DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+			DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+			DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION };
 	public static final String[] MATRIX_COLUMN_NAMES = { "_id", "name", "desc",
 			"family", "folder", "status", "vdstatus", "path" };
 	public static final File MBM_ROOT = new File("/mnt/sdcard/multiboot/");

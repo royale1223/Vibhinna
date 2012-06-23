@@ -243,16 +243,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 									}
 									ContentValues values = new ContentValues();
 									values.put(
-											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
 											finalFile.getName());
 									values.put(
-											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
 											finalFile.getPath());
 									values.put(
-											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
 											updatedDescription);
 									values.put(
-											DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+											DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
 											iconid);
 									mContentResolver.update(
 											Uri.parse("content://"
@@ -329,7 +329,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			restartLoading();
 			return true;
 		case R.id.menu_new:
-			showNewDialog(this);
+			showNewVFSDialog(this);
 			return true;
 		case R.id.menu_settings:
 			//getActivity().startActivity(item.getIntent());
@@ -382,7 +382,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 * 
 	 * @param vibhinnaFragment
 	 */
-	private void showNewDialog(VibhinnaFragment vibhinnaFragment) {
+	private void showNewVFSDialog(VibhinnaFragment vibhinnaFragment) {
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
 			NewDialogFragment.newInstance(vibhinnaFragment).show(
 					getFragmentManager(), "new_dialog");

@@ -108,16 +108,16 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 														+ newName));
 								ContentValues values = new ContentValues();
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
 										newFolder.getName());
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
 										newFolder.getPath());
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
 										newvsdesc);
 								values.put(
-										DataBaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
+										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
 										iconid + "");
 								contentResolver.insert(
 										VibhinnaProvider.CONTENT_URI, values);

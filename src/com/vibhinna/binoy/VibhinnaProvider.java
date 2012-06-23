@@ -19,8 +19,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 public class VibhinnaProvider extends ContentProvider {
-	private DataBaseHelper mDataBaseHelper;
-	private SQLiteDatabase mDB;
+	private DatabaseHelper mDatabaseHelper;
+	private SQLiteDatabase mDatabase;
 	private Context context;
 	public static final String AUTHORITY = "com.vibhinna.binoy.VibhinnaProvider";
 	public static final int VFS = 0;
@@ -56,11 +56,11 @@ public class VibhinnaProvider extends ContentProvider {
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case VFS:
-			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE, where,
+			count = mDatabase.delete(DatabaseHelper.VFS_DATABASE_TABLE, where,
 					selectionArgs);
 			break;
 		case VFS_ID:
-			count = mDB.delete(DataBaseHelper.VFS_DATABASE_TABLE,
+			count = mDatabase.delete(DatabaseHelper.VFS_DATABASE_TABLE,
 					BaseColumns._ID
 							+ " = "
 							+ uri.getPathSegments().get(1)
@@ -99,8 +99,8 @@ public class VibhinnaProvider extends ContentProvider {
 
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
-		long rowID = mDB
-				.insert(DataBaseHelper.VFS_DATABASE_TABLE, null, values);
+		long rowID = mDatabase.insert(DatabaseHelper.VFS_DATABASE_TABLE, null,
+				values);
 		if (rowID > 0) {
 			Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
 			getContext().getContentResolver().notifyChange(_uri, null);
@@ -113,8 +113,8 @@ public class VibhinnaProvider extends ContentProvider {
 	@Override
 	public boolean onCreate() {
 		context = getContext();
-		mDataBaseHelper = new DataBaseHelper(context);
-		mDB = mDataBaseHelper.getWritableDatabase();
+		mDatabaseHelper = new DatabaseHelper(context);
+		mDatabase = mDatabaseHelper.getWritableDatabase();
 		return true;
 	}
 
@@ -124,11 +124,11 @@ public class VibhinnaProvider extends ContentProvider {
 		int count = 0;
 		switch (sURIMatcher.match(uri)) {
 		case VFS:
-			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+			count = mDatabase.update(DatabaseHelper.VFS_DATABASE_TABLE, values,
 					selection, selectionArgs);
 			break;
 		case VFS_ID:
-			count = mDB.update(DataBaseHelper.VFS_DATABASE_TABLE, values,
+			count = mDatabase.update(DatabaseHelper.VFS_DATABASE_TABLE, values,
 					BaseColumns._ID + " = " + uri.getLastPathSegment(),
 					selectionArgs);
 			break;
@@ -143,7 +143,7 @@ public class VibhinnaProvider extends ContentProvider {
 	public Cursor query(Uri uri, String[] projection, String selection,
 			String[] selectionArgs, String sortOrder) {
 		SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
-		queryBuilder.setTables(DataBaseHelper.VFS_DATABASE_TABLE);
+		queryBuilder.setTables(DatabaseHelper.VFS_DATABASE_TABLE);
 		int uriType = sURIMatcher.match(uri);
 		switch (uriType) {
 		case VFS_ID:
@@ -208,20 +208,19 @@ public class VibhinnaProvider extends ContentProvider {
 			return cursor;
 		case VFS_DETAILS:
 			String[] vsinfo = new String[29];
-			Cursor dbcursor = mDB
-					.query(DataBaseHelper.VFS_DATABASE_TABLE,
-							Constants.allColumns, "_id = ?",
-							new String[] { uri.getLastPathSegment() }, null,
-							null, null);
-			dbcursor.moveToFirst();
-			vsinfo[0] = dbcursor.getString(0);
-			vsinfo[1] = dbcursor.getString(1);
-			String vspath = dbcursor.getString(2);
+			Cursor databaseCursor = mDatabase.query(
+					DatabaseHelper.VFS_DATABASE_TABLE, Constants.allColumns,
+					"_id = ?", new String[] { uri.getLastPathSegment() }, null,
+					null, null);
+			databaseCursor.moveToFirst();
+			vsinfo[0] = databaseCursor.getString(0);
+			vsinfo[1] = databaseCursor.getString(1);
+			String vspath = databaseCursor.getString(2);
 			File vsfolder = new File(vspath);
 			vsinfo[2] = vsfolder.getName();
-			vsinfo[3] = dbcursor.getString(3);
-			vsinfo[4] = dbcursor.getString(4);
-			dbcursor.close();
+			vsinfo[3] = databaseCursor.getString(3);
+			vsinfo[4] = databaseCursor.getString(4);
+			databaseCursor.close();
 			for (int i = 5; i < 29; i++) {
 				vsinfo[i] = context.getString(R.string.na);
 			}
@@ -340,25 +339,25 @@ public class VibhinnaProvider extends ContentProvider {
 			for (int i = 0; i < key.length; i++) {
 				key[i] = "key" + i;
 			}
-			MatrixCursor matcursor = new MatrixCursor(key);
-			matcursor.addRow(vsinfo);
-			return matcursor;
+			MatrixCursor matrixCursor = new MatrixCursor(key);
+			matrixCursor.addRow(vsinfo);
+			return matrixCursor;
 		case VFS_SCAN:
-			int[] change = DatabaseUtils.scanFolder(mDB);
+			int[] change = DatabaseUtils.scanFolder(mDatabase);
 			Log.i(TAG, change[0] + " VFS added, " + change[1] + " deleted.");
 			break;
 		case WRITE_XML:
-			DatabaseUtils.writeXML(mDB);
+			DatabaseUtils.writeXML(mDatabase);
 			break;
 		case READ_XML:
-			DatabaseUtils.readXML(mDB);
+			DatabaseUtils.readXML(mDatabase);
 			break;
 		default:
 			Log.e(TAG, "unknown uri :" + uri.toString() + ", type : " + uriType);
 			throw new IllegalArgumentException("Unknown URI");
 		}
 
-		Cursor cursor = queryBuilder.query(mDB, projection, selection,
+		Cursor cursor = queryBuilder.query(mDatabase, projection, selection,
 				selectionArgs, null, null, sortOrder);
 
 		cursor.setNotificationUri(context.getContentResolver(), uri);
