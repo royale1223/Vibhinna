@@ -13,6 +13,9 @@ import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class VibhinnaActivity extends SherlockFragmentActivity {
+	protected static final String ACTION_PROGRESS_UPDATE = "com.vibhinna.binoy.intent.action.ACTION_PROGRESS_UPDATE";
+	protected static final String ACTION_NEW_TASK = "com.vibhinna.binoy.intent.action.ACTION_NEW_TASK";
+
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;
 
@@ -29,11 +32,12 @@ public class VibhinnaActivity extends SherlockFragmentActivity {
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
-
 		mTabsAdapter.addTab(bar.newTab().setText("List"),
 				VibhinnaFragment.class, null);
 		mTabsAdapter.addTab(bar.newTab().setText("Info"),
 				SystemInfoFragment.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText("Tasks"),
+				TasksQueueFragment.class, null);
 	}
 
 	public static class TabsAdapter extends FragmentPagerAdapter implements

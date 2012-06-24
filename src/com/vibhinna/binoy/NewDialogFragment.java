@@ -4,16 +4,12 @@ import java.io.File;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -36,18 +32,16 @@ public class NewDialogFragment extends SherlockDialogFragment {
 	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
 	private static Context mContext;
 	private static VibhinnaFragment mVibFragment;
-	private static ContentResolver mResolver;
-
-	private int iconid;
-	private int CACHE_SIZE;
-	private int DATA_SIZE;
-	private int SYSTEM_SIZE;
+	private static int iconId;
+	private static int cacheSize;
+	private static int dataSize;
+	private static int systemSize;
 
 	private boolean validName = true;
 	private boolean validSize = false;
 
-	private String newvsdesc;
-	private String newName;
+	private static String newvsdesc;
+	private static String newName;
 	private File defaultFolder;
 
 	Handler handler;
@@ -63,16 +57,16 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		NewDialogFragment fragment = new NewDialogFragment();
 		mVibFragment = vibFragment;
 		mContext = mVibFragment.getSherlockActivity();
-		mResolver = mContext.getContentResolver();
+		mContext.getContentResolver();
 		return fragment;
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		iconid = 1;
-		CACHE_SIZE = Constants.CACHE_SIZE;
-		DATA_SIZE = Constants.DATA_SIZE;
-		SYSTEM_SIZE = Constants.SYSTEM_SIZE;
+		iconId = 1;
+		cacheSize = Constants.CACHE_SIZE;
+		dataSize = Constants.DATA_SIZE;
+		systemSize = Constants.SYSTEM_SIZE;
 
 		validName = true;
 
@@ -86,7 +80,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		LayoutInflater newVFSDialogInflater = LayoutInflater.from(mContext);
 		final View view = newVFSDialogInflater.inflate(R.layout.new_vs_dialog,
 				null);
-		if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) != Color.RED) {
+		if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) != Color.RED) {
 			validSize = true;
 		} else
 			validSize = false;
@@ -97,10 +91,10 @@ public class NewDialogFragment extends SherlockDialogFragment {
 				.findViewById(R.id.icon_and_memory);
 		evsdesc.setText(newvsdesc);
 		evsname.setText(newName);
-		memory.setText(MiscMethods.getTotalSize(CACHE_SIZE, DATA_SIZE,
-				SYSTEM_SIZE) + " MB");
-		memory.setTextColor(MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE,
-				SYSTEM_SIZE));
+		memory.setText(MiscMethods
+				.getTotalSize(cacheSize, dataSize, systemSize) + " MB");
+		memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize,
+				systemSize));
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				mContext, R.array.icon_array,
 				android.R.layout.simple_spinner_item);
@@ -112,165 +106,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 				.setTitle(mContext.getString(R.string.createvfs))
 				.setView(view)
 				.setPositiveButton(mContext.getString(R.string.okay),
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								final File newFolder = MiscMethods
-										.avoidDuplicateFile(new File(
-												"/mnt/sdcard/multiboot/"
-														+ newName));
-								ContentValues values = new ContentValues();
-								values.put(
-										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-										newFolder.getName());
-								values.put(
-										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
-										newFolder.getPath());
-								values.put(
-										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
-										newvsdesc);
-								values.put(
-										DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE,
-										iconid + "");
-								mResolver.insert(
-										VibhinnaProvider.CONTENT_URI, values);
-								newFolder.mkdir();
-								final ProgressDialog processdialog = ProgressDialog
-										.show(mContext,
-												Constants.EMPTY,
-												(mContext.getString(R.string.mknewfold) + newvsdesc),
-												true);
-								handler = new Handler() {
-									@Override
-									public void handleMessage(Message msg) {
-										switch (msg.arg1) {
-										case 1: {
-											processdialog.setMessage(mContext
-													.getString(R.string.creating)
-													+ newFolder.getPath()
-													+ mContext
-															.getString(R.string.cacheimg));
-											return;
-										}
-										case 2: {
-											processdialog.setMessage(mContext
-													.getString(R.string.formating)
-													+ newFolder.getPath()
-													+ mContext
-															.getString(R.string.cachext3));
-											return;
-										}
-										case 3: {
-											processdialog.setMessage(mContext
-													.getString(R.string.creating)
-													+ newFolder.getPath()
-													+ mContext
-															.getString(R.string.dataimg));
-											return;
-										}
-										case 4: {
-											processdialog.setMessage(mContext
-													.getString(R.string.formating)
-													+ newFolder.getPath()
-													+ mContext
-															.getString(R.string.dataext3));
-											return;
-										}
-										case 5: {
-											processdialog.setMessage(mContext
-													.getString(R.string.creating)
-													+ newFolder.getPath()
-													+ mContext
-															.getString(R.string.systemimg));
-											return;
-										}
-										case 6: {
-											processdialog.setMessage(mContext
-													.getString(R.string.formating)
-													+ newFolder.getPath()
-													+ mContext
-															.getString(R.string.systemext3));
-											return;
-										}
-										default: {
-											mVibFragment.restartLoading();
-											processdialog.dismiss();
-											return;
-										}
-										}
-									}
-								};
-
-								class CreateVFSTask extends
-										AsyncTask<Void, Void, Void> {
-									protected Void doInBackground(
-											Void... voids) {
-										String cachesize = CACHE_SIZE + "";
-										String datasize = DATA_SIZE + "";
-										String systemsize = SYSTEM_SIZE + "";
-										String[] shellinput = { "", "", "", "",
-												"" };
-										shellinput[1] = newFolder.getPath();
-										shellinput[0] = Constants.CMD_DD;
-										shellinput[2] = "/cache.img bs=1000000 count=";
-
-										shellinput[3] = cachesize;
-										final Message m1 = new Message();
-										m1.arg1 = 1;
-										handler.sendMessage(m1);
-										ProcessManager
-												.errorStreamReader(shellinput);
-										shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-										shellinput[2] = Constants.CACHE_IMG;
-										shellinput[3] = "";
-										final Message m2 = new Message();
-										m2.arg1 = 2;
-										handler.sendMessage(m2);
-										ProcessManager.inputStreamReader(
-												shellinput, 20);
-										final Message m3 = new Message();
-										m3.arg1 = 3;
-										handler.sendMessage(m3);
-										shellinput[0] = Constants.CMD_DD;
-										shellinput[2] = "/data.img bs=1000000 count=";
-										shellinput[3] = datasize;
-										ProcessManager
-												.errorStreamReader(shellinput);
-										shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-										shellinput[2] = Constants.DATA_IMG;
-										shellinput[3] = "";
-										final Message m4 = new Message();
-										m4.arg1 = 4;
-										handler.sendMessage(m4);
-										ProcessManager.inputStreamReader(
-												shellinput, 20);
-										shellinput[0] = Constants.CMD_DD;
-										shellinput[2] = "/system.img bs=1000000 count=";
-
-										shellinput[3] = systemsize;
-										final Message m5 = new Message();
-										m5.arg1 = 5;
-										handler.sendMessage(m5);
-										ProcessManager
-												.errorStreamReader(shellinput);
-										shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-										shellinput[2] = Constants.SYSTEM_IMG;
-										shellinput[3] = "";
-										final Message m6 = new Message();
-										m6.arg1 = 6;
-										handler.sendMessage(m6);
-										ProcessManager.inputStreamReader(
-												shellinput, 20);
-										final Message endmessage = new Message();
-										handler.sendMessage(endmessage);
-										return null;
-									}
-								}
-								new CreateVFSTask().execute();
-							}
-						})
+						onClickListener)
 				.setNegativeButton(mContext.getString(R.string.cancel),
 						new DialogInterface.OnClickListener() {
 							@Override
@@ -331,14 +167,14 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		evsdesc.addTextChangedListener(vsDescWatcher);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
-		spinner.setSelection(iconid);
+		spinner.setSelection(iconId);
 		spinner.setAdapter(adapter);
-		spinner.setSelection(iconid);
+		spinner.setSelection(iconId);
 		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				iconid = arg2;
+				iconId = arg2;
 				memory.setCompoundDrawablesWithIntrinsicBounds(0,
 						MiscMethods.getIconRes(arg2), 0, 0);
 			}
@@ -360,18 +196,18 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		cacheSizePicker.setWrapSelectorWheel(false);
 		cacheSizePicker.setMaxValue(Constants.MAX_IMG_SIZE);
 		cacheSizePicker.setMinValue(Constants.MIN_IMG_SIZE);
-		cacheSizePicker.setValue(CACHE_SIZE / 10);
+		cacheSizePicker.setValue(cacheSize / 10);
 		cacheSizePicker.setDisplayedValues(nums);
 		OnValueChangeListener cacheOnValueChangeListener = new OnValueChangeListener() {
 			@Override
 			public void onValueChange(NumberPicker picker, int oldVal,
 					int newVal) {
-				CACHE_SIZE = newVal * 10;
-				memory.setText(MiscMethods.getTotalSize(CACHE_SIZE, DATA_SIZE,
-						SYSTEM_SIZE) + " MB");
-				memory.setTextColor(MiscMethods.getMemColor(CACHE_SIZE,
-						DATA_SIZE, SYSTEM_SIZE));
-				if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) == Color.RED) {
+				cacheSize = newVal * 10;
+				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
+						systemSize) + " MB");
+				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
+						dataSize, systemSize));
+				if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) == Color.RED) {
 				} else {
 				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
@@ -388,19 +224,19 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		dataSizePicker.setWrapSelectorWheel(false);
 		dataSizePicker.setMaxValue(Constants.MAX_IMG_SIZE);
 		dataSizePicker.setMinValue(Constants.MIN_IMG_SIZE);
-		dataSizePicker.setValue(DATA_SIZE / 10);
+		dataSizePicker.setValue(dataSize / 10);
 		dataSizePicker.setDisplayedValues(nums);
 		OnValueChangeListener dataOnValueChangeListener = new OnValueChangeListener() {
 			@Override
 			public void onValueChange(NumberPicker picker, int oldVal,
 					int newVal) {
-				DATA_SIZE = newVal * 10;
+				dataSize = newVal * 10;
 				// FIXME ugly code
-				memory.setText(MiscMethods.getTotalSize(CACHE_SIZE, DATA_SIZE,
-						SYSTEM_SIZE) + " MB");
-				memory.setTextColor(MiscMethods.getMemColor(CACHE_SIZE,
-						DATA_SIZE, SYSTEM_SIZE));
-				if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) == Color.RED) {
+				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
+						systemSize) + " MB");
+				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
+						dataSize, systemSize));
+				if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) == Color.RED) {
 				} else {
 				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
@@ -408,7 +244,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			}
 		};
 		dataSizePicker.setOnValueChangedListener(dataOnValueChangeListener);
-		
+
 		final NumberPicker systemSizePicker = (NumberPicker) view
 				.findViewById(R.id.system_size_picker);
 		if (systemSizePicker == null) {
@@ -417,18 +253,18 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		systemSizePicker.setWrapSelectorWheel(false);
 		systemSizePicker.setMaxValue(Constants.MAX_IMG_SIZE);
 		systemSizePicker.setMinValue(Constants.MIN_IMG_SIZE);
-		systemSizePicker.setValue(SYSTEM_SIZE / 10);
+		systemSizePicker.setValue(systemSize / 10);
 		systemSizePicker.setDisplayedValues(nums);
 		OnValueChangeListener systemOnValueChangeListener = new OnValueChangeListener() {
 			@Override
 			public void onValueChange(NumberPicker picker, int oldVal,
 					int newVal) {
-				SYSTEM_SIZE = newVal * 10;
-				memory.setText(MiscMethods.getTotalSize(CACHE_SIZE, DATA_SIZE,
-						SYSTEM_SIZE) + " MB");
-				memory.setTextColor(MiscMethods.getMemColor(CACHE_SIZE,
-						DATA_SIZE, SYSTEM_SIZE));
-				if (MiscMethods.getMemColor(CACHE_SIZE, DATA_SIZE, SYSTEM_SIZE) == Color.RED) {
+				systemSize = newVal * 10;
+				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
+						systemSize) + " MB");
+				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
+						dataSize, systemSize));
+				if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) == Color.RED) {
 				} else {
 				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
@@ -436,7 +272,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			}
 		};
 		systemSizePicker.setOnValueChangedListener(systemOnValueChangeListener);
-		
+
 		return dialog;
 	}
 
@@ -446,4 +282,23 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		else
 			return false;
 	}
+
+	private static DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+
+		@Override
+		public void onClick(DialogInterface dialog, int whichButton) {
+			Intent service = new Intent(mContext, VibhinnaService.class);
+			service.putExtra(VibhinnaService.TASK_TYPE,
+					VibhinnaService.TASK_TYPE_NEW_VFS);
+			service.putExtra(VibhinnaService.CACHE_SIZE, cacheSize);
+			service.putExtra(VibhinnaService.DATA_SIZE, dataSize);
+			service.putExtra(VibhinnaService.SYSTEM_SIZE, systemSize);
+			service.putExtra(VibhinnaService.ICON_ID, iconId);
+			service.putExtra(VibhinnaService.FOLDER_PATH,
+					"/mnt/sdcard/multiboot/" + newName);
+			service.putExtra(VibhinnaService.VS_DESC, newvsdesc);
+			// service.putExtra();
+			mContext.startService(service);
+		}
+	};
 }
