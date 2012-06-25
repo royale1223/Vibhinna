@@ -2,7 +2,6 @@ package com.vibhinna.binoy;
 
 import java.io.File;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -109,16 +108,11 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
-
-	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 			ContextMenu.ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		AdapterView.AdapterContextMenuInfo info;
-		PropManager propmanager = new PropManager(this.getActivity()
+		PropManager propmanager = new PropManager(getActivity()
 				.getApplicationContext());
 		try {
 			// Casts the incoming data object into the type for AdapterView
@@ -135,8 +129,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		if (cursor.equals(null) || s1.equals(s2))
 			return;
 		menu.setHeaderTitle(cursor.getString(1));
-		android.view.MenuInflater inflater = this.getActivity()
-				.getMenuInflater();
+		android.view.MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
 
@@ -144,7 +137,6 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	public boolean onContextItemSelected(android.view.MenuItem item) {
 		AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) item
 				.getMenuInfo();
-		// final DataSource datasource = new DataSource(this);
 		final Cursor cursor = (Cursor) getListAdapter().getItem(
 				menuInfo.position);
 		if (cursor == null) {
@@ -153,7 +145,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		}
 		final String vPath = cursor.getString(7);
 		iconid = Integer.parseInt(cursor.getString(4));
-		int _id;
+		final int _id;
 		try {
 			_id = Integer.parseInt(cursor.getString(0));
 		} catch (NumberFormatException e1) {
