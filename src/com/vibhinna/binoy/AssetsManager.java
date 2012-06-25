@@ -28,7 +28,7 @@ public class AssetsManager {
 	 * Copies assets to /data/data/com.vibhinna.binoy/bin and sets permissions
 	 */
 	public void copyAssets() {
-		//FIXME use package name.
+		// FIXME use package name.
 		Toast.makeText(context, "Copying binaries", 2000).show();
 		String[] assetslist = null;
 		try {
