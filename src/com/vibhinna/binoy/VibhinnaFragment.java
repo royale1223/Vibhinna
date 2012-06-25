@@ -172,6 +172,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 									try {
 										MiscMethods.removeDirectory(new File(
 												vPath));
+										VibhinnaFragment.this
+												.getActivity()
+												.getContentResolver()
+												.delete(Uri
+														.parse("content://"
+																+ VibhinnaProvider.AUTHORITY
+																+ "/"
+																+ VibhinnaProvider.VFS_BASE_PATH
+																+ "/" + _id),
+														null, null);
 										restartLoading();
 									} catch (Exception e) {
 										e.printStackTrace();
