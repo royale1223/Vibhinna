@@ -19,7 +19,8 @@ import android.support.v4.app.NotificationCompat;
 public class VibhinnaService extends CustomIntentService {
 
 	public static final String TASK_TYPE = "type";
-	public static final int TASK_TYPE_NEW_VFS = 1;
+	public static final int TASK_TYPE_NEW_VFS = 0;
+	public static final int TASK_TYPE_FORMAT_VFS = 1;
 	public static final String CACHE_SIZE = "cache_size";
 	public static final String DATA_SIZE = "data_size";
 	public static final String SYSTEM_SIZE = "system_size";
@@ -28,6 +29,9 @@ public class VibhinnaService extends CustomIntentService {
 	public static final String ICON_ID = "icon_id";
 	protected static final String TAG = "VibhinnaService";
 	public static final String ACTION_TASK_QUEUE_UPDATED = "com.binoy.vibhinna.action.ACTION_TASK_QUEUE_UPDATED";
+	protected static final String FORMAT_CACHE = "format_cache";
+	protected static final String FORMAT_DATA = "format_data";
+	protected static final String FORMAT_SYSTEM = "format_system";
 
 	private static ContentResolver mResolver;
 
@@ -49,19 +53,16 @@ public class VibhinnaService extends CustomIntentService {
 		mContext = this;
 		notificationMgr = (NotificationManager) mContext
 				.getSystemService(NOTIFICATION_SERVICE);
-		VibinnaTask vibTask = new VibinnaTask(intent);
-		vibTask.executeTask();
+		new ExecuteVibinnaTask(intent);
 	}
 
-	private static class VibinnaTask {
+	private static class ExecuteVibinnaTask {
+
 		private int type;
 		private int status;
 		private int progress;
 
-		AsyncTask<Object[], Void, Void> task;
-		Object[] objects;
-
-		public VibinnaTask(Intent intent) {
+		public ExecuteVibinnaTask(Intent intent) {
 			if (intent.getIntExtra(TASK_TYPE, 0) == TASK_TYPE_NEW_VFS) {
 
 				Object[] obj = new Object[7];
@@ -75,30 +76,18 @@ public class VibhinnaService extends CustomIntentService {
 				obj[4] = intent.getIntExtra(SYSTEM_SIZE, 0);
 				obj[5] = intent.getStringExtra(VS_DESC);
 				obj[6] = intent.getIntExtra(ICON_ID, 0);
-				task = new CreateVFSTask();
-				objects = obj;
-				// task.execute(obj);
-			} else
-				return;
-		}
+				new CreateVFSTask().execute(obj);
+			} else if (intent.getIntExtra(TASK_TYPE, 0) == TASK_TYPE_FORMAT_VFS) {
+				Object[] obj = new Object[5];
+				obj[0] = intent.getLongExtra(TasksProvider._ID, -1);
 
-		@SuppressWarnings("unused")
-		public int getStatus() {
-			return status;
-		}
-
-		@SuppressWarnings("unused")
-		public int getProgress() {
-			return progress;
-		}
-
-		@SuppressWarnings("unused")
-		public int getType() {
-			return type;
-		}
-
-		public void executeTask() {
-			task.execute(objects);
+				obj[1] = intent.getStringExtra(FOLDER_PATH);
+				obj[2] = intent.getBooleanExtra(FORMAT_CACHE, false);
+				obj[3] = intent.getBooleanExtra(FORMAT_DATA, false);
+				obj[4] = intent.getBooleanExtra(FORMAT_SYSTEM, false);
+				new FormatVFSTask().execute(obj);
+			}
+			return;
 		}
 
 		class CreateVFSTask extends AsyncTask<Object[], Void, Void> {
@@ -250,9 +239,109 @@ public class VibhinnaService extends CustomIntentService {
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
 						values, null, null);
 
-				final Message endmessage = new Message();
-				endmessage.obj = new File(folderPath).getName();
-				handler.sendMessage(endmessage);
+				final Message endMessage = new Message();
+				endMessage.arg1 = 7;
+				endMessage.obj = new File(folderPath).getName();
+				handler.sendMessage(endMessage);
+				return null;
+			}
+		}
+
+		class FormatVFSTask extends AsyncTask<Object[], Void, Void> {
+
+			@Override
+			protected Void doInBackground(Object[]... objs) {
+				// TODO Auto-generated method stub
+				String _id = (Long) objs[0][0] + "";
+				String mPath = (String) objs[0][1];
+				boolean cacheCheckBool = (Boolean) objs[0][2];
+				boolean dataCheckBool = (Boolean) objs[0][3];
+				boolean systemCheckBool = (Boolean) objs[0][4];
+				int maxOp = 1;
+				if (cacheCheckBool)
+					maxOp++;
+				if (dataCheckBool)
+					maxOp++;
+				if (systemCheckBool)
+					maxOp++;
+
+				int progress = 0;
+
+				String vsName = new File(mPath).getName();
+
+				ContentValues values = new ContentValues();
+				values.put(DatabaseHelper.TASK_STATUS,
+						TasksAdapter.TASK_STATUS_RUNNING);
+				mResolver.update(
+						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
+						values, null, null);
+
+				String[] shellinput = { Constants.EMPTY, Constants.EMPTY,
+						Constants.EMPTY, Constants.EMPTY, Constants.EMPTY };
+				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+				shellinput[1] = mPath;
+				final Message m0 = new Message();
+				final Message m1 = new Message();
+				final Message m2 = new Message();
+				final Message endMessage = new Message();
+				m0.arg1 = 8;
+				m1.arg1 = 9;
+				m2.arg1 = 10;
+				endMessage.arg1 = 11;
+				if (cacheCheckBool) {
+					values.put(DatabaseHelper.TASK_MESSAGE,
+							mContext.getString(R.string.formating) + vsName
+									+ mContext.getString(R.string.cachext3));
+					progress = progress + 100;
+					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+					mResolver
+							.update(Uri.withAppendedPath(
+									TasksProvider.CONTENT_URI, _id), values,
+									null, null);
+					handler.sendMessage(m0);
+					shellinput[2] = Constants.CACHE_IMG;
+					ProcessManager.inputStreamReader(shellinput, 20);
+				}
+				if (dataCheckBool) {
+					values.put(DatabaseHelper.TASK_MESSAGE,
+							mContext.getString(R.string.formating) + vsName
+									+ mContext.getString(R.string.dataext3));
+					progress = progress + 100;
+					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+					mResolver
+							.update(Uri.withAppendedPath(
+									TasksProvider.CONTENT_URI, _id), values,
+									null, null);
+					handler.sendMessage(m1);
+					shellinput[2] = Constants.DATA_IMG;
+					ProcessManager.inputStreamReader(shellinput, 20);
+					dataCheckBool = false;
+				}
+				if (systemCheckBool) {
+					values.put(DatabaseHelper.TASK_MESSAGE,
+							mContext.getString(R.string.formating) + vsName
+									+ mContext.getString(R.string.systemext3));
+					progress = progress + 100;
+					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+					mResolver
+							.update(Uri.withAppendedPath(
+									TasksProvider.CONTENT_URI, _id), values,
+									null, null);
+					handler.sendMessage(m2);
+					shellinput[2] = Constants.SYSTEM_IMG;
+					ProcessManager.inputStreamReader(shellinput, 20);
+					systemCheckBool = false;
+				}
+				values.put(DatabaseHelper.TASK_MESSAGE, "Formatting of "
+						+ vsName + " completed.");
+				progress = progress + 100;
+				values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+				values.put(DatabaseHelper.TASK_STATUS,
+						TasksAdapter.TASK_STATUS_FINISHED);
+				mResolver.update(
+						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
+						values, null, null);
+				handler.sendMessage(endMessage);
 				return null;
 			}
 		}
@@ -303,12 +392,32 @@ public class VibhinnaService extends CustomIntentService {
 						false);
 				return;
 			}
-			default: {
+			case 7:
 				// mVibFragment.restartLoading();
 				displayNotificationMessage("Creation of " + vsName
 						+ " completed.", true);
 				return;
-			}
+			case 8:
+				displayNotificationMessage(
+						mContext.getString(R.string.formating) + vsName
+								+ mContext.getString(R.string.cachext3), false);
+				return;
+			case 9:
+				displayNotificationMessage(
+						mContext.getString(R.string.formating) + vsName
+								+ mContext.getString(R.string.dataext3), false);
+				return;
+			case 10:
+				displayNotificationMessage(
+						mContext.getString(R.string.formating) + vsName
+								+ mContext.getString(R.string.systemext3),
+						false);
+				return;
+			case 11:
+				displayNotificationMessage("Formatting of " + vsName
+						+ " completed.", false);
+				return;
+
 			}
 		}
 	};
@@ -337,5 +446,4 @@ public class VibhinnaService extends CustomIntentService {
 		Notification notification = builder.getNotification();
 		notificationMgr.notify(0, notification);
 	}
-
 }

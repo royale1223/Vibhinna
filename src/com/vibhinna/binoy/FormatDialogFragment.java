@@ -2,15 +2,12 @@ package com.vibhinna.binoy;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,97 +59,7 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 				.setTitle(mContext.getString(R.string.format) + mName + "?")
 				.setView(formatView)
 				.setPositiveButton(mContext.getString(R.string.okay),
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								final ProgressDialog processdialog = ProgressDialog
-										.show(mContext, Constants.EMPTY,
-												Constants.EMPTY, true);
-								final Handler handler = new Handler() {
-
-									@Override
-									public void handleMessage(Message msg) {
-										switch (msg.arg1) {
-										case 0:
-											processdialog.setMessage(mContext
-													.getString(R.string.formating)
-													+ mPath
-													+ mContext
-															.getString(R.string.cachext3));
-											break;
-										case 1:
-											processdialog.setMessage(mContext
-													.getString(R.string.formating)
-													+ mPath
-													+ mContext
-															.getString(R.string.dataext3));
-											break;
-										case 2:
-											processdialog.setMessage(mContext
-													.getString(R.string.formating)
-													+ mPath
-													+ mContext
-															.getString(R.string.systemext3));
-											break;
-										case 3:
-											processdialog.dismiss();
-											break;
-										}
-									}
-								};
-
-								class FormatVFSTask extends
-										AsyncTask<Void, Void, Void> {
-
-									@Override
-									protected Void doInBackground(
-											Void... params) {
-										String[] shellinput = {
-												Constants.EMPTY,
-												Constants.EMPTY,
-												Constants.EMPTY,
-												Constants.EMPTY,
-												Constants.EMPTY };
-										shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-										shellinput[1] = mPath;
-										final Message m0 = new Message();
-										final Message m1 = new Message();
-										final Message m2 = new Message();
-										final Message endmessage = new Message();
-										m0.arg1 = 0;
-										m1.arg1 = 1;
-										m2.arg1 = 2;
-										endmessage.arg1 = 3;
-										if (cacheCheckBool) {
-											handler.sendMessage(m0);
-											shellinput[2] = Constants.CACHE_IMG;
-											ProcessManager.inputStreamReader(
-													shellinput, 20);
-											cacheCheckBool = false;
-										}
-										if (dataCheckBool) {
-											handler.sendMessage(m1);
-											shellinput[2] = Constants.DATA_IMG;
-											ProcessManager.inputStreamReader(
-													shellinput, 20);
-											dataCheckBool = false;
-										}
-										if (systemCheckBool) {
-											handler.sendMessage(m2);
-											shellinput[2] = Constants.SYSTEM_IMG;
-											ProcessManager.inputStreamReader(
-													shellinput, 20);
-											systemCheckBool = false;
-										}
-										handler.sendMessage(endmessage);
-										return null;
-									}
-								}
-								new FormatVFSTask().execute();
-							}
-						})
+						onClickListener)
 				.setNeutralButton(mContext.getString(R.string.cancel),
 						new DialogInterface.OnClickListener() {
 							@Override
@@ -195,4 +102,22 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 		});
 		return dialog;
 	}
+
+	private DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+
+		@Override
+		public void onClick(DialogInterface dialog, int whichButton) {
+			Intent service = new Intent(mContext, VibhinnaService.class);
+			service.putExtra(VibhinnaService.TASK_TYPE,
+					VibhinnaService.TASK_TYPE_FORMAT_VFS);
+			service.putExtra(VibhinnaService.FORMAT_CACHE, cacheCheckBool);
+			service.putExtra(VibhinnaService.FORMAT_DATA, dataCheckBool);
+			service.putExtra(VibhinnaService.FORMAT_SYSTEM, systemCheckBool);
+			service.putExtra(VibhinnaService.FOLDER_PATH, mPath);
+			mContext.startService(service);
+			cacheCheckBool = false;
+			dataCheckBool = false;
+			systemCheckBool = false;
+		}
+	};
 }
