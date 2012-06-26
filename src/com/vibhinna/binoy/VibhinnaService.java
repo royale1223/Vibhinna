@@ -58,10 +58,6 @@ public class VibhinnaService extends CustomIntentService {
 
 	private static class ExecuteVibinnaTask {
 
-		private int type;
-		private int status;
-		private int progress;
-
 		public ExecuteVibinnaTask(Intent intent) {
 			if (intent.getIntExtra(TASK_TYPE, 0) == TASK_TYPE_NEW_VFS) {
 
@@ -288,6 +284,10 @@ public class VibhinnaService extends CustomIntentService {
 				m1.arg1 = 9;
 				m2.arg1 = 10;
 				endMessage.arg1 = 11;
+				m0.obj = vsName;
+				m1.obj = vsName;
+				m2.obj = vsName;
+				endMessage.obj = vsName;
 				if (cacheCheckBool) {
 					values.put(DatabaseHelper.TASK_MESSAGE,
 							mContext.getString(R.string.formating) + vsName
@@ -415,7 +415,7 @@ public class VibhinnaService extends CustomIntentService {
 				return;
 			case 11:
 				displayNotificationMessage("Formatting of " + vsName
-						+ " completed.", false);
+						+ " completed.", true);
 				return;
 
 			}
