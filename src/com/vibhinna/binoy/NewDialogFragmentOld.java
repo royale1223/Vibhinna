@@ -87,8 +87,12 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 		if (mContext == null) {
 			Log.d(TAG, "context is null");
 		}
-		final AlertDialog dialog = new HoloAlertDialogBuilder(context)
-				.setTitle(context.getString(R.string.createvfs))
+		AlertDialog.Builder builder;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+			builder = new AlertDialog.Builder(mContext);
+		else
+			builder = new HoloAlertDialogBuilder(mContext);
+		final AlertDialog dialog = builder.setTitle(mContext.getString(R.string.createvfs))
 				.setView(view)
 				.setPositiveButton(mContext.getString(R.string.okay),
 						onClickListener).setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {

@@ -284,13 +284,14 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 * @param vibhinnaFragment
 	 */
 	private void showNewVFSDialog(VibhinnaFragment vibhinnaFragment) {
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			NewDialogFragment.newInstance(vibhinnaFragment).show(
-					getFragmentManager(), "new_dialog");
-		} else {
-			NewDialogFragmentOld.newInstance(vibhinnaFragment).show(
-					getFragmentManager(), "new_dialog");
-		}
+		// if (android.os.Build.VERSION.SDK_INT >=
+		// android.os.Build.VERSION_CODES.HONEYCOMB) {
+		// NewDialogFragment.newInstance(vibhinnaFragment).show(
+		// getFragmentManager(), "new_dialog");
+		// } else {
+		NewDialogFragmentOld.newInstance(vibhinnaFragment).show(
+				getFragmentManager(), "new_dialog");
+		// }
 	}
 
 	private void showFormatDialog(VibhinnaFragment vibhinnaFragment, long id) {
