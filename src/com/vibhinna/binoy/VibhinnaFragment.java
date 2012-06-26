@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v4.app.DialogFragment;
@@ -207,7 +208,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.options_menu, menu);
+		inflater.inflate(R.menu.main_options_menu, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 		Intent prefsIntent = new Intent(getActivity().getApplicationContext(),
 				Preferences.class);
@@ -219,11 +220,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_refresh:
-			restartLoading();
-			return true;
 		case R.id.menu_new:
-			showNewVFSDialog(this);
+			showNewVFSDialog();
 			return true;
 		case R.id.menu_settings:
 			// getActivity().startActivity(item.getIntent());
@@ -231,10 +229,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 					Toast.LENGTH_SHORT);
 			return true;
 		case R.id.menu_scan:
-			resolver.query(
-					Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
-							+ VibhinnaProvider.VFS_BASE_PATH + "/scan"), null,
-					null, null, null);
+			scanVFS();
 			restartLoading();
 			return true;
 		case R.id.menu_backup:
@@ -267,6 +262,21 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		}
 	}
 
+	private void scanVFS() {
+		class scanTask extends AsyncTask <Void,Void,Void> {
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				resolver.query(
+						Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
+								+ VibhinnaProvider.VFS_BASE_PATH + "/scan"), null,
+						null, null, null);
+				return null;
+			}}
+		new scanTask().execute();
+		
+	}
+
 	/**
 	 * Shows the Details Dialog, which gives all info about a VFS.
 	 * 
@@ -283,14 +293,15 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 * 
 	 * @param vibhinnaFragment
 	 */
-	private void showNewVFSDialog(VibhinnaFragment vibhinnaFragment) {
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-			NewDialogFragment.newInstance(vibhinnaFragment).show(
-					getFragmentManager(), "new_dialog");
-		} else {
-			NewDialogFragmentOld.newInstance(vibhinnaFragment).show(
-					getFragmentManager(), "new_dialog");
-		}
+	private void showNewVFSDialog() {
+		// if (android.os.Build.VERSION.SDK_INT >=
+		// android.os.Build.VERSION_CODES.HONEYCOMB) {
+		// NewDialogFragment.newInstance(vibhinnaFragment).show(
+		// getFragmentManager(), "new_dialog");
+		// } else {
+		NewDialogFragmentOld.newInstance(getSherlockActivity()).show(
+				getFragmentManager(), "new_dialog");
+		// }
 	}
 
 	private void showFormatDialog(VibhinnaFragment vibhinnaFragment, long id) {

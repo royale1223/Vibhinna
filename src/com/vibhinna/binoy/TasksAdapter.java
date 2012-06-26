@@ -51,6 +51,8 @@ public class TasksAdapter extends SimpleCursorAdapter {
 					.findViewById(R.id.task_queue_row_image);
 			holder.progress = (ProgressBar) convertView
 					.findViewById(R.id.task_queue_row_progess);
+			holder.percent = (TextView) convertView
+					.findViewById(R.id.task_queue_row_percent);
 			convertView.setTag(holder);
 		} else {
 			// Get the ViewHolder back to get fast access to the TextView and
@@ -87,6 +89,8 @@ public class TasksAdapter extends SimpleCursorAdapter {
 			holder.progress.setIndeterminate(false);
 			holder.progress.setProgress(mCursor.getInt(mCursor
 					.getColumnIndex(DatabaseHelper.TASK_PROGRESS)));
+			holder.percent.setText(mCursor.getInt(mCursor
+					.getColumnIndex(DatabaseHelper.TASK_PROGRESS)) + "%");
 			holder.icon.setImageResource(R.drawable.ic_task_running);
 			break;
 		case TASK_STATUS_WAITING:
@@ -96,6 +100,7 @@ public class TasksAdapter extends SimpleCursorAdapter {
 		case TASK_STATUS_FINISHED:
 			holder.progress.setIndeterminate(false);
 			holder.progress.setProgress(holder.progress.getMax());
+			holder.percent.setText(holder.progress.getMax() + "%");
 			holder.icon.setImageResource(R.drawable.ic_task_done);
 			break;
 		default:
@@ -111,5 +116,7 @@ public class TasksAdapter extends SimpleCursorAdapter {
 		TextView title;
 		TextView message;
 		ProgressBar progress;
+		TextView percent;
+
 	}
 }

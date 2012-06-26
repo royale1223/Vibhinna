@@ -1,8 +1,11 @@
 package com.vibhinna.binoy;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
@@ -14,6 +17,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 
 public class TasksQueueFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -28,7 +34,8 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setRetainInstance(true);
-
+		setHasOptionsMenu(true);
+		this.setEmptyText("No tasks are available");
 		mLocalBroadcastManager = LocalBroadcastManager
 				.getInstance(getSherlockActivity());
 		mBroadcastReceiver = new BroadcastReceiver() {
@@ -79,7 +86,8 @@ public class TasksQueueFragment extends SherlockListFragment implements
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		adapter = new TasksAdapter(getActivity(), R.layout.main_row, null,
-				new String[] {}, new int[] {}, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+				new String[] {}, new int[] {},
+				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
 
@@ -89,5 +97,72 @@ public class TasksQueueFragment extends SherlockListFragment implements
 		IntentFilter filter = new IntentFilter();
 		filter.addAction(VibhinnaService.ACTION_TASK_QUEUE_UPDATED);
 		mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, filter);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.tasks_options_menu, menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_clear:
+			clearFinishedTasks();
+			restartLoading();
+			return true;
+		case R.id.menu_new:
+			showNewVFSDialog();
+			return true;
+		}
+		return false;
+	}
+
+	private void clearFinishedTasks() {
+		AlertDialog.Builder builder;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+			builder = new AlertDialog.Builder(getActivity());
+		else
+			builder = new HoloAlertDialogBuilder(getActivity());
+		builder.setTitle("Clear tasks")
+				.setMessage("Do you want to clear all completed tasks?")
+				.setPositiveButton(R.string.okay, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						mResolver
+								.delete(TasksProvider.CONTENT_URI,
+										DatabaseHelper.TASK_STATUS + " IS ?",
+										new String[] { TasksAdapter.TASK_STATUS_FINISHED
+												+ "" });
+
+					}
+				}).setNegativeButton(R.string.cancel, new OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// Cancelled
+
+					}
+				}).create().show();
+		restartLoading();
+
+	}
+
+	/**
+	 * Shows New VFS dialog according to API, which will create a new VFS
+	 * 
+	 * @param vibhinnaFragment
+	 */
+	private void showNewVFSDialog() {
+		// if (android.os.Build.VERSION.SDK_INT >=
+		// android.os.Build.VERSION_CODES.HONEYCOMB) {
+		// NewDialogFragment.newInstance(vibhinnaFragment).show(
+		// getFragmentManager(), "new_dialog");
+		// } else {
+		NewDialogFragmentOld.newInstance(getSherlockActivity()).show(
+				getFragmentManager(), "new_dialog");
+		// }
 	}
 }

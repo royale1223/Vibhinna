@@ -28,7 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
         android:layout_marginLeft="90dp"
-        android:textSize="12dp" />
+        android:maxLines="1"
+        android:textSize="12dp"
+        android:ellipsize="marquee" />
 
     <TextView
         android:id="@+id/status"
@@ -36,7 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/desc"
         android:layout_marginLeft="90dp"
-        android:textSize="11dp" />
+        android:textSize="11dp"
+        android:ellipsize="marquee" />
 
     <TextView
         android:id="@+id/path"

@@ -1,47 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/task_queue_row_image"
+        android:layout_width="48.0dp"
+        android:layout_height="48.0dp"
+        android:layout_marginLeft="8.0dp"
+        android:layout_marginTop="4.0dp"
+        android:contentDescription="@string/task_queue_row_image_content"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_task_wait" />
+
+    <TextView
+        android:id="@+id/task_queue_row_percent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_task_wait"
-        android:contentDescription="@string/task_queue_row_image_content" />
+        android:layout_above="@+id/task_queue_row_message"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/task_queue_row_image"
+        android:layout_marginRight="8.0dp"
+        android:paddingTop="1.0dp"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/content_primary_size"
+        android:textStyle="bold" />
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
+        android:id="@+id/task_queue_row_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/task_queue_row_image"
+        android:layout_marginLeft="8.0dp"
+        android:layout_marginRight="8.0dp"
+        android:layout_marginTop="1.0dp"
+        android:layout_toLeftOf="@id/task_queue_row_percent"
+        android:layout_toRightOf="@id/task_queue_row_image"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/content_primary_size"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/task_queue_row_message"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:paddingTop="10dp" >
+        android:layout_height="wrap_content"
+        android:layout_below="@id/task_queue_row_title"
+        android:layout_marginLeft="8.0dp"
+        android:layout_marginRight="8.0dp"
+        android:layout_marginTop="-2.0dp"
+        android:layout_toRightOf="@id/task_queue_row_image"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/content_secondary_size" />
 
-        <TextView
-            android:id="@+id/task_queue_row_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#4B8A08"
-            android:textSize="16dp" />
+    <ProgressBar
+        android:id="@+id/task_queue_row_progess"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0.0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/task_queue_row_message"
+        android:layout_marginBottom="4.0dp"
+        android:layout_marginLeft="8.0dp"
+        android:layout_marginRight="8.0dp"
+        android:layout_marginTop="2.0dp"
+        android:layout_toRightOf="@id/task_queue_row_image"
+        android:gravity="center_vertical"
+        android:max="100" />
 
-        <ProgressBar
-            android:id="@+id/task_queue_row_progess"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:max="100"
-            android:minWidth="320dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
-        <TextView
-            android:id="@+id/task_queue_row_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:textColor="#0080FF"
-            android:textSize="12dp" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

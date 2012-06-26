@@ -28,7 +28,6 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 
 	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
 	private static Context mContext;
-	private static VibhinnaFragment mVibhinnaFragment;
 	private int iconId;
 	private int cacheSize;
 	private int dataSize;
@@ -50,13 +49,11 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 	/**
 	 * creates a new instance of NewDialogFragmentOld
 	 * 
-	 * @param vibhinnaFragment
+	 * @param lsitFragment
 	 */
-	static NewDialogFragmentOld newInstance(VibhinnaFragment vibhinnaFragment) {
+	static NewDialogFragmentOld newInstance(Context  context) {
 		NewDialogFragmentOld fragment = new NewDialogFragmentOld();
-		mVibhinnaFragment = vibhinnaFragment;
-		mContext = mVibhinnaFragment.getSherlockActivity();
-		mContext.getContentResolver();
+		mContext = context;
 		return fragment;
 	}
 
@@ -87,11 +84,18 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 		if (mContext == null) {
 			Log.d(TAG, "context is null");
 		}
-		final AlertDialog dialog = new HoloAlertDialogBuilder(mContext)
+		AlertDialog.Builder builder;
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
+			builder = new AlertDialog.Builder(mContext);
+		else
+			builder = new HoloAlertDialogBuilder(mContext);
+		final AlertDialog dialog = builder
 				.setTitle(mContext.getString(R.string.createvfs))
 				.setView(view)
 				.setPositiveButton(mContext.getString(R.string.okay),
-						onClickListener).setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+						onClickListener)
+				.setNegativeButton(mContext.getString(R.string.cancel),
+						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
@@ -122,6 +126,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 		cacheSizePicker.setText(cacheSize + "");
 		dataSizePicker.setText(dataSize + "");
 		systemSizePicker.setText(systemSize + "");
+		
 		// set up spinner
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				mContext, R.array.icon_array,

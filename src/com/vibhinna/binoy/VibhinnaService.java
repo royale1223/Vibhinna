@@ -231,7 +231,7 @@ public class VibhinnaService extends CustomIntentService {
 						TasksAdapter.TASK_STATUS_FINISHED);
 				values.put(DatabaseHelper.TASK_MESSAGE, "Creation of " + vsName
 						+ " completed.");
-				values.put(DatabaseHelper.TASK_PROGRESS, 7 * 100 / 7);
+				values.put(DatabaseHelper.TASK_PROGRESS, 100);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
 						values, null, null);
@@ -337,7 +337,7 @@ public class VibhinnaService extends CustomIntentService {
 				values.put(DatabaseHelper.TASK_MESSAGE, "Formatting of "
 						+ vsName + " completed.");
 				progress = progress + 100;
-				values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+				values.put(DatabaseHelper.TASK_PROGRESS, 100);
 				values.put(DatabaseHelper.TASK_STATUS,
 						TasksAdapter.TASK_STATUS_FINISHED);
 				mResolver.update(
