@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:padding="10dp" >
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/vsname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/icon_and_memory"
+                android:hint="@string/entername"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/vsdesc"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vsname"
+                android:layout_toLeftOf="@+id/icon_and_memory"
+                android:hint="@string/shrtdesc"
+                android:inputType="text" />
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vsdesc"
+                android:layout_toLeftOf="@+id/icon_and_memory"
+                android:prompt="@string/icon_prompt" />
+
+            <TextView
+                android:id="@+id/icon_and_memory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center_horizontal"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <TableLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:stretchColumns="*" >
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0"
+                    android:gravity="center_horizontal"
+                    android:text="@string/cache"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/data"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/system"
+                    android:textSize="16dp" />
+            </TableRow>
+
+            <TableRow>
+
+                <NumberPicker
+                    android:id="@+id/cache_size_picker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="0" />
+
+                <NumberPicker
+                    android:id="@+id/data_size_picker"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+                <NumberPicker
+                    android:id="@+id/system_size_picker"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</ScrollView>
