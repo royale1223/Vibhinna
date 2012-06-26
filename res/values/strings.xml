@@ -223,7 +223,7 @@ Web Site: http://www.ubuntumaster.tk/
     <string name="menu_restore">Restore</string>
     <string name="menu_scan">Scan</string>
     <string name="task_message_waiting">Waiting for the previous task to finish.</string>
-    <string name="task_queue_row_image_content">image content</string>
+    <string name="image_content">image content</string>
     <string name="menu_clear">Clear</string>
 
 </resources>
