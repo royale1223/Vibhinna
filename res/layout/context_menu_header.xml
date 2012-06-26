@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/context_menu_header"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dip"
+    android:layout_marginRight="8dip"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/titleDividerTop"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/holo_blue_light"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/title_template"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dip"
+        android:layout_marginRight="16dip"
+        android:gravity="center_vertical|left"
+        android:minHeight="64dip"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="8dip"
+            android:contentDescription="@string/image_content"
+            android:src="@null" />
+
+        <com.android.internal.widget.DialogTitle
+            android:id="@+id/context_menu_title"
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/holo_blue_light" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/titleDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/holo_blue_light" />
+
+</LinearLayout>

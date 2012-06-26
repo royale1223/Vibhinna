@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,10 +19,13 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -129,7 +133,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		String s2 = cursor.getString(7);
 		if (cursor.equals(null) || s1.equals(s2))
 			return;
-		menu.setHeaderTitle(cursor.getString(1));
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+			LayoutInflater headerInflater = (LayoutInflater) getSherlockActivity()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			ViewGroup header = (ViewGroup) headerInflater.inflate(
+					R.layout.context_menu_header, null);
+			TextView title = (TextView) header
+					.findViewById(R.id.context_menu_title);
+			title.setText(cursor.getString(1));
+			menu.setHeaderView(header);
+		}
 		android.view.MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
@@ -263,18 +276,19 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	}
 
 	private void scanVFS() {
-		class scanTask extends AsyncTask <Void,Void,Void> {
+		class scanTask extends AsyncTask<Void, Void, Void> {
 
 			@Override
 			protected Void doInBackground(Void... params) {
 				resolver.query(
-						Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
-								+ VibhinnaProvider.VFS_BASE_PATH + "/scan"), null,
-						null, null, null);
+						Uri.parse("content://" + VibhinnaProvider.AUTHORITY
+								+ "/" + VibhinnaProvider.VFS_BASE_PATH
+								+ "/scan"), null, null, null, null);
 				return null;
-			}}
+			}
+		}
 		new scanTask().execute();
-		
+
 	}
 
 	/**
