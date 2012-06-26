@@ -147,12 +147,19 @@ public abstract class CustomIntentService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		ContentValues values = new ContentValues();
-		values.put(
-				DatabaseHelper.TASK_VS,
-				MiscMethods.avoidDuplicateFile(
-						new File(intent
-								.getStringExtra(VibhinnaService.FOLDER_PATH)))
-						.getName());
+		if (intent.getIntExtra(VibhinnaService.TASK_TYPE, -1) == VibhinnaService.TASK_TYPE_NEW_VFS)
+			values.put(
+					DatabaseHelper.TASK_VS,
+					MiscMethods
+							.avoidDuplicateFile(
+									new File(
+											intent.getStringExtra(VibhinnaService.FOLDER_PATH)))
+							.getName());
+		else
+			values.put(
+					DatabaseHelper.TASK_VS,
+					new File(intent.getStringExtra(VibhinnaService.FOLDER_PATH))
+							.getName());
 		values.put(DatabaseHelper.TASK_TYPE,
 				intent.getIntExtra(VibhinnaService.TASK_TYPE, -1));
 		values.put(DatabaseHelper.TASK_STATUS, TasksAdapter.TASK_STATUS_WAITING);

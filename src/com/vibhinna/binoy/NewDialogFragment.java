@@ -283,7 +283,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			return false;
 	}
 
-	private static DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
+	private DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
 
 		@Override
 		public void onClick(DialogInterface dialog, int whichButton) {

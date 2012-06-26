@@ -28,10 +28,10 @@ public class Constants {
 	public static final String BINARY_PATH = "/data/data/com.vibhinna.binoy/bin";
 	public static final File BINARY_FOLDER = new File(BINARY_PATH);
 	public static final int CACHE_SIZE = 10;
-	public static final int DATA_SIZE = 200;
+	public static final int DATA_SIZE = 20;
+	public static final int SYSTEM_SIZE = 30;
 	public static final int MAX_IMG_SIZE = 100;
 	public static final int MIN_IMG_SIZE = 1;
-	public static final int SYSTEM_SIZE = 350;
 	public static final String[] allColumns = { BaseColumns._ID,
 			DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
 			DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,

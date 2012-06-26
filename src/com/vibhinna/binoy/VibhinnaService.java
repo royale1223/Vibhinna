@@ -19,7 +19,8 @@ import android.support.v4.app.NotificationCompat;
 public class VibhinnaService extends CustomIntentService {
 
 	public static final String TASK_TYPE = "type";
-	public static final int TASK_TYPE_NEW_VFS = 1;
+	public static final int TASK_TYPE_NEW_VFS = 0;
+	public static final int TASK_TYPE_FORMAT_VFS = 1;
 	public static final String CACHE_SIZE = "cache_size";
 	public static final String DATA_SIZE = "data_size";
 	public static final String SYSTEM_SIZE = "system_size";
@@ -28,7 +29,9 @@ public class VibhinnaService extends CustomIntentService {
 	public static final String ICON_ID = "icon_id";
 	protected static final String TAG = "VibhinnaService";
 	public static final String ACTION_TASK_QUEUE_UPDATED = "com.binoy.vibhinna.action.ACTION_TASK_QUEUE_UPDATED";
-
+	protected static final String FORMAT_CACHE = "format_cache";
+	protected static final String FORMAT_DATA = "format_data";
+	protected static final String FORMAT_SYSTEM = "format_system";
 	private static ContentResolver mResolver;
 
 	private static Context mContext;
@@ -49,87 +52,57 @@ public class VibhinnaService extends CustomIntentService {
 		mContext = this;
 		notificationMgr = (NotificationManager) mContext
 				.getSystemService(NOTIFICATION_SERVICE);
-		VibinnaTask vibTask = new VibinnaTask(intent);
-		vibTask.executeTask();
+
+		new ExecuteVibinnaTask(intent);
 	}
 
-	private static class VibinnaTask {
-		private static final String START_ID = "start_id";
-		private int type;
-		private int status;
-		private int progress;
+	private static class ExecuteVibinnaTask {
 
-		AsyncTask<Object[], Void, Void> task;
-		Object[] objects;
-
-		public VibinnaTask(Intent intent) {
+		public ExecuteVibinnaTask(Intent intent) {
 			if (intent.getIntExtra(TASK_TYPE, 0) == TASK_TYPE_NEW_VFS) {
 
-				Object[] obj = new Object[9];
+				Object[] obj = new Object[7];
 
-				obj[0] = intent.getIntExtra(CACHE_SIZE, 0);
-				obj[1] = intent.getIntExtra(DATA_SIZE, 0);
-				obj[2] = intent.getIntExtra(SYSTEM_SIZE, 0);
+				obj[0] = intent.getLongExtra(TasksProvider._ID, -1);
 
-				obj[3] = intent.getStringExtra(FOLDER_PATH);
-				obj[4] = intent.getStringExtra(VS_DESC);
-				obj[5] = intent.getIntExtra(ICON_ID, 0);
-				obj[6] = intent.getIntExtra(START_ID, 0);
-				obj[7] = intent.getLongExtra(TasksProvider._ID, -1);
-				task = new CreateVFSTask();
-				objects = obj;
-				// task.execute(obj);
+				obj[1] = intent.getStringExtra(FOLDER_PATH);
+
+				obj[2] = intent.getIntExtra(CACHE_SIZE, 0);
+				obj[3] = intent.getIntExtra(DATA_SIZE, 0);
+				obj[4] = intent.getIntExtra(SYSTEM_SIZE, 0);
+				obj[5] = intent.getStringExtra(VS_DESC);
+				obj[6] = intent.getIntExtra(ICON_ID, 0);
+				new CreateVFSTask().execute(obj);
+			} else if (intent.getIntExtra(TASK_TYPE, 0) == TASK_TYPE_FORMAT_VFS) {
+				Object[] obj = new Object[5];
+				obj[0] = intent.getLongExtra(TasksProvider._ID, -1);
+
+				obj[1] = intent.getStringExtra(FOLDER_PATH);
+				obj[2] = intent.getBooleanExtra(FORMAT_CACHE, false);
+				obj[3] = intent.getBooleanExtra(FORMAT_DATA, false);
+				obj[4] = intent.getBooleanExtra(FORMAT_SYSTEM, false);
+				new FormatVFSTask().execute(obj);
 			}
-		}
-
-		@SuppressWarnings("unused")
-		public int getStatus() {
-			return status;
-		}
-
-		@SuppressWarnings("unused")
-		public int getProgress() {
-			return progress;
-		}
-
-		@SuppressWarnings("unused")
-		public int getType() {
-			return type;
-		}
-
-		public void executeTask() {
-			task.execute(objects);
+			return;
 		}
 
 		class CreateVFSTask extends AsyncTask<Object[], Void, Void> {
 			protected Void doInBackground(Object[]... objs) {
 
-				int cacheSize = (Integer) objs[0][0];
-				int dataSize = (Integer) objs[0][1];
-				int systemSize = (Integer) objs[0][2];
 
+				String _id = (Long) objs[0][0] + "";
 				String folderPath = MiscMethods.avoidDuplicateFile(
-						new File((String) objs[0][3])).getPath();
-				String vsDesc = (String) objs[0][4];
-				int iconId = (Integer) objs[0][5];
-				String _id = (Long) objs[0][7] + "";
+						new File((String) objs[0][1])).getPath();
+				String cachesize = (Integer) objs[0][2] + "";
+				String datasize = (Integer) objs[0][3] + "";
+				String systemsize = (Integer) objs[0][4] + "";
+				String vsDesc = (String) objs[0][5];
+				int iconId = (Integer) objs[0][6];
 
-				File newFolder = new File(folderPath);
-				String vsName = newFolder.getName();
-				newFolder.mkdir();
-
-				String cachesize = cacheSize + "";
-				String datasize = dataSize + "";
-				String systemsize = systemSize + "";
-				String[] shellinput = { "", "", "", "", "" };
-				shellinput[1] = folderPath;
-				shellinput[0] = Constants.CMD_DD;
-				shellinput[2] = "/cache.img bs=1000000 count=";
-				shellinput[3] = cachesize;
-				final Message m1 = new Message();
+				String vsName = new File(folderPath).getName();
 
 				ContentValues values = new ContentValues();
-				values.put(DatabaseHelper.TASK_VS, newFolder.getName());
+				values.put(DatabaseHelper.TASK_VS, vsName);
 				values.put(DatabaseHelper.TASK_TYPE, TASK_TYPE_NEW_VFS);
 				values.put(DatabaseHelper.TASK_STATUS,
 						TasksAdapter.TASK_STATUS_RUNNING);
@@ -141,14 +114,18 @@ public class VibhinnaService extends CustomIntentService {
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
 						values, null, null);
 
+				final Message m1 = new Message();
 				m1.arg1 = 1;
 				m1.obj = new File(folderPath).getName();
 				handler.sendMessage(m1);
-				ProcessManager.errorStreamReader(shellinput);
-				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-				shellinput[2] = Constants.CACHE_IMG;
-				shellinput[3] = "";
 
+				new File(folderPath).mkdir();
+				String[] shellinput = { "", "", "", "", "" };
+				shellinput[1] = folderPath;
+				shellinput[0] = Constants.CMD_DD;
+				shellinput[2] = "/cache.img bs=1000000 count=";
+				shellinput[3] = cachesize;
+				ProcessManager.errorStreamReader(shellinput);
 				values.put(DatabaseHelper.TASK_MESSAGE,
 						mContext.getString(R.string.formating) + vsName
 								+ mContext.getString(R.string.cachext3));
@@ -161,6 +138,10 @@ public class VibhinnaService extends CustomIntentService {
 				m2.arg1 = 2;
 				m2.obj = new File(folderPath).getName();
 				handler.sendMessage(m2);
+
+				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+				shellinput[2] = Constants.CACHE_IMG;
+				shellinput[3] = "";
 				ProcessManager.inputStreamReader(shellinput, 20);
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
@@ -175,13 +156,11 @@ public class VibhinnaService extends CustomIntentService {
 				m3.arg1 = 3;
 				m3.obj = new File(folderPath).getName();
 				handler.sendMessage(m3);
+
 				shellinput[0] = Constants.CMD_DD;
 				shellinput[2] = "/data.img bs=1000000 count=";
 				shellinput[3] = datasize;
 				ProcessManager.errorStreamReader(shellinput);
-				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-				shellinput[2] = Constants.DATA_IMG;
-				shellinput[3] = "";
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
 						mContext.getString(R.string.formating) + vsName
@@ -195,10 +174,12 @@ public class VibhinnaService extends CustomIntentService {
 				m4.arg1 = 4;
 				m4.obj = new File(folderPath).getName();
 				handler.sendMessage(m4);
+
+
+				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+				shellinput[2] = Constants.DATA_IMG;
+				shellinput[3] = "";
 				ProcessManager.inputStreamReader(shellinput, 20);
-				shellinput[0] = Constants.CMD_DD;
-				shellinput[2] = "/system.img bs=1000000 count=";
-				shellinput[3] = systemsize;
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
 						mContext.getString(R.string.creating) + vsName
@@ -212,10 +193,11 @@ public class VibhinnaService extends CustomIntentService {
 				m5.arg1 = 5;
 				m5.obj = new File(folderPath).getName();
 				handler.sendMessage(m5);
+
+				shellinput[0] = Constants.CMD_DD;
+				shellinput[2] = "/system.img bs=1000000 count=";
+				shellinput[3] = systemsize;
 				ProcessManager.errorStreamReader(shellinput);
-				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
-				shellinput[2] = Constants.SYSTEM_IMG;
-				shellinput[3] = "";
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
 						mContext.getString(R.string.formating) + vsName
@@ -229,11 +211,14 @@ public class VibhinnaService extends CustomIntentService {
 				m6.arg1 = 6;
 				m6.obj = new File(folderPath).getName();
 				handler.sendMessage(m6);
+
+				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+				shellinput[2] = Constants.SYSTEM_IMG;
+				shellinput[3] = "";
 				ProcessManager.inputStreamReader(shellinput, 20);
 
 				ContentValues vValues = new ContentValues();
-				vValues.put(DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME,
-						newFolder.getName());
+				vValues.put(DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME, vsName);
 				vValues.put(DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_PATH,
 						folderPath);
 				vValues.put(DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
@@ -251,9 +236,114 @@ public class VibhinnaService extends CustomIntentService {
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
 						values, null, null);
 
-				final Message endmessage = new Message();
-				endmessage.obj = new File(folderPath).getName();
-				handler.sendMessage(endmessage);
+
+				final Message endMessage = new Message();
+				endMessage.arg1 = 7;
+				endMessage.obj = new File(folderPath).getName();
+				handler.sendMessage(endMessage);
+				return null;
+			}
+		}
+
+		class FormatVFSTask extends AsyncTask<Object[], Void, Void> {
+
+			@Override
+			protected Void doInBackground(Object[]... objs) {
+				// TODO Auto-generated method stub
+				String _id = (Long) objs[0][0] + "";
+				String mPath = (String) objs[0][1];
+				boolean cacheCheckBool = (Boolean) objs[0][2];
+				boolean dataCheckBool = (Boolean) objs[0][3];
+				boolean systemCheckBool = (Boolean) objs[0][4];
+				int maxOp = 1;
+				if (cacheCheckBool)
+					maxOp++;
+				if (dataCheckBool)
+					maxOp++;
+				if (systemCheckBool)
+					maxOp++;
+
+				int progress = 0;
+
+				String vsName = new File(mPath).getName();
+
+				ContentValues values = new ContentValues();
+				values.put(DatabaseHelper.TASK_STATUS,
+						TasksAdapter.TASK_STATUS_RUNNING);
+				mResolver.update(
+						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
+						values, null, null);
+
+				String[] shellinput = { Constants.EMPTY, Constants.EMPTY,
+						Constants.EMPTY, Constants.EMPTY, Constants.EMPTY };
+				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
+				shellinput[1] = mPath;
+				final Message m0 = new Message();
+				final Message m1 = new Message();
+				final Message m2 = new Message();
+				final Message endMessage = new Message();
+				m0.arg1 = 8;
+				m1.arg1 = 9;
+				m2.arg1 = 10;
+				endMessage.arg1 = 11;
+				m0.obj = vsName;
+				m1.obj = vsName;
+				m2.obj = vsName;
+				endMessage.obj = vsName;
+				if (cacheCheckBool) {
+					values.put(DatabaseHelper.TASK_MESSAGE,
+							mContext.getString(R.string.formating) + vsName
+									+ mContext.getString(R.string.cachext3));
+					progress = progress + 100;
+					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+					mResolver
+							.update(Uri.withAppendedPath(
+									TasksProvider.CONTENT_URI, _id), values,
+									null, null);
+					handler.sendMessage(m0);
+					shellinput[2] = Constants.CACHE_IMG;
+					ProcessManager.inputStreamReader(shellinput, 20);
+				}
+				if (dataCheckBool) {
+					values.put(DatabaseHelper.TASK_MESSAGE,
+							mContext.getString(R.string.formating) + vsName
+									+ mContext.getString(R.string.dataext3));
+					progress = progress + 100;
+					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+					mResolver
+							.update(Uri.withAppendedPath(
+									TasksProvider.CONTENT_URI, _id), values,
+									null, null);
+					handler.sendMessage(m1);
+					shellinput[2] = Constants.DATA_IMG;
+					ProcessManager.inputStreamReader(shellinput, 20);
+					dataCheckBool = false;
+				}
+				if (systemCheckBool) {
+					values.put(DatabaseHelper.TASK_MESSAGE,
+							mContext.getString(R.string.formating) + vsName
+									+ mContext.getString(R.string.systemext3));
+					progress = progress + 100;
+					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+					mResolver
+							.update(Uri.withAppendedPath(
+									TasksProvider.CONTENT_URI, _id), values,
+									null, null);
+					handler.sendMessage(m2);
+					shellinput[2] = Constants.SYSTEM_IMG;
+					ProcessManager.inputStreamReader(shellinput, 20);
+					systemCheckBool = false;
+				}
+				values.put(DatabaseHelper.TASK_MESSAGE, "Formatting of "
+						+ vsName + " completed.");
+				progress = progress + 100;
+				values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
+				values.put(DatabaseHelper.TASK_STATUS,
+						TasksAdapter.TASK_STATUS_FINISHED);
+				mResolver.update(
+						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
+						values, null, null);
+				handler.sendMessage(endMessage);
 				return null;
 			}
 		}
@@ -304,12 +394,31 @@ public class VibhinnaService extends CustomIntentService {
 						false);
 				return;
 			}
-			default: {
+			case 7:
 				// mVibFragment.restartLoading();
 				displayNotificationMessage("Creation of " + vsName
 						+ " completed.", true);
 				return;
-			}
+			case 8:
+				displayNotificationMessage(
+						mContext.getString(R.string.formating) + vsName
+								+ mContext.getString(R.string.cachext3), false);
+				return;
+			case 9:
+				displayNotificationMessage(
+						mContext.getString(R.string.formating) + vsName
+								+ mContext.getString(R.string.dataext3), false);
+				return;
+			case 10:
+				displayNotificationMessage(
+						mContext.getString(R.string.formating) + vsName
+								+ mContext.getString(R.string.systemext3),
+						false);
+				return;
+			case 11:
+				displayNotificationMessage("Formatting of " + vsName
+						+ " completed.", true);
+				return;
 			}
 		}
 	};
@@ -338,5 +447,4 @@ public class VibhinnaService extends CustomIntentService {
 		Notification notification = builder.getNotification();
 		notificationMgr.notify(0, notification);
 	}
-
 }
