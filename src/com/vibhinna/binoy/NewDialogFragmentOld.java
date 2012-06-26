@@ -28,7 +28,6 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 
 	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
 	private static Context mContext;
-	private static VibhinnaFragment mVibhinnaFragment;
 	private int iconId;
 	private int cacheSize;
 	private int dataSize;
@@ -50,13 +49,11 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 	/**
 	 * creates a new instance of NewDialogFragmentOld
 	 * 
-	 * @param vibhinnaFragment
+	 * @param lsitFragment
 	 */
-	static NewDialogFragmentOld newInstance(VibhinnaFragment vibhinnaFragment) {
+	static NewDialogFragmentOld newInstance(Context  context) {
 		NewDialogFragmentOld fragment = new NewDialogFragmentOld();
-		mVibhinnaFragment = vibhinnaFragment;
-		mContext = mVibhinnaFragment.getSherlockActivity();
-		mContext.getContentResolver();
+		mContext = context;
 		return fragment;
 	}
 
