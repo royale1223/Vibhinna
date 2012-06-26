@@ -92,10 +92,13 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 			builder = new AlertDialog.Builder(mContext);
 		else
 			builder = new HoloAlertDialogBuilder(mContext);
-		final AlertDialog dialog = builder.setTitle(mContext.getString(R.string.createvfs))
+		final AlertDialog dialog = builder
+				.setTitle(mContext.getString(R.string.createvfs))
 				.setView(view)
 				.setPositiveButton(mContext.getString(R.string.okay),
-						onClickListener).setNegativeButton(mContext.getString(R.string.cancel), new DialogInterface.OnClickListener() {
+						onClickListener)
+				.setNegativeButton(mContext.getString(R.string.cancel),
+						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
@@ -126,6 +129,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 		cacheSizePicker.setText(cacheSize + "");
 		dataSizePicker.setText(dataSize + "");
 		systemSizePicker.setText(systemSize + "");
+		
 		// set up spinner
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				mContext, R.array.icon_array,
