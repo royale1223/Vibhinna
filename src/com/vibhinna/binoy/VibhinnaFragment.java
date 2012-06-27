@@ -141,7 +141,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 					.findViewById(R.id.context_menu_title);
 			title.setText(cursor.getString(1));
 			menu.setHeaderView(header);
-		}
+		} else
+			menu.setHeaderTitle(cursor.getString(1));
 		android.view.MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
