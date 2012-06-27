@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -176,8 +175,9 @@ public class VibhinnaFragment extends SherlockListFragment implements
 				builder = new AlertDialog.Builder(getActivity());
 			else
 				builder = new HoloAlertDialogBuilder(getActivity());
-			builder.setTitle(getString(R.string.delete) + cursor.getString(1))
-					.setMessage(getString(R.string.rusure))
+			builder.setTitle(
+					getString(R.string.delete_vfs, cursor.getString(1)))
+					.setMessage(getString(R.string.confirm_delete))
 					.setPositiveButton(getString(R.string.okay),
 							new DialogInterface.OnClickListener() {
 								@Override
@@ -238,8 +238,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			return true;
 		case R.id.menu_settings:
 			// getActivity().startActivity(item.getIntent());
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_scan:
 			scanVFS();
@@ -259,16 +259,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			restartLoading();
 			return true;
 		case R.id.menu_help:
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_about:
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_license:
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		default:
 			return false;
@@ -298,8 +298,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 *            _id of the VFS
 	 */
 	void showDetailsDialog(long id) {
-		DialogFragment newFragment = DetailsDialogFragment.newInstance(id);
-		newFragment.show(getFragmentManager(), "details_dialog");
+		DetailsDialogFragment.newInstance(getSherlockActivity(), id).show(
+				getFragmentManager(), "details_dialog");
 	}
 
 	/**
@@ -308,14 +308,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 * @param vibhinnaFragment
 	 */
 	private void showNewVFSDialog() {
-		// if (android.os.Build.VERSION.SDK_INT >=
-		// android.os.Build.VERSION_CODES.HONEYCOMB) {
-		// NewDialogFragment.newInstance(vibhinnaFragment).show(
-		// getFragmentManager(), "new_dialog");
-		// } else {
 		NewDialogFragmentOld.newInstance(getSherlockActivity()).show(
 				getFragmentManager(), "new_dialog");
-		// }
 	}
 
 	private void showFormatDialog(VibhinnaFragment vibhinnaFragment, long id) {

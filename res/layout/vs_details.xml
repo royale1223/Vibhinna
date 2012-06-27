@@ -44,8 +44,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/icon"
+            android:paddingTop="10dip"
             android:textColor="#4B8A08"
-            android:textSize="14dp" android:paddingTop="10dip"/>
+            android:textSize="14dp" />
 
         <TextView
             android:id="@+id/cuuid"

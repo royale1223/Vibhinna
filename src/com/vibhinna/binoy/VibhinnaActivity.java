@@ -32,11 +32,14 @@ public class VibhinnaActivity extends SherlockFragmentActivity {
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
-		mTabsAdapter.addTab(bar.newTab().setText("List"),
+		mTabsAdapter.addTab(
+				bar.newTab().setText(getString(R.string.list_tab_title)),
 				VibhinnaFragment.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("Tasks"),
+		mTabsAdapter.addTab(
+				bar.newTab().setText(getString(R.string.list_tab_tasks)),
 				TasksQueueFragment.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("Info"),
+		mTabsAdapter.addTab(
+				bar.newTab().setText(getString(R.string.list_tab_info)),
 				SystemInfoFragment.class, null);
 	}
 

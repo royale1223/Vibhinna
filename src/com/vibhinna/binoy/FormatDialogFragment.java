@@ -56,11 +56,10 @@ public class FormatDialogFragment extends SherlockDialogFragment {
 		else
 			builder = new HoloAlertDialogBuilder(mContext);
 		final AlertDialog dialog = builder
-				.setTitle(mContext.getString(R.string.format) + mName + "?")
+				.setTitle(getString(R.string.format, mName))
 				.setView(formatView)
-				.setPositiveButton(mContext.getString(R.string.okay),
-						onClickListener)
-				.setNeutralButton(mContext.getString(R.string.cancel),
+				.setPositiveButton(getString(R.string.okay), onClickListener)
+				.setNeutralButton(getString(R.string.cancel),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(

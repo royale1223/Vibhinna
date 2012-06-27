@@ -58,8 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		Toast.makeText(mContext, "Creating DataBase for first time...", 2000)
-				.show();
+		Toast.makeText(mContext, R.string.creating_database, 2000).show();
 		database.execSQL(VFS_DATABASE_CREATE_STATEMENT);
 		database.execSQL(TASK_DATABASE_CREATE_STATEMENT);
 		DatabaseUtils.scanFolder(database);
@@ -68,6 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion,
 			int newVersion) {
+		Toast.makeText(mContext, R.string.upgrading_database, 2000).show();
 		database.execSQL(TASK_DATABASE_CREATE_STATEMENT);
 	}
 }

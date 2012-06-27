@@ -14,9 +14,8 @@
             android:id="@+id/vsname"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/entername"
+            android:hint="@string/enter_name"
             android:inputType="text" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -29,9 +28,8 @@
             android:id="@+id/vsdesc"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/shrtdesc"
+            android:hint="@string/enter_description"
             android:inputType="text" />
-
     </RelativeLayout>
 
     <RelativeLayout

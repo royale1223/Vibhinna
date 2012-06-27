@@ -42,16 +42,13 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 
 	private String newvsdesc;
 	private String newName;
-	private File defaultFolder;
-
-	// ProcessManager processManager;
 
 	/**
 	 * creates a new instance of NewDialogFragmentOld
 	 * 
 	 * @param lsitFragment
 	 */
-	static NewDialogFragmentOld newInstance(Context  context) {
+	static NewDialogFragmentOld newInstance(Context context) {
 		NewDialogFragmentOld fragment = new NewDialogFragmentOld();
 		mContext = context;
 		return fragment;
@@ -66,12 +63,9 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 
 		validName = true;
 
-		newName = mContext.getString(R.string.untitled);
-		defaultFolder = new File(Constants.MULTI_BOOT_PATH + newName);
-		newvsdesc = mContext.getString(R.string.newvfsi)
-				+ defaultFolder.getPath() + ")";
-
-		// processManager = new ProcessManager();
+		newName = getString(R.string.default_vfs_name);
+		new File(Constants.MULTI_BOOT_PATH + newName);
+		newvsdesc = getString(R.string.default_vfs_description);
 
 		LayoutInflater newVFSDialogInflater = LayoutInflater.from(mContext);
 		final View view = newVFSDialogInflater.inflate(R.layout.new_vs_dialog,
@@ -90,11 +84,10 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 		else
 			builder = new HoloAlertDialogBuilder(mContext);
 		final AlertDialog dialog = builder
-				.setTitle(mContext.getString(R.string.createvfs))
+				.setTitle(getString(R.string.create_new_vfs))
 				.setView(view)
-				.setPositiveButton(mContext.getString(R.string.okay),
-						onClickListener)
-				.setNegativeButton(mContext.getString(R.string.cancel),
+				.setPositiveButton(getString(R.string.okay), onClickListener)
+				.setNegativeButton(getString(R.string.cancel),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -119,14 +112,14 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 		// set up widgets - evsdesc
 		evsdesc.setText(newvsdesc);
 		evsname.setText(newName);
-		memory.setText(MiscMethods
-				.getTotalSize(cacheSize, dataSize, systemSize) + " MB");
+		memory.setText(getString(R.string.total_memory_warning,
+				MiscMethods.getTotalSize(cacheSize, dataSize, systemSize)));
 		memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize,
 				systemSize));
 		cacheSizePicker.setText(cacheSize + "");
 		dataSizePicker.setText(dataSize + "");
 		systemSizePicker.setText(systemSize + "");
-		
+
 		// set up spinner
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				mContext, R.array.icon_array,
@@ -147,7 +140,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 					filtered_str = filtered_str.replaceAll("[\\s&/&*]", "");
 					s.clear();
 					s.append(filtered_str);
-					Toast.makeText(mContext, "Illegal character!",
+					Toast.makeText(mContext, R.string.illegal_char,
 							Toast.LENGTH_SHORT).show();
 				}
 				if (s.length() > 0) {
@@ -227,8 +220,9 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
 						newDialogButtonState());
-				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
-						systemSize) + " MB");
+				memory.setText(getString(R.string.total_memory_warning,
+						MiscMethods.getTotalSize(cacheSize, dataSize,
+								systemSize)));
 				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
 						dataSize, systemSize));
 			}
@@ -261,8 +255,9 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
 						newDialogButtonState());
-				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
-						systemSize) + " MB");
+				memory.setText(getString(R.string.total_memory_warning,
+						MiscMethods.getTotalSize(cacheSize, dataSize,
+								systemSize)));
 				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
 						dataSize, systemSize));
 			}
@@ -294,8 +289,9 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
 						newDialogButtonState());
-				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
-						systemSize) + " MB");
+				memory.setText(getString(R.string.total_memory_warning,
+						MiscMethods.getTotalSize(cacheSize, dataSize,
+								systemSize)));
 				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
 						dataSize, systemSize));
 			}

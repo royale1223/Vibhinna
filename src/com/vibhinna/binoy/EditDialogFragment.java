@@ -104,7 +104,7 @@ public class EditDialogFragment extends SherlockDialogFragment {
 		else
 			builder = new HoloAlertDialogBuilder(mContext);
 		Dialog dialog = builder
-				.setTitle(getString(R.string.edits) + mCursor.getString(1))
+				.setTitle((getString(R.string.edit_vfs, mCursor.getString(1))))
 				.setView(editVSView)
 				.setPositiveButton(getString(R.string.okay),
 						new DialogInterface.OnClickListener() {

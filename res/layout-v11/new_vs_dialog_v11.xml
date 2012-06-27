@@ -22,7 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/icon_and_memory"
-                android:hint="@string/entername"
+                android:hint="@string/enter_name"
                 android:inputType="text" />
 
             <EditText
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vsname"
                 android:layout_toLeftOf="@+id/icon_and_memory"
-                android:hint="@string/shrtdesc"
+                android:hint="@string/enter_description"
                 android:inputType="text" />
 
             <Spinner
@@ -103,4 +103,5 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
+
 </ScrollView>

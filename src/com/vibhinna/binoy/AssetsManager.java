@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 public class AssetsManager {
 	private static final String TAG = "com.vibhinna.binoy.AssetsManager";
+	private static final String ASSETS_FOLDER = "bin";
 	Context context;
 
 	/**
@@ -29,19 +30,19 @@ public class AssetsManager {
 	 */
 	public void copyAssets() {
 		// FIXME use package name.
-		Toast.makeText(context, "Copying binaries", 2000).show();
+		Toast.makeText(context, R.string.copying_binaries, 2000).show();
 		String[] assetslist = null;
 		try {
-			assetslist = context.getAssets().list("bin");
+			assetslist = context.getAssets().list(ASSETS_FOLDER);
 		} catch (IOException e) {
 			Toast.makeText(context, "Error copying binaries", 2000).show();
 		}
 		for (int i = 0; i < assetslist.length; i++) {
 			try {
 				InputStream in = context.getAssets().open(
-						"bin/" + assetslist[i]);
+						ASSETS_FOLDER + Constants.SLASH + assetslist[i]);
 				FileOutputStream out = new FileOutputStream(
-						Constants.BINARY_PATH + "/" + assetslist[i]);
+						Constants.BINARY_PATH + Constants.SLASH + assetslist[i]);
 				int read;
 				byte[] buffer = new byte[4096];
 				while ((read = in.read(buffer)) > 0) {
@@ -49,8 +50,8 @@ public class AssetsManager {
 				}
 				out.close();
 				in.close();
-				File assetfile = new File(Constants.BINARY_PATH + "/"
-						+ assetslist[i]);
+				File assetfile = new File(Constants.BINARY_PATH
+						+ Constants.SLASH + assetslist[i]);
 				assetfile.setReadable(true, false);
 				assetfile.setExecutable(true, false);
 			} catch (FileNotFoundException e) {

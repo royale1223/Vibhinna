@@ -43,7 +43,7 @@ public class TasksProvider extends ContentProvider {
 					+ " = "
 					+ id
 					+ (!TextUtils.isEmpty(selection) ? " AND (" + selection
-							+ ')' : ""), selectionArgs);
+							+ ')' : Constants.EMPTY), selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);
@@ -69,8 +69,8 @@ public class TasksProvider extends ContentProvider {
 	@Override
 	public Uri insert(Uri uri, ContentValues values) {
 		// ---add a new task---
-		long rowID = mDatabase.insert(DatabaseHelper.TASK_DATABASE_TABLE, "",
-				values);
+		long rowID = mDatabase.insert(DatabaseHelper.TASK_DATABASE_TABLE,
+				Constants.EMPTY, values);
 		// ---if added successfully---
 		if (rowID > 0) {
 			Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
@@ -96,7 +96,7 @@ public class TasksProvider extends ContentProvider {
 		if (uriMatcher.match(uri) == TASK_ID)
 			// ---if getting a particular task---
 			sqlBuilder.appendWhere(_ID + " = " + uri.getPathSegments().get(1));
-		if (sortOrder == null || sortOrder == "")
+		if (sortOrder == null || sortOrder == Constants.EMPTY)
 			sortOrder = DatabaseHelper.TASK_STATUS;
 		Cursor c = sqlBuilder.query(mDatabase, projection, selection,
 				selectionArgs, null, null, sortOrder);
@@ -120,7 +120,8 @@ public class TasksProvider extends ContentProvider {
 							+ " = "
 							+ uri.getPathSegments().get(1)
 							+ (!TextUtils.isEmpty(selection) ? " AND ("
-									+ selection + ')' : ""), selectionArgs);
+									+ selection + ')' : Constants.EMPTY),
+					selectionArgs);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown URI " + uri);

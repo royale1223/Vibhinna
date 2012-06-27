@@ -67,17 +67,15 @@ public class TasksAdapter extends SimpleCursorAdapter {
 		switch (mCursor
 				.getInt(mCursor.getColumnIndex(DatabaseHelper.TASK_TYPE))) {
 		case TASK_TYPE_CREATE:
-			title = "Create "
-					+ mCursor.getString(mCursor
-							.getColumnIndex(DatabaseHelper.TASK_VS));
+			title = mContext.getString(R.string.task_create_vfs, mCursor
+					.getString(mCursor.getColumnIndex(DatabaseHelper.TASK_VS)));
 			break;
 		case TASK_TYPE_FORMAT:
-			title = "Format "
-					+ mCursor.getString(mCursor
-							.getColumnIndex(DatabaseHelper.TASK_VS));
+			title = mContext.getString(R.string.task_format_vfs, mCursor
+					.getString(mCursor.getColumnIndex(DatabaseHelper.TASK_VS)));
 			break;
 		default:
-			title = "Unknown operation!!";
+			title = mContext.getString(R.string.task_unknown);
 			break;
 		}
 		holder.title.setText(title);
