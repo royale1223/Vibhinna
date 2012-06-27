@@ -25,7 +25,6 @@ public class TasksAdapter extends SimpleCursorAdapter {
 		super(context, layout, c, from, to, flags);
 		mContext = context;
 		mInflater = LayoutInflater.from(context);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
