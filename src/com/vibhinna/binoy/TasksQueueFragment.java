@@ -86,7 +86,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		adapter = new TasksAdapter(mContext, R.layout.main_row, null,
+		adapter = new TasksAdapter(getSherlockActivity(), R.layout.main_row, null,
 				new String[] {}, new int[] {},
 				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
