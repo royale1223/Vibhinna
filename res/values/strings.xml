@@ -68,7 +68,8 @@
     <string name="nand">NAND</string>
     <string name="not_available">N/A</string>
     <string name="corrupted">corrupted</string>
-    <string name="format">Format %1$s</string>
+    <string name="format_vfs">Format %1$s</string>
+    <string name="format">Format</string>
     <string name="cache">Cache</string>
     <string name="data">Data</string>
     <string name="system">System</string>
