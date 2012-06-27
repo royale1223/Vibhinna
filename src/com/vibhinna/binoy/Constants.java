@@ -41,4 +41,5 @@ public class Constants {
 			"family", "folder", "status", "vdstatus", "path" };
 	public static final File MBM_ROOT = new File("/mnt/sdcard/multiboot/");
 	public static final String CMD_TUNE2FS = "/data/data/com.vibhinna.binoy/bin/tune2fs -l ";
+	public static final String SLASH = "/";
 }

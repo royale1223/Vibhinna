@@ -29,6 +29,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	protected LoaderManager mLoaderManager;
 	private LocalBroadcastManager mLocalBroadcastManager;
 	private BroadcastReceiver mBroadcastReceiver;
+	private Context mContext;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class TasksQueueFragment extends SherlockListFragment implements
 		setRetainInstance(true);
 		setHasOptionsMenu(true);
 		this.setEmptyText("No tasks are available");
-		mLocalBroadcastManager = LocalBroadcastManager
-				.getInstance(getSherlockActivity());
+		mContext = getSherlockActivity();
+		mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
 		mBroadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -48,7 +49,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 			}
 		};
 
-		mResolver = getActivity().getContentResolver();
+		mResolver = mContext.getContentResolver();
 		mLoaderManager = getLoaderManager();
 		setHasOptionsMenu(true);
 		startLoading();
@@ -66,7 +67,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		CursorLoader cursorLoader = new CursorLoader(getActivity(),
+		CursorLoader cursorLoader = new CursorLoader(mContext,
 				TasksProvider.CONTENT_URI, null, null, null, null);
 		return cursorLoader;
 	}
@@ -85,7 +86,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		adapter = new TasksAdapter(getActivity(), R.layout.main_row, null,
+		adapter = new TasksAdapter(mContext, R.layout.main_row, null,
 				new String[] {}, new int[] {},
 				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
@@ -122,11 +123,11 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	private void clearFinishedTasks() {
 		AlertDialog.Builder builder;
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-			builder = new AlertDialog.Builder(getActivity());
+			builder = new AlertDialog.Builder(mContext);
 		else
-			builder = new HoloAlertDialogBuilder(getActivity());
-		builder.setTitle("Clear tasks")
-				.setMessage("Do you want to clear all completed tasks?")
+			builder = new HoloAlertDialogBuilder(mContext);
+		builder.setTitle(getString(R.string.clear_tasks_title))
+				.setMessage(getString(R.string.clear_tasks_message))
 				.setPositiveButton(R.string.okay, new OnClickListener() {
 
 					@Override
@@ -135,7 +136,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 								.delete(TasksProvider.CONTENT_URI,
 										DatabaseHelper.TASK_STATUS + " IS ?",
 										new String[] { TasksAdapter.TASK_STATUS_FINISHED
-												+ "" });
+												+ Constants.EMPTY });
 
 					}
 				}).setNegativeButton(R.string.cancel, new OnClickListener() {
@@ -156,13 +157,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	 * @param vibhinnaFragment
 	 */
 	private void showNewVFSDialog() {
-		// if (android.os.Build.VERSION.SDK_INT >=
-		// android.os.Build.VERSION_CODES.HONEYCOMB) {
-		// NewDialogFragment.newInstance(vibhinnaFragment).show(
-		// getFragmentManager(), "new_dialog");
-		// } else {
-		NewDialogFragmentOld.newInstance(getSherlockActivity()).show(
-				getFragmentManager(), "new_dialog");
-		// }
+		NewDialogFragmentOld.newInstance(mContext).show(getFragmentManager(),
+				"new_dialog");
 	}
 }

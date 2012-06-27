@@ -42,11 +42,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 
 	private static String newvsdesc;
 	private static String newName;
-	private File defaultFolder;
-
 	Handler handler;
-
-	// ProcessManager processManager;
 
 	/**
 	 * creates a new instance of NewDialogFragment
@@ -70,12 +66,9 @@ public class NewDialogFragment extends SherlockDialogFragment {
 
 		validName = true;
 
-		newName = mContext.getString(R.string.untitled);
-		defaultFolder = new File(Constants.MULTI_BOOT_PATH + newName);
-		newvsdesc = mContext.getString(R.string.newvfsi)
-				+ defaultFolder.getPath() + ")";
-
-		// processManager = new ProcessManager();
+		newName = getString(R.string.default_vfs_name);
+		new File(Constants.MULTI_BOOT_PATH + newName);
+		newvsdesc = getString(R.string.default_vfs_description);
 
 		LayoutInflater newVFSDialogInflater = LayoutInflater.from(mContext);
 		final View view = newVFSDialogInflater.inflate(R.layout.new_vs_dialog,
@@ -91,8 +84,8 @@ public class NewDialogFragment extends SherlockDialogFragment {
 				.findViewById(R.id.icon_and_memory);
 		evsdesc.setText(newvsdesc);
 		evsname.setText(newName);
-		memory.setText(MiscMethods
-				.getTotalSize(cacheSize, dataSize, systemSize) + " MB");
+		memory.setText(getString(R.string.total_memory_warning,
+				MiscMethods.getTotalSize(cacheSize, dataSize, systemSize)));
 		memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize,
 				systemSize));
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -103,11 +96,10 @@ public class NewDialogFragment extends SherlockDialogFragment {
 		}
 
 		final AlertDialog dialog = new AlertDialog.Builder(mContext)
-				.setTitle(mContext.getString(R.string.createvfs))
+				.setTitle(getString(R.string.create_new_vfs))
 				.setView(view)
-				.setPositiveButton(mContext.getString(R.string.okay),
-						onClickListener)
-				.setNegativeButton(mContext.getString(R.string.cancel),
+				.setPositiveButton(getString(R.string.okay), onClickListener)
+				.setNegativeButton(getString(R.string.cancel),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
@@ -123,7 +115,7 @@ public class NewDialogFragment extends SherlockDialogFragment {
 					filtered_str = filtered_str.replaceAll("[\\s&/&*]", "");
 					s.clear();
 					s.append(filtered_str);
-					Toast.makeText(mContext, "Illegal character!",
+					Toast.makeText(mContext, R.string.illegal_char,
 							Toast.LENGTH_SHORT).show();
 				}
 				if (s.length() > 0) {
@@ -203,13 +195,11 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			public void onValueChange(NumberPicker picker, int oldVal,
 					int newVal) {
 				cacheSize = newVal * 10;
-				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
-						systemSize) + " MB");
+				memory.setText(getString(R.string.total_memory_warning,
+						MiscMethods.getTotalSize(cacheSize, dataSize,
+								systemSize)));
 				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
 						dataSize, systemSize));
-				if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) == Color.RED) {
-				} else {
-				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
 						newDialogButtonState());
 			}
@@ -232,13 +222,11 @@ public class NewDialogFragment extends SherlockDialogFragment {
 					int newVal) {
 				dataSize = newVal * 10;
 				// FIXME ugly code
-				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
-						systemSize) + " MB");
+				memory.setText(getString(R.string.total_memory_warning,
+						MiscMethods.getTotalSize(cacheSize, dataSize,
+								systemSize)));
 				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
 						dataSize, systemSize));
-				if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) == Color.RED) {
-				} else {
-				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
 						newDialogButtonState());
 			}
@@ -260,13 +248,11 @@ public class NewDialogFragment extends SherlockDialogFragment {
 			public void onValueChange(NumberPicker picker, int oldVal,
 					int newVal) {
 				systemSize = newVal * 10;
-				memory.setText(MiscMethods.getTotalSize(cacheSize, dataSize,
-						systemSize) + " MB");
+				memory.setText(getString(R.string.total_memory_warning,
+						MiscMethods.getTotalSize(cacheSize, dataSize,
+								systemSize)));
 				memory.setTextColor(MiscMethods.getMemColor(cacheSize,
 						dataSize, systemSize));
-				if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) == Color.RED) {
-				} else {
-				}
 				dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(
 						newDialogButtonState());
 			}

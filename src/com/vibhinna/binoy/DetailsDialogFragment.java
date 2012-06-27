@@ -1,6 +1,7 @@
 package com.vibhinna.binoy;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,11 +17,11 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class DetailsDialogFragment extends SherlockDialogFragment {
+	private static Context mContext;
 
-	// private long id;
-
-	public static DetailsDialogFragment newInstance(long id) {
+	public static DetailsDialogFragment newInstance(Context context, long id) {
 		DetailsDialogFragment detailsDialogFragment = new DetailsDialogFragment();
+		mContext = context;
 		Bundle args = new Bundle();
 		args.putLong("_ID", id);
 		detailsDialogFragment.setArguments(args);
@@ -31,10 +32,10 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		long id = getArguments().getLong("_ID");
 		this.setStyle(STYLE_NO_TITLE, 0);
-		LayoutInflater inflater = LayoutInflater.from(getActivity());
+		LayoutInflater inflater = LayoutInflater.from(mContext);
 		final View view = inflater.inflate(R.layout.vs_details, null);
 		String[] vsinfo = new String[29];
-		Cursor cursor = getActivity().getContentResolver().query(
+		Cursor cursor = mContext.getContentResolver().query(
 				Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
 						+ VibhinnaProvider.VFS_BASE_PATH + "/details/" + id),
 				null, null, null, null);
@@ -65,72 +66,68 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		}
 		TextView cuuid = (TextView) view.findViewById(R.id.cuuid);
 		if (vsinfo[5] == Constants.N_A)
-			cuuid.setText(getActivity().getString(R.string.uuidna));
+			cuuid.setText(getString(R.string.uuid_not_available));
 		else
 			cuuid.setText(vsinfo[5]);
 		TextView cmagic = (TextView) view.findViewById(R.id.cmagic);
-		cmagic.setText(getActivity().getString(R.string.magnum) + vsinfo[6]);
+		cmagic.setText(mContext.getString(R.string.magic_number, vsinfo[6]));
 		TextView cstate = (TextView) view.findViewById(R.id.cstate);
-		cstate.setText(getActivity().getString(R.string.vfsst) + vsinfo[7]);
+		cstate.setText(getString(R.string.vfs_state, vsinfo[7]));
 		TextView cspace = (TextView) view.findViewById(R.id.cspace);
 		if (vsinfo[9] == Constants.N_A) {
-			cspace.setText(getActivity().getString(R.string.freespna));
+			cspace.setText(getString(R.string.free_space_not_available));
 		} else
-			cspace.setText(getActivity().getString(R.string.freesp) + vsinfo[9]
-					+ getActivity().getString(R.string.miB) + vsinfo[8]
-					+ getActivity().getString(R.string.miBf));
+			cspace.setText(getString(R.string.free_space, vsinfo[9], vsinfo[8]));
 		TextView cbcount = (TextView) view.findViewById(R.id.cbcount);
-		cbcount.setText(getActivity().getString(R.string.bcount) + vsinfo[10]);
+		cbcount.setText(getString(R.string.block_count, vsinfo[10]));
 		TextView cfblock = (TextView) view.findViewById(R.id.cfblock);
-		cfblock.setText(getActivity().getString(R.string.fbcount) + vsinfo[11]);
+		cfblock.setText(getString(R.string.free_block_count, vsinfo[11]));
 		TextView cbsize = (TextView) view.findViewById(R.id.cbsize);
-		cbsize.setText(getActivity().getString(R.string.blsiz) + vsinfo[12]);
+		cbsize.setText(getString(R.string.block_size, vsinfo[12]));
 		TextView duuid = (TextView) view.findViewById(R.id.duuid);
 		if (vsinfo[13] == Constants.N_A)
-			duuid.setText(getActivity().getString(R.string.uuidna));
+			duuid.setText(getString(R.string.uuid_not_available));
 		else
 			duuid.setText(vsinfo[13]);
 		TextView dmagic = (TextView) view.findViewById(R.id.dmagic);
-		dmagic.setText(getActivity().getString(R.string.magnum) + vsinfo[14]);
+		dmagic.setText(getString(R.string.magic_number, vsinfo[14]));
 		TextView dstate = (TextView) view.findViewById(R.id.dstate);
-		dstate.setText(getActivity().getString(R.string.vfsst) + vsinfo[15]);
+		dstate.setText(getString(R.string.vfs_state, vsinfo[15]));
 		TextView dspace = (TextView) view.findViewById(R.id.dspace);
 		if (vsinfo[16] == Constants.N_A) {
-			dspace.setText(getActivity().getString(R.string.freespna));
+			dspace.setText(getString(R.string.free_space_not_available));
 		} else
-			dspace.setText(getActivity().getString(R.string.freesp)
-					+ vsinfo[17] + getActivity().getString(R.string.miB)
-					+ vsinfo[16] + getActivity().getString(R.string.miBf));
+			dspace.setText(getString(R.string.free_space, vsinfo[17],
+					vsinfo[16]));
 		TextView dbcount = (TextView) view.findViewById(R.id.dbcount);
-		dbcount.setText(getActivity().getString(R.string.bcount) + vsinfo[18]);
+		dbcount.setText(getString(R.string.block_count, vsinfo[18]));
 		TextView dfblock = (TextView) view.findViewById(R.id.dfblock);
-		dfblock.setText(getActivity().getString(R.string.fbcount) + vsinfo[19]);
+		dfblock.setText(getString(R.string.free_block_count, vsinfo[19]));
 		TextView dbsize = (TextView) view.findViewById(R.id.dbsize);
-		dbsize.setText(getActivity().getString(R.string.blsiz) + vsinfo[20]);
+		dbsize.setText(getString(R.string.block_size, vsinfo[20]));
 		TextView suuid = (TextView) view.findViewById(R.id.suuid);
 		if (vsinfo[21] == Constants.N_A)
-			suuid.setText(getActivity().getString(R.string.uuidna));
+			suuid.setText(getString(R.string.uuid_not_available));
 		else
 			suuid.setText(vsinfo[21]);
 		TextView smagic = (TextView) view.findViewById(R.id.smagic);
-		smagic.setText(getActivity().getString(R.string.magnum) + vsinfo[22]);
+		smagic.setText(getString(R.string.magic_number, vsinfo[22]));
 		TextView sstate = (TextView) view.findViewById(R.id.sstate);
-		sstate.setText(getActivity().getString(R.string.vfsst) + vsinfo[23]);
+		sstate.setText(getString(R.string.vfs_state, vsinfo[23]));
 		TextView sspace = (TextView) view.findViewById(R.id.sspace);
 		if (vsinfo[25] == Constants.N_A) {
-			sspace.setText(getActivity().getString(R.string.freespna));
+			sspace.setText(getString(R.string.free_space_not_available));
 		} else
-			sspace.setText(getActivity().getString(R.string.freesp)
-					+ vsinfo[25] + getActivity().getString(R.string.miB)
-					+ vsinfo[24] + getActivity().getString(R.string.miBf));
+			sspace.setText(getString(R.string.free_space, vsinfo[25],
+					vsinfo[24]));
 		TextView sbcount = (TextView) view.findViewById(R.id.sbcount);
-		sbcount.setText(getActivity().getString(R.string.bcount) + vsinfo[26]);
+		sbcount.setText(getString(R.string.block_count, vsinfo[26]));
 		TextView sfblock = (TextView) view.findViewById(R.id.sfblock);
-		sfblock.setText(getActivity().getString(R.string.fbcount) + vsinfo[27]);
+		sfblock.setText(getString(R.string.free_block_count, vsinfo[27]));
 		TextView sbsize = (TextView) view.findViewById(R.id.sbsize);
-		sbsize.setText(getActivity().getString(R.string.blsiz) + vsinfo[28]);
+		sbsize.setText(getString(R.string.block_size, vsinfo[28]));
 		return showDialogWithNoTopSpace(view, new HoloAlertDialogBuilder(
-				getActivity()).setView(view).create());
+				mContext).setView(view).create());
 	}
 
 	/**

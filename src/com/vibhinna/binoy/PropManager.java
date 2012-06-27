@@ -40,7 +40,8 @@ public class PropManager {
 	public String vSNameProp() {
 		String str = mbActivePath();
 		if (!str.equals(Constants.EMPTY))
-			return "Multiboot (" + (new File(str)).getName() + ")";
+			return mContext.getString(R.string.multiboot_info,
+					(new File(str)).getName());
 		else
 			return mContext.getString(R.string.nand);
 	}
@@ -57,13 +58,15 @@ public class PropManager {
 		MatrixCursor propcursor = new MatrixCursor(new String[] {
 				BaseColumns._ID, "name", "value" });
 		propcursor.addRow(new Object[] { 1,
-				mContext.getString(R.string.currsys), vSNameProp() });
+				mContext.getString(R.string.current_system), vSNameProp() });
 		propcursor.addRow(new Object[] { 2,
-				mContext.getString(R.string.currrom), getROM() });
+				mContext.getString(R.string.current_rom), getROM() });
 		propcursor.addRow(new Object[] { 3,
-				mContext.getString(R.string.currkernel), getKernel() });
-		propcursor.addRow(new Object[] { 4,
-				mContext.getString(R.string.currpath), getMultiBootPath() });
+				mContext.getString(R.string.current_kernel), getKernel() });
+		propcursor
+				.addRow(new Object[] { 4,
+						mContext.getString(R.string.current_path),
+						getMultiBootPath() });
 		propcursor.addRow(new Object[] { 5,
 				mContext.getString(R.string.device), getDevice() });
 		return propcursor;

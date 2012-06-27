@@ -89,13 +89,12 @@ public class VibhinnaService extends CustomIntentService {
 		class CreateVFSTask extends AsyncTask<Object[], Void, Void> {
 			protected Void doInBackground(Object[]... objs) {
 
-
-				String _id = (Long) objs[0][0] + "";
+				String _id = (Long) objs[0][0] + Constants.EMPTY;
 				String folderPath = MiscMethods.avoidDuplicateFile(
 						new File((String) objs[0][1])).getPath();
-				String cachesize = (Integer) objs[0][2] + "";
-				String datasize = (Integer) objs[0][3] + "";
-				String systemsize = (Integer) objs[0][4] + "";
+				String cachesize = (Integer) objs[0][2] + Constants.EMPTY;
+				String datasize = (Integer) objs[0][3] + Constants.EMPTY;
+				String systemsize = (Integer) objs[0][4] + Constants.EMPTY;
 				String vsDesc = (String) objs[0][5];
 				int iconId = (Integer) objs[0][6];
 
@@ -107,8 +106,7 @@ public class VibhinnaService extends CustomIntentService {
 				values.put(DatabaseHelper.TASK_STATUS,
 						TasksAdapter.TASK_STATUS_RUNNING);
 				values.put(DatabaseHelper.TASK_MESSAGE,
-						mContext.getString(R.string.creating) + vsName
-								+ mContext.getString(R.string.cacheimg));
+						mContext.getString(R.string.creating_cache, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 1 * 100 / 7);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -120,15 +118,15 @@ public class VibhinnaService extends CustomIntentService {
 				handler.sendMessage(m1);
 
 				new File(folderPath).mkdir();
-				String[] shellinput = { "", "", "", "", "" };
+				String[] shellinput = { Constants.EMPTY, Constants.EMPTY,
+						Constants.EMPTY, Constants.EMPTY, Constants.EMPTY };
 				shellinput[1] = folderPath;
 				shellinput[0] = Constants.CMD_DD;
 				shellinput[2] = "/cache.img bs=1000000 count=";
 				shellinput[3] = cachesize;
 				ProcessManager.errorStreamReader(shellinput);
 				values.put(DatabaseHelper.TASK_MESSAGE,
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.cachext3));
+						mContext.getString(R.string.formating_cache, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 2 * 100 / 7);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -141,12 +139,11 @@ public class VibhinnaService extends CustomIntentService {
 
 				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 				shellinput[2] = Constants.CACHE_IMG;
-				shellinput[3] = "";
+				shellinput[3] = Constants.EMPTY;
 				ProcessManager.inputStreamReader(shellinput, 20);
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
-						mContext.getString(R.string.creating) + vsName
-								+ mContext.getString(R.string.dataimg));
+						mContext.getString(R.string.creating_data, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 3 * 100 / 7);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -163,8 +160,7 @@ public class VibhinnaService extends CustomIntentService {
 				ProcessManager.errorStreamReader(shellinput);
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.dataext3));
+						mContext.getString(R.string.formating_data, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 4 * 100 / 7);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -178,12 +174,11 @@ public class VibhinnaService extends CustomIntentService {
 
 				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 				shellinput[2] = Constants.DATA_IMG;
-				shellinput[3] = "";
+				shellinput[3] = Constants.EMPTY;
 				ProcessManager.inputStreamReader(shellinput, 20);
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
-						mContext.getString(R.string.creating) + vsName
-								+ mContext.getString(R.string.systemimg));
+						mContext.getString(R.string.creating_system, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 5 * 100 / 7);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -200,8 +195,7 @@ public class VibhinnaService extends CustomIntentService {
 				ProcessManager.errorStreamReader(shellinput);
 
 				values.put(DatabaseHelper.TASK_MESSAGE,
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.systemext3));
+						mContext.getString(R.string.formating_system, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 6 * 100 / 7);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -214,7 +208,7 @@ public class VibhinnaService extends CustomIntentService {
 
 				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 				shellinput[2] = Constants.SYSTEM_IMG;
-				shellinput[3] = "";
+				shellinput[3] = Constants.EMPTY;
 				ProcessManager.inputStreamReader(shellinput, 20);
 
 				ContentValues vValues = new ContentValues();
@@ -224,13 +218,13 @@ public class VibhinnaService extends CustomIntentService {
 				vValues.put(DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_DESCRIPTION,
 						vsDesc);
 				vValues.put(DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_TYPE, iconId
-						+ "");
+						+ Constants.EMPTY);
 				mResolver.insert(VibhinnaProvider.CONTENT_URI, vValues);
 
 				values.put(DatabaseHelper.TASK_STATUS,
 						TasksAdapter.TASK_STATUS_FINISHED);
-				values.put(DatabaseHelper.TASK_MESSAGE, "Creation of " + vsName
-						+ " completed.");
+				values.put(DatabaseHelper.TASK_MESSAGE, mContext.getString(
+						R.string.task_creation_complete, vsName));
 				values.put(DatabaseHelper.TASK_PROGRESS, 100);
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
@@ -249,8 +243,7 @@ public class VibhinnaService extends CustomIntentService {
 
 			@Override
 			protected Void doInBackground(Object[]... objs) {
-				// TODO Auto-generated method stub
-				String _id = (Long) objs[0][0] + "";
+				String _id = (Long) objs[0][0] + Constants.EMPTY;
 				String mPath = (String) objs[0][1];
 				boolean cacheCheckBool = (Boolean) objs[0][2];
 				boolean dataCheckBool = (Boolean) objs[0][3];
@@ -291,9 +284,8 @@ public class VibhinnaService extends CustomIntentService {
 				m2.obj = vsName;
 				endMessage.obj = vsName;
 				if (cacheCheckBool) {
-					values.put(DatabaseHelper.TASK_MESSAGE,
-							mContext.getString(R.string.formating) + vsName
-									+ mContext.getString(R.string.cachext3));
+					values.put(DatabaseHelper.TASK_MESSAGE, mContext.getString(
+							R.string.formating_cache, vsName));
 					progress = progress + 100;
 					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
 					mResolver
@@ -306,8 +298,7 @@ public class VibhinnaService extends CustomIntentService {
 				}
 				if (dataCheckBool) {
 					values.put(DatabaseHelper.TASK_MESSAGE,
-							mContext.getString(R.string.formating) + vsName
-									+ mContext.getString(R.string.dataext3));
+							mContext.getString(R.string.formating_data, vsName));
 					progress = progress + 100;
 					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
 					mResolver
@@ -320,9 +311,8 @@ public class VibhinnaService extends CustomIntentService {
 					dataCheckBool = false;
 				}
 				if (systemCheckBool) {
-					values.put(DatabaseHelper.TASK_MESSAGE,
-							mContext.getString(R.string.formating) + vsName
-									+ mContext.getString(R.string.systemext3));
+					values.put(DatabaseHelper.TASK_MESSAGE, mContext.getString(
+							R.string.formating_system, vsName));
 					progress = progress + 100;
 					values.put(DatabaseHelper.TASK_PROGRESS, progress / maxOp);
 					mResolver
@@ -334,8 +324,8 @@ public class VibhinnaService extends CustomIntentService {
 					ProcessManager.inputStreamReader(shellinput, 20);
 					systemCheckBool = false;
 				}
-				values.put(DatabaseHelper.TASK_MESSAGE, "Formatting of "
-						+ vsName + " completed.");
+				values.put(DatabaseHelper.TASK_MESSAGE, mContext.getString(
+						R.string.task_formating_complete, vsName));
 				progress = progress + 100;
 				values.put(DatabaseHelper.TASK_PROGRESS, 100);
 				values.put(DatabaseHelper.TASK_STATUS,
@@ -359,65 +349,64 @@ public class VibhinnaService extends CustomIntentService {
 			case 1: {
 
 				displayNotificationMessage(
-						mContext.getString(R.string.creating) + vsName
-								+ mContext.getString(R.string.cacheimg), false);
+						mContext.getString(R.string.creating_cache, vsName),
+						false);
 				return;
 			}
 			case 2: {
 				displayNotificationMessage(
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.cachext3), false);
+						mContext.getString(R.string.formating_cache, vsName),
+						false);
 				return;
 			}
 			case 3: {
 				displayNotificationMessage(
-						mContext.getString(R.string.creating) + vsName
-								+ mContext.getString(R.string.dataimg), false);
+						mContext.getString(R.string.creating_data, vsName),
+						false);
 				return;
 			}
 			case 4: {
 				displayNotificationMessage(
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.dataext3), false);
+						mContext.getString(R.string.formating_data, vsName),
+						false);
 				return;
 			}
 			case 5: {
 				displayNotificationMessage(
-						mContext.getString(R.string.creating) + vsName
-								+ mContext.getString(R.string.systemimg), false);
+						mContext.getString(R.string.creating_system, vsName),
+						false);
 				return;
 			}
 			case 6: {
 				displayNotificationMessage(
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.systemext3),
+						mContext.getString(R.string.formating_system, vsName),
 						false);
 				return;
 			}
 			case 7:
 				// mVibFragment.restartLoading();
-				displayNotificationMessage("Creation of " + vsName
-						+ " completed.", true);
+				// TODO externalize
+				displayNotificationMessage(mContext.getString(
+						R.string.task_creation_complete, vsName), true);
 				return;
 			case 8:
 				displayNotificationMessage(
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.cachext3), false);
+						mContext.getString(R.string.formating_cache, vsName),
+						false);
 				return;
 			case 9:
 				displayNotificationMessage(
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.dataext3), false);
+						mContext.getString(R.string.formating_data, vsName),
+						false);
 				return;
 			case 10:
 				displayNotificationMessage(
-						mContext.getString(R.string.formating) + vsName
-								+ mContext.getString(R.string.systemext3),
+						mContext.getString(R.string.formating_system, vsName),
 						false);
 				return;
 			case 11:
-				displayNotificationMessage("Formatting of " + vsName
-						+ " completed.", true);
+				displayNotificationMessage(mContext.getString(
+						R.string.task_formating_complete, vsName), true);
 				return;
 			}
 		}
@@ -429,7 +418,7 @@ public class VibhinnaService extends CustomIntentService {
 				new Intent(mContext, VibhinnaActivity.class), 0);
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(
 				mContext)
-				.setContentTitle("Vibhinna")
+				.setContentTitle(mContext.getString(R.string.app_name))
 				.setTicker(message)
 				.setContentText(message)
 				.setContentIntent(intent)

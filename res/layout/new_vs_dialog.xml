@@ -22,7 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@+id/icon_and_memory"
-                android:hint="@string/entername"
+                android:hint="@string/enter_name"
                 android:inputType="text" />
 
             <EditText
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/vsname"
                 android:layout_toLeftOf="@+id/icon_and_memory"
-                android:hint="@string/shrtdesc"
+                android:hint="@string/enter_description"
                 android:inputType="text" />
 
             <Spinner
@@ -85,30 +85,31 @@
 
             <TableRow>
 
-            <EditText
-                android:id="@+id/cache_size_editer"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/sizemb"
-                android:inputType="number" />
+                <EditText
+                    android:id="@+id/cache_size_editer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/hint_size_in_mb"
+                    android:inputType="number" />
 
-            <EditText
-                android:id="@+id/data_size_editer"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/sizemb"
-                android:inputType="number" />
+                <EditText
+                    android:id="@+id/data_size_editer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/hint_size_in_mb"
+                    android:inputType="number" />
 
-            <EditText
-                android:id="@+id/system_size_editer"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:hint="@string/sizemb"
-                android:inputType="number" />
+                <EditText
+                    android:id="@+id/system_size_editer"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:hint="@string/hint_size_in_mb"
+                    android:inputType="number" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
+
 </ScrollView>

@@ -10,7 +10,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	protected static final String TAG = "DatabaseHelper";
 	protected Context mContext;
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 	public static final String VFS_DATABASE_NAME = "vs_db";
 	public static final String VFS_DATABASE_TABLE = "vs_table";
 	public static final String VIRTUAL_SYSTEM_COLUMN_DESCRIPTION = "vsdesc";
@@ -58,8 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		Toast.makeText(mContext, "Creating DataBase for first time...", 2000)
-				.show();
+		Toast.makeText(mContext, R.string.creating_database, 2000).show();
 		database.execSQL(VFS_DATABASE_CREATE_STATEMENT);
 		database.execSQL(TASK_DATABASE_CREATE_STATEMENT);
 		DatabaseUtils.scanFolder(database);
@@ -68,8 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int oldVersion,
 			int newVersion) {
-		database.execSQL("DROP TABLE IF EXISTS" + VFS_DATABASE_TABLE);
-		onCreate(database);
-
+		Toast.makeText(mContext, R.string.upgrading_database, 2000).show();
+		database.execSQL(TASK_DATABASE_CREATE_STATEMENT);
 	}
 }

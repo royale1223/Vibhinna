@@ -9,7 +9,7 @@
         android:layout_height="48.0dp"
         android:layout_marginLeft="8.0dp"
         android:layout_marginTop="4.0dp"
-        android:contentDescription="@string/task_queue_row_image_content"
+        android:contentDescription="@string/image_content"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_task_wait" />
 

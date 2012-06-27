@@ -169,20 +169,20 @@ public class VibhinnaProvider extends ContentProvider {
 						String vdstatus = "0";
 						File cacheimg = new File(root, "cache.img");
 						if (cacheimg.exists()) {
-							cache = cacheimg.length() / 1048576
-									+ context.getString(R.string.smiB);
+							cache = context.getString(R.string.space_in_mb,
+									(cacheimg.length() / 1048576));
 						} else
 							cache = context.getString(R.string.error);
 						File dataimg = new File(root, "data.img");
 						if (dataimg.exists()) {
-							data = dataimg.length() / 1048576
-									+ context.getString(R.string.smiB);
+							data = context.getString(R.string.space_in_mb,
+									(dataimg.length() / 1048576));
 						} else
 							data = context.getString(R.string.error);
 						File systemimg = new File(root, "system.img");
 						if (systemimg.exists()) {
-							system = systemimg.length() / 1048576
-									+ context.getString(R.string.smiB);
+							system = context.getString(R.string.space_in_mb,
+									(systemimg.length() / 1048576));
 						} else
 							system = context.getString(R.string.error);
 						if (systemimg.exists() && cacheimg.exists()
@@ -195,9 +195,8 @@ public class VibhinnaProvider extends ContentProvider {
 						fsii[2] = c.getString(4);
 						fsii[3] = null;
 						fsii[4] = c.getString(3);
-						fsii[5] = context.getString(R.string.caches) + cache
-								+ context.getString(R.string.datas) + data
-								+ context.getString(R.string.systems) + system;
+						fsii[5] = context.getString(R.string.vfs_short_info,
+								cache, data, system);
 						fsii[6] = vdstatus;
 						fsii[7] = c.getString(2);
 						cursor.addRow(fsii);
@@ -222,10 +221,10 @@ public class VibhinnaProvider extends ContentProvider {
 			vsinfo[4] = databaseCursor.getString(4);
 			databaseCursor.close();
 			for (int i = 5; i < 29; i++) {
-				vsinfo[i] = context.getString(R.string.na);
+				vsinfo[i] = context.getString(R.string.not_available);
 			}
 			for (int i = 7; i < 29; i = i + 8) {
-				vsinfo[i] = vsinfo[i] = context.getString(R.string.corrupted);
+				vsinfo[i] = context.getString(R.string.corrupted);
 			}
 			try {
 				String[] shellinput = { Constants.CMD_TUNE2FS, vspath,

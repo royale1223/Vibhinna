@@ -18,10 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dip"
-            android:paddingTop="8dip"
             android:paddingLeft="16dip"
             android:paddingRight="16dip"
-             />
+            android:paddingTop="8dip" />
     </ScrollView>
 
 </LinearLayout>

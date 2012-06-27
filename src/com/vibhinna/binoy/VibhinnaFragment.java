@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -11,17 +12,19 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
@@ -129,7 +132,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		String s2 = cursor.getString(7);
 		if (cursor.equals(null) || s1.equals(s2))
 			return;
-		menu.setHeaderTitle(cursor.getString(1));
+		if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+			LayoutInflater headerInflater = (LayoutInflater) getSherlockActivity()
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			ViewGroup header = (ViewGroup) headerInflater.inflate(
+					R.layout.context_menu_header, null);
+			TextView title = (TextView) header
+					.findViewById(R.id.context_menu_title);
+			title.setText(cursor.getString(1));
+			menu.setHeaderView(header);
+		}
 		android.view.MenuInflater inflater = getActivity().getMenuInflater();
 		inflater.inflate(R.menu.context_menu, menu);
 	}
@@ -163,8 +175,9 @@ public class VibhinnaFragment extends SherlockListFragment implements
 				builder = new AlertDialog.Builder(getActivity());
 			else
 				builder = new HoloAlertDialogBuilder(getActivity());
-			builder.setTitle(getString(R.string.delete) + cursor.getString(1))
-					.setMessage(getString(R.string.rusure))
+			builder.setTitle(
+					getString(R.string.delete_vfs, cursor.getString(1)))
+					.setMessage(getString(R.string.confirm_delete))
 					.setPositiveButton(getString(R.string.okay),
 							new DialogInterface.OnClickListener() {
 								@Override
@@ -225,8 +238,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			return true;
 		case R.id.menu_settings:
 			// getActivity().startActivity(item.getIntent());
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_scan:
 			scanVFS();
@@ -246,16 +259,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			restartLoading();
 			return true;
 		case R.id.menu_help:
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_about:
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_license:
-			Toast.makeText(getActivity(), "This is a stub!! Move on.",
-					Toast.LENGTH_SHORT);
+			Toast.makeText(getActivity(), getString(R.string.this_is_a_stub),
+					Toast.LENGTH_SHORT).show();
 			return true;
 		default:
 			return false;
@@ -263,18 +276,19 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	}
 
 	private void scanVFS() {
-		class scanTask extends AsyncTask <Void,Void,Void> {
+		class scanTask extends AsyncTask<Void, Void, Void> {
 
 			@Override
 			protected Void doInBackground(Void... params) {
 				resolver.query(
-						Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
-								+ VibhinnaProvider.VFS_BASE_PATH + "/scan"), null,
-						null, null, null);
+						Uri.parse("content://" + VibhinnaProvider.AUTHORITY
+								+ "/" + VibhinnaProvider.VFS_BASE_PATH
+								+ "/scan"), null, null, null, null);
 				return null;
-			}}
+			}
+		}
 		new scanTask().execute();
-		
+
 	}
 
 	/**
@@ -284,8 +298,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 *            _id of the VFS
 	 */
 	void showDetailsDialog(long id) {
-		DialogFragment newFragment = DetailsDialogFragment.newInstance(id);
-		newFragment.show(getFragmentManager(), "details_dialog");
+		DetailsDialogFragment.newInstance(getSherlockActivity(), id).show(
+				getFragmentManager(), "details_dialog");
 	}
 
 	/**
@@ -294,14 +308,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	 * @param vibhinnaFragment
 	 */
 	private void showNewVFSDialog() {
-		// if (android.os.Build.VERSION.SDK_INT >=
-		// android.os.Build.VERSION_CODES.HONEYCOMB) {
-		// NewDialogFragment.newInstance(vibhinnaFragment).show(
-		// getFragmentManager(), "new_dialog");
-		// } else {
 		NewDialogFragmentOld.newInstance(getSherlockActivity()).show(
 				getFragmentManager(), "new_dialog");
-		// }
 	}
 
 	private void showFormatDialog(VibhinnaFragment vibhinnaFragment, long id) {
