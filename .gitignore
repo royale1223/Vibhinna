@@ -6,3 +6,6 @@ proguard/*
 /proguard/*
 /*.ucls
 /*.PNG
+values/*
+/*.txt
+/*.sh
