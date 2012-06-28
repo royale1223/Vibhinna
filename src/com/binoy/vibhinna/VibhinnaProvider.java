@@ -8,6 +8,7 @@ import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -15,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import com.binoy.vibhinna.R;
@@ -22,8 +24,14 @@ import com.binoy.vibhinna.R;
 public class VibhinnaProvider extends ContentProvider {
 	private DatabaseHelper mDatabaseHelper;
 	private SQLiteDatabase mDatabase;
-	private Context context;
+	private Context mContext;
+
+	protected static LocalBroadcastManager mLocalBroadcastManager;
+	protected static Intent vfsListUpdatedIntent;
+
 	public static final String AUTHORITY = "com.binoy.vibhinna.VibhinnaProvider";
+	private static final String TAG = "VibhinnaProvider";
+
 	public static final int VFS = 0;
 	public static final int VFS_ID = 1;
 	private static final int VFS_LIST = 2;
@@ -31,9 +39,9 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final int VFS_SCAN = 4;
 	private static final int WRITE_XML = 5;
 	private static final int READ_XML = 6;
+	
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
-	private static final String TAG = "com.binoy.vibhinna.VibhinnaProvider";
 	public static final String VFS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + VFS_BASE_PATH);
@@ -113,9 +121,12 @@ public class VibhinnaProvider extends ContentProvider {
 
 	@Override
 	public boolean onCreate() {
-		context = getContext();
-		mDatabaseHelper = new DatabaseHelper(context);
+		mContext = getContext();
+		mDatabaseHelper = new DatabaseHelper(mContext);
 		mDatabase = mDatabaseHelper.getWritableDatabase();
+		mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+		vfsListUpdatedIntent = new Intent();
+		vfsListUpdatedIntent.setAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
 		return true;
 	}
 
@@ -170,22 +181,22 @@ public class VibhinnaProvider extends ContentProvider {
 						String vdstatus = "0";
 						File cacheimg = new File(root, "cache.img");
 						if (cacheimg.exists()) {
-							cache = context.getString(R.string.space_in_mb,
+							cache = mContext.getString(R.string.space_in_mb,
 									(cacheimg.length() / 1048576));
 						} else
-							cache = context.getString(R.string.error);
+							cache = mContext.getString(R.string.error);
 						File dataimg = new File(root, "data.img");
 						if (dataimg.exists()) {
-							data = context.getString(R.string.space_in_mb,
+							data = mContext.getString(R.string.space_in_mb,
 									(dataimg.length() / 1048576));
 						} else
-							data = context.getString(R.string.error);
+							data = mContext.getString(R.string.error);
 						File systemimg = new File(root, "system.img");
 						if (systemimg.exists()) {
-							system = context.getString(R.string.space_in_mb,
+							system = mContext.getString(R.string.space_in_mb,
 									(systemimg.length() / 1048576));
 						} else
-							system = context.getString(R.string.error);
+							system = mContext.getString(R.string.error);
 						if (systemimg.exists() && cacheimg.exists()
 								&& dataimg.exists()) {
 							vdstatus = "1";
@@ -196,7 +207,7 @@ public class VibhinnaProvider extends ContentProvider {
 						fsii[2] = c.getString(4);
 						fsii[3] = null;
 						fsii[4] = c.getString(3);
-						fsii[5] = context.getString(R.string.vfs_short_info,
+						fsii[5] = mContext.getString(R.string.vfs_short_info,
 								cache, data, system);
 						fsii[6] = vdstatus;
 						fsii[7] = c.getString(2);
@@ -208,6 +219,7 @@ public class VibhinnaProvider extends ContentProvider {
 			return cursor;
 		case VFS_DETAILS:
 			String[] vsinfo = new String[29];
+			Log.d(TAG, "Uri : " + uri.toString());
 			Cursor databaseCursor = mDatabase.query(
 					DatabaseHelper.VFS_DATABASE_TABLE, Constants.allColumns,
 					"_id = ?", new String[] { uri.getLastPathSegment() }, null,
@@ -222,10 +234,10 @@ public class VibhinnaProvider extends ContentProvider {
 			vsinfo[4] = databaseCursor.getString(4);
 			databaseCursor.close();
 			for (int i = 5; i < 29; i++) {
-				vsinfo[i] = context.getString(R.string.not_available);
+				vsinfo[i] = mContext.getString(R.string.not_available);
 			}
 			for (int i = 7; i < 29; i = i + 8) {
-				vsinfo[i] = context.getString(R.string.corrupted);
+				vsinfo[i] = mContext.getString(R.string.corrupted);
 			}
 			try {
 				String[] shellinput = { Constants.CMD_TUNE2FS, vspath,
@@ -250,7 +262,7 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[5] = chuuid;
 				vsinfo[6] = chmagicnumber;
 				if (chmagicnumber.equals("0xEF53")) {
-					vsinfo[7] = context.getString(R.string.healthy);
+					vsinfo[7] = mContext.getString(R.string.healthy);
 				}
 				vsinfo[8] = Integer.parseInt(chblockcount)
 						* Integer.parseInt(chblocksize) / 1048576 + "";
@@ -286,7 +298,7 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[13] = dauuid;
 				vsinfo[14] = damagicnumber;
 				if (damagicnumber.equals("0xEF53")) {
-					vsinfo[15] = context.getString(R.string.healthy);
+					vsinfo[15] = mContext.getString(R.string.healthy);
 				}
 				vsinfo[16] = Integer.parseInt(dablockcount)
 						* Integer.parseInt(dablocksize) / 1048576 + "";
@@ -322,7 +334,7 @@ public class VibhinnaProvider extends ContentProvider {
 				vsinfo[21] = syuuid;
 				vsinfo[22] = symagicnumber;
 				if (symagicnumber.equals("0xEF53")) {
-					vsinfo[23] = context.getString(R.string.healthy);
+					vsinfo[23] = mContext.getString(R.string.healthy);
 				}
 				vsinfo[24] = Integer.parseInt(syblockcount)
 						* Integer.parseInt(syblocksize) / 1048576 + "";
@@ -344,6 +356,7 @@ public class VibhinnaProvider extends ContentProvider {
 			return matrixCursor;
 		case VFS_SCAN:
 			int[] change = DatabaseUtils.scanFolder(mDatabase);
+			mLocalBroadcastManager.sendBroadcast(vfsListUpdatedIntent);
 			Log.i(TAG, change[0] + " VFS added, " + change[1] + " deleted.");
 			break;
 		case WRITE_XML:
@@ -360,7 +373,7 @@ public class VibhinnaProvider extends ContentProvider {
 		Cursor cursor = queryBuilder.query(mDatabase, projection, selection,
 				selectionArgs, null, null, sortOrder);
 
-		cursor.setNotificationUri(context.getContentResolver(), uri);
+		cursor.setNotificationUri(mContext.getContentResolver(), uri);
 		return cursor;
 	}
 

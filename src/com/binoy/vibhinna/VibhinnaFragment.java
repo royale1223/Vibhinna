@@ -267,8 +267,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.menu_scan:
+			setListShown(false);
 			scanVFS();
-			restartLoading();
 			return true;
 		case R.id.menu_backup:
 			resolver.query(
