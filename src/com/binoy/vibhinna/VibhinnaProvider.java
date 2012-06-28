@@ -356,13 +356,13 @@ public class VibhinnaProvider extends ContentProvider {
 			vfsListUpdatedIntent
 					.setAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
 			mLocalBroadcastManager.sendBroadcast(vfsListUpdatedIntent);
-			break;
+			return null;
 		case WRITE_XML:
 			DatabaseUtils.writeXML(mDatabase);
-			break;
+			return null;
 		case READ_XML:
 			DatabaseUtils.readXML(mDatabase);
-			break;
+			return null;
 		default:
 			Log.e(TAG, "unknown uri :" + uri.toString() + ", type : " + uriType);
 			throw new IllegalArgumentException("Unknown URI");
