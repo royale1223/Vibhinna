@@ -15,12 +15,17 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.binoy.vibhinna.R;
 
 public class TasksQueueFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -124,12 +129,13 @@ public class TasksQueueFragment extends SherlockListFragment implements
 
 	private void clearFinishedTasks() {
 		AlertDialog.Builder builder;
+		LayoutInflater inflater = LayoutInflater.from(mContext);
+		View view = inflater.inflate(R.layout.clear_tasks_dialog, null);
 		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
 			builder = new AlertDialog.Builder(mContext);
 		else
 			builder = new HoloAlertDialogBuilder(mContext);
-		builder.setTitle(getString(R.string.clear_tasks_title))
-				.setMessage(getString(R.string.clear_tasks_message))
+		builder.setView(view).setTitle(getString(R.string.clear_tasks_title))
 				.setPositiveButton(R.string.okay, new OnClickListener() {
 
 					@Override
@@ -141,19 +147,39 @@ public class TasksQueueFragment extends SherlockListFragment implements
 													+ " IS ?",
 											new String[] { TasksAdapter.TASK_STATUS_FINISHED
 													+ Constants.EMPTY });
-						else
+						else {
 							mResolver.delete(TasksProvider.CONTENT_URI, null,
 									null);
+							clearAllTasks = false;
+						}
 
 					}
 				}).setNegativeButton(R.string.cancel, new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// Cancelled
-
 					}
 				}).create().show();
+
+		final TextView message = (TextView) view
+				.findViewById(R.id.clear_tasks_message);
+		CheckBox checkBox = (CheckBox) view
+				.findViewById(R.id.clear_all_tasks_checkbox);
+		checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				if (isChecked) {
+					message.setText(R.string.clear_all_tasks_message);
+					clearAllTasks = true;
+				} else {
+					message.setText(R.string.clear_tasks_message);
+					clearAllTasks = false;
+				}
+
+			}
+		});
 		restartLoading();
 
 	}
