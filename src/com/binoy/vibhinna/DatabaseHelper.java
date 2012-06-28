@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Toast.makeText(mContext, R.string.creating_database, 2000).show();
 		database.execSQL(VFS_DATABASE_CREATE_STATEMENT);
 		database.execSQL(TASK_DATABASE_CREATE_STATEMENT);
-		DatabaseUtils.scanFolder(database);
+		DatabaseUtils.scanFolder(database, mContext);
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import android.provider.BaseColumns;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
-import com.binoy.vibhinna.R;
 
 public class VibhinnaProvider extends ContentProvider {
 	private DatabaseHelper mDatabaseHelper;
@@ -27,7 +26,6 @@ public class VibhinnaProvider extends ContentProvider {
 	private Context mContext;
 
 	protected static LocalBroadcastManager mLocalBroadcastManager;
-	protected static Intent vfsListUpdatedIntent;
 
 	public static final String AUTHORITY = "com.binoy.vibhinna.VibhinnaProvider";
 	private static final String TAG = "VibhinnaProvider";
@@ -39,7 +37,7 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final int VFS_SCAN = 4;
 	private static final int WRITE_XML = 5;
 	private static final int READ_XML = 6;
-	
+
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
 	public static final String VFS_BASE_PATH = "vfs";
@@ -125,8 +123,6 @@ public class VibhinnaProvider extends ContentProvider {
 		mDatabaseHelper = new DatabaseHelper(mContext);
 		mDatabase = mDatabaseHelper.getWritableDatabase();
 		mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
-		vfsListUpdatedIntent = new Intent();
-		vfsListUpdatedIntent.setAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
 		return true;
 	}
 
@@ -355,9 +351,11 @@ public class VibhinnaProvider extends ContentProvider {
 			matrixCursor.addRow(vsinfo);
 			return matrixCursor;
 		case VFS_SCAN:
-			int[] change = DatabaseUtils.scanFolder(mDatabase);
+			DatabaseUtils.scanFolder(mDatabase, mContext);
+			Intent vfsListUpdatedIntent = new Intent();
+			vfsListUpdatedIntent
+					.setAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
 			mLocalBroadcastManager.sendBroadcast(vfsListUpdatedIntent);
-			Log.i(TAG, change[0] + " VFS added, " + change[1] + " deleted.");
 			break;
 		case WRITE_XML:
 			DatabaseUtils.writeXML(mDatabase);
