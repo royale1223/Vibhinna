@@ -36,11 +36,9 @@ public class DatabaseUtils {
 
 	public static int[] scanFolder(SQLiteDatabase database, Context context) {
 		int added = 0, deleted = 0;
-		Log.d(TAG, "Scan sdcard");
 		readXML(database);
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
-			Log.d(TAG, "Scan sdcard : media mounted");
 			FileFilter vfsFilter = new FileFilter() {
 				@Override
 				public boolean accept(File file) {
@@ -118,7 +116,6 @@ public class DatabaseUtils {
 	public static void writeXML(SQLiteDatabase database) {
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
-			Log.d(TAG, "writeXML()");
 			if (!mbmconfigdir.exists()) {
 				mbmconfigdir.mkdirs();
 			}
@@ -201,7 +198,6 @@ public class DatabaseUtils {
 
 	public static void readXML(SQLiteDatabase database) {
 		// get the root element
-		Log.d(TAG, "readXML()");
 		if (Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED)) {
 			try {
