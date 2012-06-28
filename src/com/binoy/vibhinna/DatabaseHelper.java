@@ -1,10 +1,11 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.widget.Toast;
+import com.binoy.vibhinna.R;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 

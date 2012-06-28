@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,9 +9,10 @@ import java.io.InputStream;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import com.binoy.vibhinna.R;
 
 public class AssetsManager {
-	private static final String TAG = "com.vibhinna.binoy.AssetsManager";
+	private static final String TAG = "com.binoy.vibhinna.AssetsManager";
 	private static final String ASSETS_FOLDER = "bin";
 	Context context;
 
@@ -26,7 +27,7 @@ public class AssetsManager {
 	}
 
 	/**
-	 * Copies assets to /data/data/com.vibhinna.binoy/bin and sets permissions
+	 * Copies assets to /data/data/com.binoy.vibhinna/bin and sets permissions
 	 */
 	public void copyAssets() {
 		// FIXME use package name.

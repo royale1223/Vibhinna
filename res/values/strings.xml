@@ -31,7 +31,7 @@
     <string name="enter_description">Enter description</string>
     <string name="enter_name">Enter desired name</string>
     <string name="icon_prompt">Choose an icon</string>
-
+    
     <string-array name="icon_array">
         <item>Argent2Stone</item>
         <item>Android</item>

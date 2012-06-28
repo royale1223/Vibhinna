@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 
@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.binoy.vibhinna.R;
 
 public class EditDialogFragment extends SherlockDialogFragment {
 	private static VibhinnaFragment mVibFragment;

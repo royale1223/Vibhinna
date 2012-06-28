@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 import android.util.Log;
 
 public class ProcessManager {
-	private static final String TAG = "com.vibhinna.binoy.ProcessManager";
+	private static final String TAG = "ProcessManager";
 
 	/**
 	 * Reads ErrorStream of a command and executes it

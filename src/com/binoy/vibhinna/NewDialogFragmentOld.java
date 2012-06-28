@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 
@@ -23,10 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.binoy.vibhinna.R;
 
 public class NewDialogFragmentOld extends SherlockDialogFragment {
 
-	private static final String TAG = "com.vibhinna.binoy.NewVSDialogMakerICS";
+	private static final String TAG = "NewDialogFragmentOld";
 	private static Context mContext;
 	private int iconId;
 	private int cacheSize;

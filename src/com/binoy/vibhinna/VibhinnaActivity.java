@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.util.ArrayList;
 
@@ -11,10 +11,11 @@ import android.support.v4.view.ViewPager;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.binoy.vibhinna.R;
 
 public class VibhinnaActivity extends SherlockFragmentActivity {
-	protected static final String ACTION_PROGRESS_UPDATE = "com.vibhinna.binoy.intent.action.ACTION_PROGRESS_UPDATE";
-	protected static final String ACTION_NEW_TASK = "com.vibhinna.binoy.intent.action.ACTION_NEW_TASK";
+	protected static final String ACTION_PROGRESS_UPDATE = "com.binoy.vibhinna.intent.action.ACTION_PROGRESS_UPDATE";
+	protected static final String ACTION_NEW_TASK = "com.binoy.vibhinna.intent.action.ACTION_NEW_TASK";
 
 	ViewPager mViewPager;
 	TabsAdapter mTabsAdapter;

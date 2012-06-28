@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -14,7 +14,7 @@ import android.text.TextUtils;
 
 public class TasksProvider extends ContentProvider {
 
-	public static final String PROVIDER_NAME = "com.vibhinna.binoy.TasksProvider";
+	public static final String PROVIDER_NAME = "com.binoy.vibhinna.TasksProvider";
 	public static final Uri CONTENT_URI = Uri.parse("content://"
 			+ PROVIDER_NAME + "/tasks");
 	public static final String _ID = "_id";

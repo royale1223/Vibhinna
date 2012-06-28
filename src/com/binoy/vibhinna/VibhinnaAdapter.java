@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -10,6 +10,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import com.binoy.vibhinna.R;
 
 public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 
@@ -27,6 +28,7 @@ public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 		mbpath = sdpath + propmanager.mbActivePath();
 		mContext = context;
 		mInflater = LayoutInflater.from(context);
+		mCursor = getCursor();
 	}
 
 	/**
@@ -39,7 +41,6 @@ public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 		// A ViewHolder keeps references to children views to avoid unneccessary
 		// calls to findViewById() on each row.
 		ViewHolder holder;
-		Cursor mCursor = getCursor();
 		mCursor.moveToPosition(position);
 		// When convertView is not null, we can reuse it directly, there is no
 		// need to reinflate it. We only inflate a new View when the convertView

@@ -1,12 +1,14 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +17,7 @@ import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -31,17 +34,20 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.binoy.vibhinna.R;
 
 public class VibhinnaFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
 	private static final int VFS_LIST_LOADER = 0x01;
-	protected static final String TAG = "com.vibhinna.binoy.VibhinnaFragment";
+	protected static final String TAG = "VibhinnaFragment";
 	private VibhinnaAdapter adapter;
 	protected boolean cacheCheckBool = false;
 	protected boolean dataCheckBool = false;
 	protected boolean systemCheckBool = false;
 	int iconid = 1;
 	private ContentResolver resolver;
+	private LocalBroadcastManager mLocalBroadcastManager;
+	private BroadcastReceiver mBroadcastReceiver;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -54,6 +60,16 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
 		}
+		mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+		mBroadcastReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (intent.getAction().equals(
+						VibhinnaService.ACTION_VFS_LIST_UPDATED)) {
+					restartLoading();
+				}
+			}
+		};
 		resolver = getActivity().getContentResolver();
 		setHasOptionsMenu(true);
 		startLoading();
@@ -109,6 +125,14 @@ public class VibhinnaFragment extends SherlockListFragment implements
 		adapter = new VibhinnaAdapter(getActivity(), R.layout.main_row, null,
 				from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
+		mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, filter);
 	}
 
 	@Override

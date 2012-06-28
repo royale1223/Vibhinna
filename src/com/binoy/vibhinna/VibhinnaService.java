@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 
@@ -15,6 +15,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.NotificationCompat;
+import com.binoy.vibhinna.R;
 
 public class VibhinnaService extends CustomIntentService {
 
@@ -29,6 +30,7 @@ public class VibhinnaService extends CustomIntentService {
 	public static final String ICON_ID = "icon_id";
 	protected static final String TAG = "VibhinnaService";
 	public static final String ACTION_TASK_QUEUE_UPDATED = "com.binoy.vibhinna.action.ACTION_TASK_QUEUE_UPDATED";
+	protected static final String ACTION_VFS_LIST_UPDATED = "com.binoy.vibhinna.action.ACTION_VFS_LIST_UPDATED";
 	protected static final String FORMAT_CACHE = "format_cache";
 	protected static final String FORMAT_DATA = "format_data";
 	protected static final String FORMAT_SYSTEM = "format_system";
@@ -171,7 +173,6 @@ public class VibhinnaService extends CustomIntentService {
 				m4.obj = new File(folderPath).getName();
 				handler.sendMessage(m4);
 
-
 				shellinput[0] = Constants.CMD_MKE2FS_EXT3;
 				shellinput[2] = Constants.DATA_IMG;
 				shellinput[3] = Constants.EMPTY;
@@ -229,7 +230,6 @@ public class VibhinnaService extends CustomIntentService {
 				mResolver.update(
 						Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id),
 						values, null, null);
-
 
 				final Message endMessage = new Message();
 				endMessage.arg1 = 7;
@@ -344,7 +344,7 @@ public class VibhinnaService extends CustomIntentService {
 		@Override
 		public void handleMessage(Message msg) {
 			String vsName = (String) msg.obj;
-			mLocalBroadcastManager.sendBroadcast(broadcastIntent);
+			mLocalBroadcastManager.sendBroadcast(tasksUpdatedIntent);
 			switch (msg.arg1) {
 			case 1: {
 
@@ -384,8 +384,7 @@ public class VibhinnaService extends CustomIntentService {
 				return;
 			}
 			case 7:
-				// mVibFragment.restartLoading();
-				// TODO externalize
+				mLocalBroadcastManager.sendBroadcast(vfsListUpdatedIntent);
 				displayNotificationMessage(mContext.getString(
 						R.string.task_creation_complete, vsName), true);
 				return;

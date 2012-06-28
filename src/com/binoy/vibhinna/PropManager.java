@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,9 +10,10 @@ import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.provider.BaseColumns;
 import android.util.Log;
+import com.binoy.vibhinna.R;
 
 public class PropManager {
-	public static final String TAG = "com.vibhinna.binoy.PropManager";
+	public static final String TAG = "PropManager";
 	private Context mContext;
 
 	public PropManager(Context context) {

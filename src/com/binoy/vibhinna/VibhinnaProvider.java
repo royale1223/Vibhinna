@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 import java.util.Scanner;
@@ -17,12 +17,13 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.TextUtils;
 import android.util.Log;
+import com.binoy.vibhinna.R;
 
 public class VibhinnaProvider extends ContentProvider {
 	private DatabaseHelper mDatabaseHelper;
 	private SQLiteDatabase mDatabase;
 	private Context context;
-	public static final String AUTHORITY = "com.vibhinna.binoy.VibhinnaProvider";
+	public static final String AUTHORITY = "com.binoy.vibhinna.VibhinnaProvider";
 	public static final int VFS = 0;
 	public static final int VFS_ID = 1;
 	private static final int VFS_LIST = 2;
@@ -32,7 +33,7 @@ public class VibhinnaProvider extends ContentProvider {
 	private static final int READ_XML = 6;
 	private static final UriMatcher sURIMatcher = new UriMatcher(
 			UriMatcher.NO_MATCH);
-	private static final String TAG = "com.vibhinna.binoy.VibhinnaProvider";
+	private static final String TAG = "com.binoy.vibhinna.VibhinnaProvider";
 	public static final String VFS_BASE_PATH = "vfs";
 	public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY
 			+ "/" + VFS_BASE_PATH);

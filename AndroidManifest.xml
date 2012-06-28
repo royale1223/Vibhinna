@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vibhinna.binoy"
+    package="com.binoy.vibhinna"
     android:versionCode="1"
     android:versionName="1.0 alpha" >
 
@@ -16,18 +16,18 @@
         android:logo="@drawable/logo_vibhinna"
         android:theme="@style/VibhinnaTheme" >
         <provider
-            android:name="com.vibhinna.binoy.VibhinnaProvider"
-            android:authorities="com.vibhinna.binoy.VibhinnaProvider"
+            android:name="com.binoy.vibhinna.VibhinnaProvider"
+            android:authorities="com.binoy.vibhinna.VibhinnaProvider"
             android:multiprocess="true" >
         </provider>
         <provider
-            android:name="com.vibhinna.binoy.TasksProvider"
-            android:authorities="com.vibhinna.binoy.TasksProvider"
+            android:name=".TasksProvider"
+            android:authorities="com.binoy.vibhinna.TasksProvider"
             android:multiprocess="true" >
         </provider>
 
         <activity
-            android:name=".VibhinnaActivity"
+            android:name="com.binoy.vibhinna.VibhinnaActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
             <intent-filter>
@@ -36,7 +36,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="Preferences" />
+        <activity android:name=".Preferences" />
 
         <service android:name=".VibhinnaService" />
     </application>

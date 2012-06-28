@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -20,6 +20,7 @@ import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.binoy.vibhinna.R;
 
 public class TasksQueueFragment extends SherlockListFragment implements
 		LoaderManager.LoaderCallbacks<Cursor> {
@@ -30,6 +31,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	private LocalBroadcastManager mLocalBroadcastManager;
 	private BroadcastReceiver mBroadcastReceiver;
 	private Context mContext;
+	private boolean clearAllTasks = false;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -86,8 +88,8 @@ public class TasksQueueFragment extends SherlockListFragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
-		adapter = new TasksAdapter(getSherlockActivity(), R.layout.main_row, null,
-				new String[] {}, new int[] {},
+		adapter = new TasksAdapter(getSherlockActivity(), R.layout.main_row,
+				null, new String[] {}, new int[] {},
 				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
@@ -132,11 +134,16 @@ public class TasksQueueFragment extends SherlockListFragment implements
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						mResolver
-								.delete(TasksProvider.CONTENT_URI,
-										DatabaseHelper.TASK_STATUS + " IS ?",
-										new String[] { TasksAdapter.TASK_STATUS_FINISHED
-												+ Constants.EMPTY });
+						if (!clearAllTasks)
+							mResolver
+									.delete(TasksProvider.CONTENT_URI,
+											DatabaseHelper.TASK_STATUS
+													+ " IS ?",
+											new String[] { TasksAdapter.TASK_STATUS_FINISHED
+													+ Constants.EMPTY });
+						else
+							mResolver.delete(TasksProvider.CONTENT_URI, null,
+									null);
 
 					}
 				}).setNegativeButton(R.string.cancel, new OnClickListener() {

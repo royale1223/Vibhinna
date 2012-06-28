@@ -1,9 +1,10 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.binoy.vibhinna.R;
 
 public class SystemInfoFragment extends SherlockListFragment {
 

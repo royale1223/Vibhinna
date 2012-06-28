@@ -1,4 +1,4 @@
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockDialogFragment;
+import com.binoy.vibhinna.R;
 
 public class DetailsDialogFragment extends SherlockDialogFragment {
 	private static Context mContext;
@@ -43,6 +44,7 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 		for (int i = 0; i < cursor.getColumnCount(); i++) {
 			vsinfo[i] = cursor.getString(i);
 		}
+		cursor.close();
 		ImageView i = (ImageView) view.findViewById(R.id.icon);
 		i.setImageResource(MiscMethods.getIconRes(Integer.parseInt(vsinfo[3])));
 		TextView name = (TextView) view.findViewById(R.id.name);

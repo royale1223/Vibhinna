@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.vibhinna.binoy;
+package com.binoy.vibhinna;
 
 import java.io.File;
 
@@ -28,6 +28,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.BaseColumns;
 import android.support.v4.content.LocalBroadcastManager;
+import com.binoy.vibhinna.R;
 
 /**
  * IntentService is a base class for {@link Service}s that handle asynchronous
@@ -65,8 +66,11 @@ public abstract class CustomIntentService extends Service {
 	private volatile ServiceHandler mServiceHandler;
 	private String mName;
 	private boolean mRedelivery;
+
 	protected static LocalBroadcastManager mLocalBroadcastManager;
-	protected static Intent broadcastIntent;
+
+	protected static Intent vfsListUpdatedIntent;
+	protected static Intent tasksUpdatedIntent;
 
 	private final class ServiceHandler extends Handler {
 		// int intentId = 0;
@@ -167,9 +171,13 @@ public abstract class CustomIntentService extends Service {
 				getString(R.string.task_message_waiting));
 		mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
 
-		broadcastIntent = new Intent();
-		broadcastIntent.setAction(VibhinnaService.ACTION_TASK_QUEUE_UPDATED);
-		mLocalBroadcastManager.sendBroadcast(broadcastIntent);
+		tasksUpdatedIntent = new Intent();
+		tasksUpdatedIntent.setAction(VibhinnaService.ACTION_TASK_QUEUE_UPDATED);
+		mLocalBroadcastManager.sendBroadcast(tasksUpdatedIntent);
+
+		vfsListUpdatedIntent = new Intent();
+		vfsListUpdatedIntent.setAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
+
 		long id = Long.parseLong(getContentResolver().insert(
 				TasksProvider.CONTENT_URI, values).getLastPathSegment());
 		intent.putExtra(BaseColumns._ID, id);
