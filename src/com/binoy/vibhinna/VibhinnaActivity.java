@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -24,6 +27,8 @@ public class VibhinnaActivity extends SherlockFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		verifyExternalStorageMountState();
 
 		mViewPager = new ViewPager(this);
 		mViewPager.setId(R.id.pager);
@@ -42,6 +47,22 @@ public class VibhinnaActivity extends SherlockFragmentActivity {
 		mTabsAdapter.addTab(
 				bar.newTab().setText(getString(R.string.list_tab_info)),
 				SystemInfoFragment.class, null);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		verifyExternalStorageMountState();
+	}
+
+	private void verifyExternalStorageMountState() {
+		if (!Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			Toast.makeText(getApplicationContext(),
+					R.string.verify_external_storage, Toast.LENGTH_LONG).show();
+			finish();
+
+		}
 	}
 
 	public static class TabsAdapter extends FragmentPagerAdapter implements
