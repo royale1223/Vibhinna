@@ -53,6 +53,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setRetainInstance(true);
+		setEmptyText(getString(R.string.no_vfs_found));
 		registerForContextMenu(getListView());
 		if (!Constants.BINARY_FOLDER.exists()
 				|| Constants.BINARY_FOLDER.list().length < 3) {
@@ -60,7 +61,8 @@ public class VibhinnaFragment extends SherlockListFragment implements
 			AssetsManager assetsManager = new AssetsManager(getActivity());
 			assetsManager.copyAssets();
 		}
-		mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+		mLocalBroadcastManager = LocalBroadcastManager
+				.getInstance(getActivity());
 		mBroadcastReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -126,7 +128,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
 				from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		setListAdapter(adapter);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
