@@ -124,7 +124,7 @@ public class VibhinnaService extends CustomIntentService {
 						Constants.EMPTY, Constants.EMPTY, Constants.EMPTY };
 				shellinput[1] = folderPath;
 				shellinput[0] = Constants.CMD_DD;
-				shellinput[2] = "/cache.img bs=1000000 count=";
+				shellinput[2] = Constants.CMD_DD_CACHE;
 				shellinput[3] = cachesize;
 				ProcessManager.errorStreamReader(shellinput);
 				values.put(DatabaseHelper.TASK_MESSAGE,
@@ -157,7 +157,7 @@ public class VibhinnaService extends CustomIntentService {
 				handler.sendMessage(m3);
 
 				shellinput[0] = Constants.CMD_DD;
-				shellinput[2] = "/data.img bs=1000000 count=";
+				shellinput[2] = Constants.CMD_DD_DATA;
 				shellinput[3] = datasize;
 				ProcessManager.errorStreamReader(shellinput);
 
@@ -191,7 +191,7 @@ public class VibhinnaService extends CustomIntentService {
 				handler.sendMessage(m5);
 
 				shellinput[0] = Constants.CMD_DD;
-				shellinput[2] = "/system.img bs=1000000 count=";
+				shellinput[2] = Constants.CMD_DD_SYSTEM;
 				shellinput[3] = systemsize;
 				ProcessManager.errorStreamReader(shellinput);
 

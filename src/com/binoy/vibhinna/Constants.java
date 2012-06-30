@@ -6,6 +6,9 @@ import android.provider.BaseColumns;
 
 public class Constants {
 	public static final String CMD_DD = "dd if=/dev/zero of=";
+	public static final String CMD_DD_CACHE = "/cache.img bs=1M count=";
+	public static final String CMD_DD_DATA = "/data.img bs=1M count=";
+	public static final String CMD_DD_SYSTEM = "/system.img bs=1M count=";
 	public static final String CMD_MKE2FS_EXT3 = "/data/data/com.binoy.vibhinna/bin/mke2fs -F -t ext3 ";
 	public static final String CACHE_IMG = "/cache.img";
 	public static final String DATA_IMG = "/data.img";
