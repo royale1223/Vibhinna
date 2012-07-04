@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:logo="@drawable/logo_vibhinna"
-        android:theme="@style/Theme.HoloEverywhereLight.Sherlock" >
+        android:theme="@style/VibhinnaTheme" >
         <provider
             android:name="com.binoy.vibhinna.VibhinnaProvider"
             android:authorities="com.binoy.vibhinna.VibhinnaProvider"
