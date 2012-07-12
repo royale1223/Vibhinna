@@ -105,7 +105,7 @@
     <string name="total_memory_warning">%1$d MB</string>
     <string name="this_is_a_stub">This is a stub!! Move on.</string>
     <string name="task_creation_complete">Creation of %1$s completed</string>
-    <string name="task_formating_complete">Formatingof %1$s completed</string>
+    <string name="task_formating_complete">Formating of %1$s completed</string>
     <string name="vfs_scan_result">%1$d VFS added, %2$d deleted</string>
     <string name="vfs_create_result">%1$d VFS created sucessfully.</string>
     <string name="clear_all_tasks_checkbox_message">Clear all tasks</string>
