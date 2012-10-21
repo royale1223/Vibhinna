@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Translator: labsin@xda -->
+<resources>
+
+    <string name="app_name">Multi Boot Manager Free</string>
+    <string name="edit">Bewerk</string>
+    <string name="edits">"Bewerk\u0020"</string>
+    <string name="delete">Verwijder\u0020</string>
+    <string name="description">Multi Boot Manager Free</string>
+    <string name="nodata">Vond geen fsimage!!!</string>
+    <string name="sysinfo">Systeeminformatie</string>
+    <string name="okay">Ok</string>
+    <string name="cancel">Annuleer</string>
+    <string name="rusure">Bent u zeker?</string>
+    <string name="formating">Formatteren\u0020</string>
+    <string name="cachext3">/cache.img naar ext3....</string>
+    <string name="dataext3">/data.img naar ext3....</string>
+    <string name="systemext3">/system.img naar ext3....</string>
+    <string name="mbnactive">MULTIBOOT niet actief</string>
+    <string name="mbactive">MULTIBOOT actief</string>
+    <string name="uuidna">UUID\t\t\t\t\t\t: N/A</string>
+    <string name="magnum">Magisch nummer\t\t:\u0020</string>
+    <string name="vfsst">VFS Status\t\t\t:\u0020</string>
+    <string name="freespna">Vrije ruimte \t\t\t: N/A</string>
+    <string name="freesp">Vrije ruimte \t\t\t:\u0020</string>
+    <string name="miB">MB/</string>
+    <string name="miBf">MB vrij</string>
+    <string name="bcount">Aantal Blokken\t\t\t:\u0020</string>
+    <string name="fbcount">Vrije Blokken\t\t\t:\u0020</string>
+    <string name="blsiz">Blokgrootte\t\t\t:\u0020</string>
+    <string name="mknewfold">Maakt nieuwe folder\u0020</string>
+    <string name="creating">Maakt\u0020</string>
+    <string name="cacheimg">/cache.img....</string>
+    <string name="dataimg">/data.img....</string>
+    <string name="systemimg">/system.img</string>
+    <string name="pdsimg">/pds.img....</string>
+    <string name="agree">Akkoord</string>
+    <string name="about">Over</string>
+    <string name="license">Licentie</string>
+    <string name="smiB">MB\u0020</string>
+    <string name="error">Fout\u0020</string>
+    <string name="caches">cache:</string>
+    <string name="datas">data:</string>
+    <string name="systems">system:\u0020</string>
+    <string name="healthy">gezond</string>
+    <string name="shrtdesc">Vul een kleine beschrijving in :</string>
+    <string name="entername">Vul beschrijving hier in</string>
+    <string name="icon_prompt">Kies een icoon</string>
+    <string name="createvfs">Maak nieuw VFS</string>
+    <string name="refresui">Vernieuw UI</string>
+    <string name="repbug">Rapporteer bug</string>
+</resources>

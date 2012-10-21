@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Translator: Pottkopp@xda -->
+<resources>
+
+    <string name="app_name">Multi Boot Manager Free</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="edits">Bearbeite\u0020</string>
+    <string name="delete">Lösche\u0020</string>
+    <string name="description">Multi Boot Manager Free</string>
+    <string name="nodata">Keine "fsimages" gefunden!!!</string>
+    <string name="sysinfo">System Info</string>
+    <string name="okay">Okay</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="rusure">Bist du dir sicher?</string>
+    <string name="formating">Formatiere\u0020</string>
+    <string name="cachext3">/cache.img zu ext3....</string>
+    <string name="dataext3">/data.img zu ext3....</string>
+    <string name="systemext3">/system.img zu ext3....</string>
+    <string name="mbnactive">MULTIBOOT inaktiv</string>
+    <string name="mbactive">MULTIBOOT aktiv</string>
+    <string name="uuidna">UUID\t\t\t\t\t\t: N/V</string>
+    <string name="magnum">Magische Zahl\t\t:\u0020</string>
+    <string name="vfsst">VDS Status\t\t\t:\u0020</string>
+    <string name="freespna">Freier Speicher \t\t\t: N/A</string>
+    <string name="freesp">Freier Speicher \t\t\t:\u0020</string>
+    <string name="miB">MB/</string>
+    <string name="miBf">MB frei</string>
+    <string name="bcount">Block-Anzahl\t\t\t:\u0020</string>
+    <string name="fbcount">Freie Blocks\t\t\t:\u0020</string>
+    <string name="blsiz">Block Größe\t\t\t:\u0020</string>
+    <string name="mknewfold">Erstelle neuen Ordner\u0020</string>
+    <string name="creating">Erstelle\u0020</string>
+    <string name="cacheimg">/cache.img....</string>
+    <string name="dataimg">/data.img....</string>
+    <string name="systemimg">/system.img</string>
+    <string name="pdsimg">/pds.img....</string>
+    <string name="agree">Ich stimme zu</string>
+    <string name="about">Über</string>
+    <string name="license">Lizenz</string>
+    <string name="abouttext">"Multi Boot Manager Free 1.0 für Motorola Defy
+
+Autoren
+=======
+Binoy Babu (royale1223@gmail.com)
+
+Danke an
+=========
+m11kkaa für multiboot und Rat
+diamond_lover für italienische Übersetzung
+Quarx2k für kostbaren Rat und ICS
+Epsylon3 für ICS
+adamo3957 fürs Testen
+XDA forum
+
+Voraussetzungen
+===========
+1) Gerootetes Motorola Defy/Defy+/Bravo mit installiertem 2nd init bootmenu
+2) Multiboot Feature von m11kkaa 0.51
+
+Features
+========
+* Unterstützt jede Anzahl an ROMs
+* Volle multiboot 0.51 Unterstützung
+* Unterstützt multiple fsimages
+* Erstelle, recycle und formatiere virtuelle Systeme.
+* Löschen, Umbenennung und Bearbeitung der Beschreibung jedes Eintrags.
+* Zeigt die Größe des VDS.
+* und vieles mehr..
+
+Was ist das?
+=============
+Ein Manager für Virtuelle Datei Systeme (fsimages) auf deiner SD-Karte.
+
+Wie benutzt man das?
+================
+1) Zu allererst sollte ein custom ROM als Basis installiert sein. Bevorzugt die aktuellste CM9/CM7 nightly, um das aktuellste 2nd-init bootmenu zu bekommen.
+2) Dann defy_multiboot_v0.5.1.zip von m11kkaa flashen.
+3) MultiBootManagerFree.apk installieren
+4) Multi Boot Manager vom App-Drawer aus öffnen und neues VDS aus den Optionen heraus erstellen. Jetzt wird das neue VDS in der Liste angezeigt. Du hast gerade dein erstes VDS erstellt. 
+5) Damit MBM die schon existierenden VDS-Ordner auf der SD-Karte findet, müssen sie sich in /mnt/sdcard/multiboot befinden.
+6) Wenn du vorher leodfs Multiboot installiert hattest, musst du von vorne beginnen. Ich hoffe du hast genügend Kenntnisse, um zu wissen, welche Schritte du auslassen musst.
+7) Die übrigen Optionen von MBM sind ziemlich selbsterklärend. Bitte benutze das Kontextmenü (Lang-Klick-Menü).
+8) Bitte melde Bugs und Features, die du gerne hättest. Im Moment bin ich etwas beschäftigt, aber ich werde sie später beheben/implementieren.
+9) Diese App funktioniert nun auch im virtuellen System.
+10)  Diese App funktioniert auf allen GB und ICS ROMs mit 2nd init."</string>
+    <string name="licensetext">"Licence Agreement
+=================
+
+You should read the following terms and conditions before using this software.
+
+YOUR INSTALLATION AND/OR USE OF THIS SOFTWARE INDICATES YOUR ACCEPTANCE OF THIS LICENCE AGREEMENT AND WARRANTY.
+
+You may not alter this software in any way.  
+
+You may not decompile, reverse engineer, disassemble or otherwise reduce this software to a human perceivable form.  You may not modify or rent for profit this software, or create derivative works based upon this software.
+
+You may not publicise or distribute any algorithms or information used by this software without permission of the author/s.
+
+You hereby agree to indemnify, hold harmless, and defend the author(s) from and against any and all liabilities, damages, losses, costs and expenses (including reasonable legal fees) arising from or related to any claim, action, proceeding or allegation that arises or results, either directly or indirectly, from the use and distribution of this software. 
+
+You may terminate this Licence at any time by deleting or destroying the Software, documentation and all copies.  No Licence fee is refundable.  We may terminate this Licence at any time if you are found to be in breach of any of these terms.
+
+Notwithstanding any other provision in this Licence, a person who is not a party to this Licence has no right under the Contracts (Rights of Third Parties) Act 1999 (the "Act") to rely upon or enforce any term of this Licence.  Nothing in this Licence shall affect any right or remedy of a third party which exists or is available apart from that Act.
+
+
+Copyright Notice
+----------------
+"Multi Boot Manager Free" is the sole Copyright of Binoy Babu, ©2012 all rights reserved.
+
+"Multi Boot Manager Pro" is the sole Copyright of Binoy Babu, ©2012 all rights reserved.
+
+
+Warranty Disclaimer
+-------------------
+THE SOFTWARE IS PROVIDED AS IS WITHOUT WARRANTY OF ANY KIND.TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE AUTHOR/S FURTHER DISCLAIM ALL WARRANTIES, INCLUDING WITH OUT LIMITATION ANY IMPLIED WARRANTIES OF MERCHANT ABILITY, FITNESS FOR A PARTICULAR PURPOSE, ACCURACY OF INFORMATION AND NON INFRINGEMENT. THE ENTIRE RISK ARISING OUT OF THE USE OR PERFORMANCE OF THIS SOFTWARE AND DOCUMENTATION REMAINS WITH THE RECIPIENT. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL THE AUTHOR/S BE LIABLE FOR ANY CONSEQUENTIAL, INCIDENTAL, DIRECT, INDIRECT, SPECIAL, PUNITIVE OR OTHER DAMAGES OR COSTS WHATSOEVER (INCLUDING, WITH OUT LIMITATION, DAMAGES OR COSTS FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, LOSS OF BUSINESS INFORMATION OR OTHER PECUNIARY LOSS) ARISING OUT OF THIS AGREEMENT OR THE USE OF OR INABILITY TO USE THE SOFTWARE, EVEN IF THE AUTHOR/S OF THE SOFTWARE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. THE AUTHOR/S DO NOT TAKE ANY RESPONSIBILITY AGAINST ANY DAMAGE THIS SOFTWARE MAY DO TO YOUR SYSTEM OR ANOTHER. OUR MAXIMUM AGGREGATE LIABILITY IN RESPECT OF ANY CLAIM OR SERIES OF CLAIMS SHALL BE LIMITED TO THE LICENCE FEE PAID BY YOU, IF ANY, FOR THE SOFTWARE. 
+
+THE SOFTWARE IS NOT WARRANTED TO BE FAULT-TOLERANT, AND IS NOT INTENDED FOR THE DESIGN, CONSTRUCTION, MAINTENANCE, OPERATION, CONTROL, OR ANY OTHER USE IN CONNECTION WITH HIGH RISK SYSTEMS. WE SPECIFICALLY DISCLAIM ANY EXPRESS OR IMPLIED WARRANTY OF FITNESS FOR PURPOSE IN CONNECTION WITH HIGH RISK SYSTEMS.
+‘High Risk Systems’ means systems in environments requiring fail-safe performance (such as nuclear facilities, aircraft navigation or communication systems, air traffic control, direct life support machines, storm chasing or weapons systems), in which the failure of the software could lead directly to death, personal injury, or severe physical or environmental damage. You agree that you will not use the software for any purpose in connection with High Risk Systems.
+
+ALTHOUGH the author/s DO NOT WARRANT THAT THE SOFTWARE SUPPLIED HEREUNDER SHALL BE FREE FROM ALL KNOWN VIRUSES WE HAVE USED COMMERCIALLY REASONABLE EFFORTS TO CHECK FOR THE MOST COMMONLY KNOWN VIRUSES. YOU ARE NEVERTHELESS SOLELY RESPONSIBLE FOR VIRUS SCANNING THE SOFTWARE.
+
+
+Warranty Disclaimer for 3rd Party components
+--------------------------------------------
+THIS SOFTWARE IS PROVIDED `AS IS' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ANY PERSON WHO HAS CONTRIBUTED TO OR IS THE OWNER OF ANY PART OF THIS SOFTWARE BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Evaluation and Registration
+---------------------------
+The following version of "Muli Boot Manager Free" is a Shareware copy. Subject to the terms in this document, you are hereby licensed to use this software without charge.
+
+You are specifically prohibited from distributing the software and/or documentation with other products (commercial or otherwise) with out prior written permission from the author/s.
+
+
+Acknowledgements
+----------------
+You acknowledge that you have had the opportunity to evaluate the Software without charge, and that you have satisfied yourself that it meets your requirements in all material respects.It is not technically practicable to guarantee software to be error-free, and you agree that if any such errors are found to exist they shall not constitute a breach of this Licence.
+
+You acknowledge that these terms supersede all prior agreements, and are complete and exclusive. No oral or written information given by the author/s or on our behalf shall create a warranty or collateral contract, or in any way increase the scope of this warranty in any way, and you may not rely on any such advice.
+
+This Licence shall be governed by and construed in accordance with the laws of the Republic of India and the parties hereby submit to the exclusive jurisdiction of the Indian courts in respect of any dispute or matter arising out of or connected with this Licence although the Licensor shall have the right to commence and pursue proceedings in alternative jurisdictions.  In terms of the enforceability of this Licence, the Licence shall be deemed "in writing" and "accepted" by both parties.
+
+
+Contact
+-------
+Email: royale1223@gmail.com
+Web Site: http://www.ubuntumaster.tk/
+"</string>
+    <string name="smiB">MB\u0020</string>
+    <string name="error">Fehler\u0020</string>
+    <string name="caches">cache: </string>
+    <string name="datas">data: </string>
+    <string name="systems">system: </string>
+    <string name="healthy">unbeschädigt</string>
+    <string name="shrtdesc">Gib eine kurze Beschreibung ein :</string>
+    <string name="entername">Gib den gewünschten Namen ein</string>
+    <string name="icon_prompt">Wähle ein Icon</string>
+<string name="createvfs">Erstelle neues VDS</string>
+<string name="refresui">Aktualisiere UI</string>
+<string name="repbug">Bug melden</string>
+<string name="currsys">Aktuelles System</string>
+<string name="currrom">Aktueller ROM</string>
+<string name="currkernel">Aktueller Kernel</string>
+<string name="currpath">Aktueller Pfad</string>
+<string name="device">Gerät</string>
+<string name="none">keins</string>
+<string name="nand">NAND</string>
+<string name="na">N/V</string>
+<string name="corrupted">beschädigt</string>
+<string name="newvfsi">Neues VDS (</string>
+
+</resources>
