@@ -8,19 +8,18 @@ import com.binoy.vibhinna.R;
 
 public class SystemInfoFragment extends SherlockListFragment {
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
-		String[] from = { "name", "value" };
-		int[] to = { R.id.system_info_name, R.id.system_info_value };
+        String[] from = { "name", "value" };
+        int[] to = { R.id.system_info_name, R.id.system_info_value };
 
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
-				R.layout.system_info_row,
-				new PropManager(getActivity()).propCursor(), from, to,
-				SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
-		setListAdapter(adapter);
-	}
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity(),
+                R.layout.system_info_row, new PropManager(getActivity()).propCursor(), from, to,
+                SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        setListAdapter(adapter);
+    }
 }
