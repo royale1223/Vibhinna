@@ -44,7 +44,7 @@ public class VibhinnaService extends CustomIntentService {
 	}
 
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		// mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
+		startForeground(startId, null);
 		return super.onStartCommand(intent, flags, startId);
 	}
 
