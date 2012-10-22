@@ -175,7 +175,7 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
 
 							// Done with the listener
 							customView.getViewTreeObserver()
-									.removeGlobalOnLayoutListener(this);
+									.removeOnGlobalLayoutListener(this);
 						}
 					}
 
