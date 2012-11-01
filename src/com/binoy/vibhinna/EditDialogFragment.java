@@ -2,7 +2,6 @@ package com.binoy.vibhinna;
 
 import java.io.File;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -20,7 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class EditDialogFragment extends SherlockDialogFragment {
@@ -87,12 +86,7 @@ public class EditDialogFragment extends SherlockDialogFragment {
         });
         descriptionEditText.setText(mDesc);
         nameEditText.setText(mName);
-        AlertDialog.Builder builder;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            builder = new AlertDialog.Builder(mContext);
-        else
-            builder = new HoloAlertDialogBuilder(mContext);
-        Dialog dialog = builder
+        Dialog dialog = new AlertDialog.Builder(mContext)
                 .setTitle((getString(R.string.edit_vfs, mCursor.getString(1))))
                 .setView(editVSView)
                 .setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {

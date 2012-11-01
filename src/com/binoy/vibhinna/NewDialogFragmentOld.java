@@ -2,7 +2,6 @@ package com.binoy.vibhinna;
 
 import java.io.File;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,7 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class NewDialogFragmentOld extends SherlockDialogFragment {
@@ -78,12 +77,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
         if (mContext == null) {
             Log.d(TAG, "context is null");
         }
-        AlertDialog.Builder builder;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            builder = new AlertDialog.Builder(mContext);
-        else
-            builder = new HoloAlertDialogBuilder(mContext);
-        final AlertDialog dialog = builder
+        final AlertDialog dialog = new AlertDialog.Builder(mContext)
                 .setTitle(getString(R.string.create_new_vfs))
                 .setView(view)
                 .setPositiveButton(getString(R.string.okay), onClickListener)

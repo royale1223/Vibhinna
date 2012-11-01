@@ -1,6 +1,5 @@
 package com.binoy.vibhinna;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -22,7 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -127,14 +126,9 @@ public class TasksQueueFragment extends SherlockListFragment implements
     }
 
     private void clearFinishedTasks() {
-        AlertDialog.Builder builder;
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.clear_tasks_dialog, null);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            builder = new AlertDialog.Builder(mContext);
-        else
-            builder = new HoloAlertDialogBuilder(mContext);
-        builder.setView(view).setTitle(getString(R.string.clear_tasks_title))
+        new AlertDialog.Builder(mContext).setView(view).setTitle(getString(R.string.clear_tasks_title))
                 .setPositiveButton(R.string.okay, new OnClickListener() {
 
                     @Override

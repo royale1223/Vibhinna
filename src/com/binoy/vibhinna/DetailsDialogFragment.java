@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class DetailsDialogFragment extends SherlockDialogFragment {
@@ -126,7 +126,7 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
         sfblock.setText(getString(R.string.free_block_count, vsinfo[27]));
         TextView sbsize = (TextView) view.findViewById(R.id.sbsize);
         sbsize.setText(getString(R.string.block_size, vsinfo[28]));
-        return showDialogWithNoTopSpace(view, new HoloAlertDialogBuilder(mContext).setView(view)
+        return showDialogWithNoTopSpace(view, new AlertDialog.Builder(mContext).setView(view)
                 .create());
     }
 

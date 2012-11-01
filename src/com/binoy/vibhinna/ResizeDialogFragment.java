@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,7 +17,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class ResizeDialogFragment extends SherlockDialogFragment {
@@ -72,12 +71,7 @@ public class ResizeDialogFragment extends SherlockDialogFragment {
         systemSize = systemOrig = getSize(SYSTEM_IMG);
         maxTotalSize = sdFreeSpace() + cacheOrig + dataOrig + systemOrig;
 
-        AlertDialog.Builder builder;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            builder = new AlertDialog.Builder(mContext);
-        else
-            builder = new HoloAlertDialogBuilder(mContext);
-        final AlertDialog dialog = builder.setTitle(getString(R.string.resize)).setView(resizeView)
+        final AlertDialog dialog = new AlertDialog.Builder(mContext).setTitle(getString(R.string.resize)).setView(resizeView)
                 .setPositiveButton(R.string.okay, onClickListener)
                 .setNeutralButton(R.string.cancel, null).show();
 

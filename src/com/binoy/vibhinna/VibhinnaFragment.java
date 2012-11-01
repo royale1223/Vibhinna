@@ -2,7 +2,6 @@ package com.binoy.vibhinna;
 
 import java.io.File;
 
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -30,7 +29,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockListFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -188,12 +187,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
                 showEditDialog(this, _id);
                 return true;
             case R.id.delete:
-                AlertDialog.Builder builder;
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-                    builder = new AlertDialog.Builder(getActivity());
-                else
-                    builder = new HoloAlertDialogBuilder(getActivity());
-                builder.setTitle(getString(R.string.delete_vfs, cursor.getString(1)))
+                new AlertDialog.Builder(getActivity()).setTitle(getString(R.string.delete_vfs, cursor.getString(1)))
                         .setMessage(getString(R.string.confirm_delete))
                         .setPositiveButton(getString(R.string.okay),
                                 new DialogInterface.OnClickListener() {

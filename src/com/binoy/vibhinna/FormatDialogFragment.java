@@ -1,6 +1,5 @@
 package com.binoy.vibhinna;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -13,7 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 
-import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
+import com.WazaBe.HoloEverywhere.app.AlertDialog;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 
@@ -49,12 +48,7 @@ public class FormatDialogFragment extends SherlockDialogFragment {
         super.onCreateDialog(savedInstanceState);
         LayoutInflater factory = LayoutInflater.from(mContext);
         final View formatView = factory.inflate(R.layout.format_dialog, null);
-        AlertDialog.Builder builder;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-            builder = new AlertDialog.Builder(mContext);
-        else
-            builder = new HoloAlertDialogBuilder(mContext);
-        final AlertDialog dialog = builder.setTitle(getString(R.string.format_vfs, mName))
+        final AlertDialog dialog = new AlertDialog.Builder(mContext).setTitle(getString(R.string.format_vfs, mName))
                 .setView(formatView).setPositiveButton(getString(R.string.okay), onClickListener)
                 .setNeutralButton(getString(R.string.cancel), null).show();
         CheckBox chkCache = (CheckBox) formatView.findViewById(R.id.cache);

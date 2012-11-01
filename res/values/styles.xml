@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="VibhinnaTheme" parent="Theme.HoloEverywhereLight.Sherlock">
+    <style name="VibhinnaTheme" parent="Holo.Theme.Sherlock.Light">
         <item name="android:actionBarStyle">@style/VibhinnaTheme.ActionBar</item>
         <item name="actionBarStyle">@style/VibhinnaTheme.ActionBar</item>
     </style>
