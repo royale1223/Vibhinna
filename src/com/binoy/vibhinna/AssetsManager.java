@@ -31,12 +31,12 @@ public class AssetsManager {
      */
     public void copyAssets() {
         // FIXME use package name.
-        Toast.makeText(context, R.string.copying_binaries, 2000).show();
+        Toast.makeText(context, R.string.copying_binaries, Toast.LENGTH_SHORT).show();
         String[] assetslist = null;
         try {
             assetslist = context.getAssets().list(ASSETS_FOLDER);
         } catch (IOException e) {
-            Toast.makeText(context, "Error copying binaries", 2000).show();
+            Toast.makeText(context, R.string.error_copying_binaries, Toast.LENGTH_SHORT).show();
         }
         for (int i = 0; i < assetslist.length; i++) {
             try {
