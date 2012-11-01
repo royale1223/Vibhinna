@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.binoy.vibhinna.R;
 
 public class NewDialogFragmentOld extends SherlockDialogFragment {
 

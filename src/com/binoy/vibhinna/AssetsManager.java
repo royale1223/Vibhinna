@@ -9,7 +9,6 @@ import java.io.InputStream;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
-import com.binoy.vibhinna.R;
 
 public class AssetsManager {
     private static final String TAG = "com.binoy.vibhinna.AssetsManager";

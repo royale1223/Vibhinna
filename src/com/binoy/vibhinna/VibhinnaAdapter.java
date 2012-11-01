@@ -10,7 +10,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import com.binoy.vibhinna.R;
 
 public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
 

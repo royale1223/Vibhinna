@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.binoy.vibhinna.R;
 
 public class TasksAdapter extends SimpleCursorAdapter {
 

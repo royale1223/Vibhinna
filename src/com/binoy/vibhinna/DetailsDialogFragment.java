@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.binoy.vibhinna.R;
 
 public class DetailsDialogFragment extends SherlockDialogFragment {
     private static Context mContext;

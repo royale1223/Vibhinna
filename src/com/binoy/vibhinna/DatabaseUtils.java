@@ -24,7 +24,6 @@ import android.os.Environment;
 import android.provider.BaseColumns;
 import android.util.Log;
 import android.util.Xml;
-import com.binoy.vibhinna.R;
 
 public class DatabaseUtils {
     private static final String TAG = "DatabaseUtils";

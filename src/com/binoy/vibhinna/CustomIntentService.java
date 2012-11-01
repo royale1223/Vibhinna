@@ -28,7 +28,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.provider.BaseColumns;
 import android.support.v4.content.LocalBroadcastManager;
-import com.binoy.vibhinna.R;
 
 /**
  * IntentService is a base class for {@link Service}s that handle asynchronous

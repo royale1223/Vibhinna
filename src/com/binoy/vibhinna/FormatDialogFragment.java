@@ -16,7 +16,6 @@ import android.widget.CheckBox;
 import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
 import com.actionbarsherlock.app.SherlockDialogFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.binoy.vibhinna.R;
 
 public class FormatDialogFragment extends SherlockDialogFragment {
     private static SherlockFragmentActivity mContext;

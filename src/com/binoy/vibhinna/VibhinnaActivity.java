@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.binoy.vibhinna.R;
 
 public class VibhinnaActivity extends SherlockFragmentActivity {
     protected static final String ACTION_PROGRESS_UPDATE = "com.binoy.vibhinna.intent.action.ACTION_PROGRESS_UPDATE";

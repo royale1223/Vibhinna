@@ -6,7 +6,6 @@ import java.util.Random;
 import android.graphics.Color;
 import android.os.Environment;
 import android.os.StatFs;
-import com.binoy.vibhinna.R;
 
 public class MiscMethods {
     /**

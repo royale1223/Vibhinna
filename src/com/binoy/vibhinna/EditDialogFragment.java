@@ -22,7 +22,6 @@ import android.widget.Spinner;
 
 import com.WazaBe.HoloEverywhere.HoloAlertDialogBuilder;
 import com.actionbarsherlock.app.SherlockDialogFragment;
-import com.binoy.vibhinna.R;
 
 public class EditDialogFragment extends SherlockDialogFragment {
     private static VibhinnaFragment mVibFragment;
