@@ -12,9 +12,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 
 public class VibhinnaActivity extends SherlockFragmentActivity {
 
-    protected static final String ACTION_PROGRESS_UPDATE = "com.binoy.vibhinna.intent.action.ACTION_PROGRESS_UPDATE";
-    protected static final String ACTION_NEW_TASK = "com.binoy.vibhinna.intent.action.ACTION_NEW_TASK";
-
     ViewPager mViewPager;
     private SectionsPagerAdapter mSectionsPagerAdapter;
 

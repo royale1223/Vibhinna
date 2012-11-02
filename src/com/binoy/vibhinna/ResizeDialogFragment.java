@@ -22,8 +22,6 @@ import com.actionbarsherlock.app.SherlockDialogFragment;
 
 public class ResizeDialogFragment extends SherlockDialogFragment {
 
-    protected static final String TAG = "ResizeDialogFragment";
-
     private static final String CACHE_IMG = "cache.img";
     private static final String DATA_IMG = "data.img";
     private static final String SYSTEM_IMG = "system.img";

@@ -8,8 +8,7 @@ import android.widget.Toast;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    protected static final String TAG = "DatabaseHelper";
-    protected Context mContext;
+    private Context mContext;
     private static final int DATABASE_VERSION = 2;
     public static final String VFS_DATABASE_NAME = "vs_db";
     public static final String VFS_DATABASE_TABLE = "vs_table";

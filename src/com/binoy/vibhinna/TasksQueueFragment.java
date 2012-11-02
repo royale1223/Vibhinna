@@ -33,9 +33,9 @@ public class TasksQueueFragment extends SherlockListFragment implements
     private static final int TASK_LIST_LOADER = 0x02;
     public static final int SECTION_NUMBER = 1;
 
-    protected ContentResolver mResolver;
-    protected TasksAdapter adapter;
-    protected LoaderManager mLoaderManager;
+    private ContentResolver mResolver;
+    private TasksAdapter adapter;
+    private LoaderManager mLoaderManager;
     private LocalBroadcastManager mLocalBroadcastManager;
     private BroadcastReceiver mBroadcastReceiver;
     private Context mContext;

@@ -56,16 +56,15 @@ import android.support.v4.content.LocalBroadcastManager;
  * @see android.os.AsyncTask
  */
 public abstract class CustomIntentService extends Service {
-    protected static final String TAG = "CustomIntentService";
     private volatile Looper mServiceLooper;
     private volatile ServiceHandler mServiceHandler;
     private String mName;
     private boolean mRedelivery;
 
-    protected static LocalBroadcastManager mLocalBroadcastManager;
+    static LocalBroadcastManager mLocalBroadcastManager;
 
-    protected static Intent vfsListUpdatedIntent;
-    protected static Intent tasksUpdatedIntent;
+    static Intent vfsListUpdatedIntent;
+    static Intent tasksUpdatedIntent;
 
     private final class ServiceHandler extends Handler {
         // int intentId = 0;

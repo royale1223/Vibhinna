@@ -12,7 +12,7 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 public class PropManager {
-    public static final String TAG = "PropManager";
+
     private Context mContext;
 
     public PropManager(Context context) {
