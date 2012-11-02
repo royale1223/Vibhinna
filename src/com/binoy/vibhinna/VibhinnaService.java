@@ -268,15 +268,12 @@ public class VibhinnaService extends CustomIntentService {
                 final Message m0 = new Message();
                 final Message m1 = new Message();
                 final Message m2 = new Message();
-                final Message m4 = new Message();
+                final Message m3 = new Message();
                 m0.arg1 = 8;
                 m1.arg1 = 9;
                 m2.arg1 = 10;
-                m4.arg1 = 11;
-                m0.obj = vsName;
-                m1.obj = vsName;
-                m2.obj = vsName;
-                m4.obj = vsName;
+                m3.arg1 = 11;
+                m0.obj = m1.obj = m2.obj = m3.obj = vsName;
                 if (cacheCheckBool) {
                     values.put(DatabaseHelper.TASK_MESSAGE,
                             mContext.getString(R.string.formating_cache, vsName));
@@ -319,7 +316,7 @@ public class VibhinnaService extends CustomIntentService {
                 values.put(DatabaseHelper.TASK_STATUS, TasksAdapter.TASK_STATUS_FINISHED);
                 mResolver.update(Uri.withAppendedPath(TasksProvider.CONTENT_URI, _id), values,
                         null, null);
-                handler.sendMessage(m4);
+                handler.sendMessage(m3);
                 return null;
             }
         }
