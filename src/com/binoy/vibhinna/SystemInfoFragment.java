@@ -7,6 +7,8 @@ import com.actionbarsherlock.app.SherlockListFragment;
 
 public class SystemInfoFragment extends SherlockListFragment {
 
+    public static final int SECTION_NUMBER = 2;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -29,7 +29,10 @@ import com.actionbarsherlock.view.MenuItem;
 
 public class TasksQueueFragment extends SherlockListFragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
+
     private static final int TASK_LIST_LOADER = 0x02;
+    public static final int SECTION_NUMBER = 1;
+
     protected ContentResolver mResolver;
     protected TasksAdapter adapter;
     protected LoaderManager mLoaderManager;
