@@ -1,11 +1,11 @@
 bin/*
 gen/*
-/bin/*
-/gen/*
 proguard/*
-/proguard/*
+values/*
+.idea/*
+.settings/*
 /*.ucls
 /*.PNG
-values/*
 /*.txt
 /*.sh
+/*.iml

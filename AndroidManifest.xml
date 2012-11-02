@@ -18,11 +18,13 @@
         <provider
             android:name="com.binoy.vibhinna.VibhinnaProvider"
             android:authorities="com.binoy.vibhinna.VibhinnaProvider"
+            android:exported="false"
             android:multiprocess="true" >
         </provider>
         <provider
             android:name=".TasksProvider"
             android:authorities="com.binoy.vibhinna.TasksProvider"
+            android:exported="false"
             android:multiprocess="true" >
         </provider>
 
