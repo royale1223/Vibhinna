@@ -44,7 +44,7 @@ public class VibhinnaService extends CustomIntentService {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        startForeground(startId, null);
+        // startForeground(startId, null);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -482,22 +482,17 @@ public class VibhinnaService extends CustomIntentService {
     private static void displayNotificationMessage(String message, boolean cancellable) {
         PendingIntent intent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
                 VibhinnaActivity.class), 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
+        Notification notification = new NotificationCompat.Builder(mContext)
                 .setContentTitle(mContext.getString(R.string.app_name))
-                .setTicker(message)
                 .setContentText(message)
                 .setContentIntent(intent)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setLargeIcon(
-                        BitmapFactory.decodeResource(mContext.getResources(),
-                                R.drawable.ic_notification)).setWhen(System.currentTimeMillis());
-
-        if (cancellable) {
-            builder.setAutoCancel(true);
-        } else {
-            builder.setOngoing(true);
-        }
-        Notification notification = builder.getNotification();
+                .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(),
+                        R.drawable.ic_notification))
+                .setWhen(System.currentTimeMillis())
+                .setAutoCancel(cancellable ? true : false)
+                .setOngoing(cancellable ? false : true)
+                .getNotification();
         notificationManager.notify(0, notification);
     }
 }
