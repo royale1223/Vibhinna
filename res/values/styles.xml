@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="VibhinnaTheme" parent="Holo.Theme.Sherlock.Light">
+    <style name="VibhinnaTheme" parent="Holo.Theme.Sherlock.Light.DarkActionBar">
         <item name="android:actionBarStyle">@style/VibhinnaTheme.ActionBar</item>
         <item name="actionBarStyle">@style/VibhinnaTheme.ActionBar</item>
     </style>
 
-    <style name="VibhinnaTheme.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid">
+    <style name="VibhinnaTheme.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
         <item name="android:displayOptions">showHome|useLogo</item>
         <item name="displayOptions">showHome|useLogo</item>
     </style>
