@@ -7,9 +7,11 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -123,7 +125,9 @@ public class EditDialogFragment extends SherlockDialogFragment {
                                         + VibhinnaProvider.VFS_BASE_PATH + "/" + _id), values,
                                 null, null);
                         iconid = 1;
-                        mVibFragment.restartLoading();
+                        LocalBroadcastManager mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
+                        Intent vfsListUpdatedIntent = new Intent(VibhinnaService.ACTION_VFS_LIST_UPDATED);;
+                        mLocalBroadcastManager.sendBroadcast(vfsListUpdatedIntent);
                     }
                 })
                 .setNegativeButton(getString(R.string.cancel),
