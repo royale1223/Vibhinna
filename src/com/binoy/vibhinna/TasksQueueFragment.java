@@ -47,7 +47,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
         setRetainInstance(true);
         setHasOptionsMenu(true);
         this.setEmptyText("No tasks are available");
-        mContext = getSherlockActivity();
+        mContext = getSherlockActivity().getApplicationContext();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -62,33 +62,6 @@ public class TasksQueueFragment extends SherlockListFragment implements
         mLoaderManager = getLoaderManager();
         setHasOptionsMenu(true);
         startLoading();
-    }
-
-    private void startLoading() {
-        adapter.notifyDataSetChanged();
-        getListView().invalidateViews();
-        mLoaderManager.initLoader(TASK_LIST_LOADER, null, this);
-    }
-
-    protected void restartLoading() {
-        mLoaderManager.restartLoader(TASK_LIST_LOADER, null, this);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-        CursorLoader cursorLoader = new CursorLoader(mContext, TasksProvider.CONTENT_URI, null,
-                null, null, null);
-        return cursorLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
-        adapter.swapCursor(arg1);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> arg0) {
-        adapter.swapCursor(null);
     }
 
     @Override
@@ -134,10 +107,39 @@ public class TasksQueueFragment extends SherlockListFragment implements
         return false;
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+        CursorLoader cursorLoader = new CursorLoader(mContext, TasksProvider.CONTENT_URI, null,
+                null, null, null);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> arg0, Cursor arg1) {
+        adapter.swapCursor(arg1);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0) {
+        adapter.swapCursor(null);
+    }
+
+    private void startLoading() {
+        adapter.notifyDataSetChanged();
+        getListView().invalidateViews();
+        mLoaderManager.initLoader(TASK_LIST_LOADER, null, this);
+    }
+
+    protected void restartLoading() {
+        mLoaderManager.restartLoader(TASK_LIST_LOADER, null, this);
+    }
+
     private void clearFinishedTasks() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.clear_tasks_dialog, null);
-        new AlertDialog.Builder(mContext).setView(view).setTitle(getString(R.string.clear_tasks_title))
+        new AlertDialog.Builder(mContext)
+                .setView(view)
+                .setTitle(getString(R.string.clear_tasks_title))
                 .setPositiveButton(R.string.okay, new OnClickListener() {
 
                     @Override
@@ -157,7 +159,8 @@ public class TasksQueueFragment extends SherlockListFragment implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                     }
-                }).create().show();
+                }).create()
+                .show();
 
         final TextView message = (TextView) view.findViewById(R.id.clear_tasks_message);
         CheckBox checkBox = (CheckBox) view.findViewById(R.id.clear_all_tasks_checkbox);

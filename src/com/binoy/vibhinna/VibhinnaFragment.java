@@ -54,7 +54,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
         registerForContextMenu(getListView());
         if (!Constants.BINARY_FOLDER.exists() || Constants.BINARY_FOLDER.list().length < 4) {
             Constants.BINARY_FOLDER.mkdirs();
-            AssetsManager assetsManager = new AssetsManager(getActivity());
+            AssetsManager assetsManager = new AssetsManager(getActivity().getApplicationContext());
             assetsManager.copyAssets();
         }
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
@@ -69,38 +69,6 @@ public class VibhinnaFragment extends SherlockListFragment implements
         resolver = getActivity().getContentResolver();
         setHasOptionsMenu(true);
         startLoading();
-    }
-
-    protected void startLoading() {
-        setListShown(false);
-        adapter.notifyDataSetChanged();
-        getListView().invalidateViews();
-        LoaderManager lm = getLoaderManager();
-        lm.initLoader(VFS_LIST_LOADER, null, this);
-    }
-
-    protected void restartLoading() {
-        setListShown(false);
-        getLoaderManager().restartLoader(VFS_LIST_LOADER, null, this);
-    }
-
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader cursorLoader = new CursorLoader(getActivity(),
-                VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null, null,
-                DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME);
-        return cursorLoader;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        adapter.swapCursor(cursor);
-        setListShown(true);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        adapter.swapCursor(null);
     }
 
     @Override
@@ -283,6 +251,38 @@ public class VibhinnaFragment extends SherlockListFragment implements
             default:
                 return false;
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader cursorLoader = new CursorLoader(getActivity(),
+                VibhinnaProvider.LIST_DISPLAY_URI, Constants.allColumns, null, null,
+                DatabaseHelper.VIRTUAL_SYSTEM_COLUMN_NAME);
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        adapter.swapCursor(cursor);
+        setListShown(true);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        adapter.swapCursor(null);
+    }
+
+    private void startLoading() {
+        setListShown(false);
+        adapter.notifyDataSetChanged();
+        getListView().invalidateViews();
+        LoaderManager lm = getLoaderManager();
+        lm.initLoader(VFS_LIST_LOADER, null, this);
+    }
+
+    private void restartLoading() {
+        setListShown(false);
+        getLoaderManager().restartLoader(VFS_LIST_LOADER, null, this);
     }
 
     private void scanVFS() {

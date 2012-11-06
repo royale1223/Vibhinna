@@ -160,8 +160,7 @@ public abstract class CustomIntentService extends Service {
         tasksUpdatedIntent.setAction(VibhinnaService.ACTION_TASK_QUEUE_UPDATED);
         mLocalBroadcastManager.sendBroadcast(tasksUpdatedIntent);
 
-        vfsListUpdatedIntent = new Intent();
-        vfsListUpdatedIntent.setAction(VibhinnaService.ACTION_VFS_LIST_UPDATED);
+        vfsListUpdatedIntent = new Intent(VibhinnaService.ACTION_VFS_LIST_UPDATED);
 
         long id = Long.parseLong(getContentResolver().insert(TasksProvider.CONTENT_URI, values)
                 .getLastPathSegment());

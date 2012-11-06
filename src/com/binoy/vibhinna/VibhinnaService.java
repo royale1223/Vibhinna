@@ -244,6 +244,8 @@ public class VibhinnaService extends CustomIntentService {
                 boolean cacheCheckBool = (Boolean) objs[0][2];
                 boolean dataCheckBool = (Boolean) objs[0][3];
                 boolean systemCheckBool = (Boolean) objs[0][4];
+
+                // Calculate total partitions to format
                 int maxOp = 1;
                 if (cacheCheckBool)
                     maxOp++;
@@ -253,7 +255,6 @@ public class VibhinnaService extends CustomIntentService {
                     maxOp++;
 
                 int progress = 0;
-
                 String vsName = new File(mPath).getName();
 
                 ContentValues values = new ContentValues();
