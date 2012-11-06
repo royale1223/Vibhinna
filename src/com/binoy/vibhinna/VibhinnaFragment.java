@@ -166,7 +166,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         try {
-                                            MiscMethods.removeDirectory(new File(vPath));
+                                            VibhinnaUtils.removeDirectory(new File(vPath));
                                             VibhinnaFragment.this
                                                     .getActivity()
                                                     .getContentResolver()

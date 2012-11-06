@@ -109,7 +109,7 @@ public class VibhinnaService extends CustomIntentService {
             public Void doInBackground(Object[]... objs) {
 
                 String _id = (Long) objs[0][0] + Constants.EMPTY;
-                String folderPath = MiscMethods.avoidDuplicateFile(new File((String) objs[0][1]))
+                String folderPath = VibhinnaUtils.avoidDuplicateFile(new File((String) objs[0][1]))
                         .getPath();
                 String cachesize = (Integer) objs[0][2] + Constants.EMPTY;
                 String datasize = (Integer) objs[0][3] + Constants.EMPTY;

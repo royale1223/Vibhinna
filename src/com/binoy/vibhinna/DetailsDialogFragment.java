@@ -46,7 +46,7 @@ public class DetailsDialogFragment extends SherlockDialogFragment {
         }
         cursor.close();
         ImageView i = (ImageView) view.findViewById(R.id.icon);
-        i.setImageResource(MiscMethods.getIconRes(Integer.parseInt(vsinfo[3])));
+        i.setImageResource(VibhinnaUtils.getIconRes(Integer.parseInt(vsinfo[3])));
         TextView name = (TextView) view.findViewById(R.id.name);
         name.setText(vsinfo[1]);
         TextView desc = (TextView) view.findViewById(R.id.desc);

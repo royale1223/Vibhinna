@@ -7,7 +7,7 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.os.StatFs;
 
-public class MiscMethods {
+public class VibhinnaUtils {
     /**
      * To determine color of total mem in "new" dialog
      * 

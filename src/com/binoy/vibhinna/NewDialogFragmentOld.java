@@ -69,7 +69,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
 
         LayoutInflater newVFSDialogInflater = LayoutInflater.from(mContext);
         final View view = newVFSDialogInflater.inflate(R.layout.new_vs_dialog, null);
-        if (MiscMethods.getMemColor(cacheSize, dataSize, systemSize) != Color.RED) {
+        if (VibhinnaUtils.getMemColor(cacheSize, dataSize, systemSize) != Color.RED) {
             validSize = true;
         } else
             validSize = false;
@@ -102,8 +102,8 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
         evsdesc.setText(newvsdesc);
         evsname.setText(newName);
         memory.setText(getString(R.string.total_memory_warning,
-                MiscMethods.getTotalSize(cacheSize, dataSize, systemSize)));
-        memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize, systemSize));
+                VibhinnaUtils.getTotalSize(cacheSize, dataSize, systemSize)));
+        memory.setTextColor(VibhinnaUtils.getMemColor(cacheSize, dataSize, systemSize));
         cacheSizePicker.setText(cacheSize + "");
         dataSizePicker.setText(dataSize + "");
         systemSizePicker.setText(systemSize + "");
@@ -178,7 +178,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 iconId = arg2;
-                memory.setCompoundDrawablesWithIntrinsicBounds(0, MiscMethods.getIconRes(arg2), 0,
+                memory.setCompoundDrawablesWithIntrinsicBounds(0, VibhinnaUtils.getIconRes(arg2), 0,
                         0);
             }
 
@@ -204,8 +204,8 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE)
                         .setEnabled(newDialogButtonState());
                 memory.setText(getString(R.string.total_memory_warning,
-                        MiscMethods.getTotalSize(cacheSize, dataSize, systemSize)));
-                memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize, systemSize));
+                        VibhinnaUtils.getTotalSize(cacheSize, dataSize, systemSize)));
+                memory.setTextColor(VibhinnaUtils.getMemColor(cacheSize, dataSize, systemSize));
             }
 
             @Override
@@ -235,8 +235,8 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE)
                         .setEnabled(newDialogButtonState());
                 memory.setText(getString(R.string.total_memory_warning,
-                        MiscMethods.getTotalSize(cacheSize, dataSize, systemSize)));
-                memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize, systemSize));
+                        VibhinnaUtils.getTotalSize(cacheSize, dataSize, systemSize)));
+                memory.setTextColor(VibhinnaUtils.getMemColor(cacheSize, dataSize, systemSize));
             }
 
             @Override
@@ -265,8 +265,8 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE)
                         .setEnabled(newDialogButtonState());
                 memory.setText(getString(R.string.total_memory_warning,
-                        MiscMethods.getTotalSize(cacheSize, dataSize, systemSize)));
-                memory.setTextColor(MiscMethods.getMemColor(cacheSize, dataSize, systemSize));
+                        VibhinnaUtils.getTotalSize(cacheSize, dataSize, systemSize)));
+                memory.setTextColor(VibhinnaUtils.getMemColor(cacheSize, dataSize, systemSize));
             }
 
             @Override

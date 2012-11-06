@@ -78,7 +78,7 @@ public class EditDialogFragment extends SherlockDialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                 iconid = arg2;
-                iconPreview.setImageResource(MiscMethods.getIconRes(arg2));
+                iconPreview.setImageResource(VibhinnaUtils.getIconRes(arg2));
             }
 
             @Override
@@ -111,7 +111,7 @@ public class EditDialogFragment extends SherlockDialogFragment {
                         File finalFile = new File("/mnt/sdcard/multiboot/" + updatedName);
                         // get new name if already taken
                         if (!(new File(mPath)).equals(finalFile)) {
-                            finalFile = MiscMethods.avoidDuplicateFile(finalFile);
+                            finalFile = VibhinnaUtils.avoidDuplicateFile(finalFile);
                             (new File(mPath)).renameTo(finalFile);
                         }
                         ContentValues values = new ContentValues();

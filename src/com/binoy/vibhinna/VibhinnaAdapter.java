@@ -68,7 +68,7 @@ public class VibhinnaAdapter extends SimpleCursorAdapter implements Filterable {
         holder.status.setText(mCursor.getString(5));
         holder.path.setText(mCursor.getString(7));
         holder.icon
-                .setImageResource(MiscMethods.getIconRes(Integer.parseInt(mCursor.getString(4))));
+                .setImageResource(VibhinnaUtils.getIconRes(Integer.parseInt(mCursor.getString(4))));
         if ("0".equals(mCursor.getString(6))) {
             holder.status.setTextColor(Color.RED);
         } else {

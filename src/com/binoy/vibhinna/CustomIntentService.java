@@ -146,7 +146,7 @@ public abstract class CustomIntentService extends Service {
         if (intent.getIntExtra(VibhinnaService.TASK_TYPE, -1) == VibhinnaService.TASK_TYPE_NEW_VFS)
             values.put(
                     DatabaseHelper.TASK_VS,
-                    MiscMethods.avoidDuplicateFile(
+                    VibhinnaUtils.avoidDuplicateFile(
                             new File(intent.getStringExtra(VibhinnaService.FOLDER_PATH))).getName());
         else
             values.put(DatabaseHelper.TASK_VS,
