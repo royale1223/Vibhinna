@@ -109,6 +109,12 @@ public class TasksQueueFragment extends SherlockListFragment implements
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.tasks_options_menu, menu);

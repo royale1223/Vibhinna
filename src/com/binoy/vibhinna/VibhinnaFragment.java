@@ -131,6 +131,12 @@ public class VibhinnaFragment extends SherlockListFragment implements
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mLocalBroadcastManager.unregisterReceiver(mBroadcastReceiver);
+    }
+    
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         AdapterView.AdapterContextMenuInfo info;
