@@ -493,7 +493,7 @@ public class VibhinnaService extends CustomIntentService {
                 .setWhen(System.currentTimeMillis())
                 .setAutoCancel(cancellable ? true : false)
                 .setOngoing(cancellable ? false : true)
-                .getNotification();
+                .build();
         notificationManager.notify(0, notification);
     }
 }
