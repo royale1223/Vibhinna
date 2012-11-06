@@ -117,5 +117,6 @@
     <string name="resizing_complete_message">Resizing %1$s complete.</string>
     <string name="copying_binaries">Copying binaries..</string>
     <string name="error_copying_binaries">Error copying binaries..</string>
+    <string name="vibhinna_running">Vibhinna is running</string>
 
 </resources>

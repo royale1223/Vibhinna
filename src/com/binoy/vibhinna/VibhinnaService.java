@@ -35,6 +35,7 @@ public class VibhinnaService extends CustomIntentService {
     protected static final String FORMAT_DATA = "format_data";
     protected static final String FORMAT_SYSTEM = "format_system";
     private static ContentResolver mResolver;
+    private static Notification mNotification;
 
     private static Context mContext;
     static NotificationManager notificationManager;
@@ -44,7 +45,17 @@ public class VibhinnaService extends CustomIntentService {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // startForeground(startId, null);
+        mNotification = new NotificationCompat.Builder(this)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.vibhinna_running))
+                .setTicker(getString(R.string.vibhinna_running))
+                .setSmallIcon(R.drawable.ic_notification)
+                .setLargeIcon(
+                        BitmapFactory.decodeResource(getResources(),
+                                R.drawable.ic_notification))
+                .setWhen(System.currentTimeMillis())
+                .build();
+        startForeground(startId, mNotification);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -53,7 +64,6 @@ public class VibhinnaService extends CustomIntentService {
         mResolver = this.getContentResolver();
         mContext = this;
         notificationManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
-
         new ExecuteVibinnaTask(intent);
     }
 
@@ -483,7 +493,7 @@ public class VibhinnaService extends CustomIntentService {
     private static void displayNotificationMessage(String message, boolean cancellable) {
         PendingIntent intent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
                 VibhinnaActivity.class), 0);
-        Notification notification = new NotificationCompat.Builder(mContext)
+        mNotification = new NotificationCompat.Builder(mContext)
                 .setContentTitle(mContext.getString(R.string.app_name))
                 .setContentText(message)
                 .setContentIntent(intent)
@@ -494,6 +504,6 @@ public class VibhinnaService extends CustomIntentService {
                 .setAutoCancel(cancellable ? true : false)
                 .setOngoing(cancellable ? false : true)
                 .build();
-        notificationManager.notify(0, notification);
+        notificationManager.notify(0, mNotification);
     }
 }
