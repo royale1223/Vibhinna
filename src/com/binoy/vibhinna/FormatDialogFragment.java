@@ -24,9 +24,9 @@ public class FormatDialogFragment extends SherlockDialogFragment {
     private static String mPath;
     private static String mName;
 
-    protected boolean cacheCheckBool = false;
-    protected boolean dataCheckBool = false;
-    protected boolean systemCheckBool = false;
+    private boolean cacheCheckBool = false;
+    private boolean dataCheckBool = false;
+    private boolean systemCheckBool = false;
 
     static FormatDialogFragment newInstance(VibhinnaFragment vibhinnaFragment, long id) {
         FormatDialogFragment fragment = new FormatDialogFragment();

@@ -130,7 +130,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
         mLoaderManager.initLoader(TASK_LIST_LOADER, null, this);
     }
 
-    protected void restartLoading() {
+    private void restartLoading() {
         mLoaderManager.restartLoader(TASK_LIST_LOADER, null, this);
     }
 
@@ -179,7 +179,6 @@ public class TasksQueueFragment extends SherlockListFragment implements
             }
         });
         restartLoading();
-
     }
 
     /**

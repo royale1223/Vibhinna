@@ -15,7 +15,6 @@ public class TasksAdapter extends SimpleCursorAdapter {
     public static final int TASK_STATUS_RUNNING = 0;
     public static final int TASK_STATUS_WAITING = 1;
     public static final int TASK_STATUS_FINISHED = 2;
-    protected static final String TAG = "TasksAdapter";
     private LayoutInflater mInflater;
 
     public TasksAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {

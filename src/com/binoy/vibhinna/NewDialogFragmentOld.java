@@ -281,7 +281,7 @@ public class NewDialogFragmentOld extends SherlockDialogFragment {
         return dialog;
     }
 
-    protected boolean newDialogButtonState() {
+    private boolean newDialogButtonState() {
         if (validSize & validName & !nullData & !nullCache & !nullSystem)
             return true;
         else

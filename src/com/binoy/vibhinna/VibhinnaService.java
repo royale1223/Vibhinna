@@ -21,19 +21,18 @@ public class VibhinnaService extends CustomIntentService {
     public static final String TASK_TYPE = "type";
     public static final int TASK_TYPE_NEW_VFS = 0;
     public static final int TASK_TYPE_FORMAT_VFS = 1;
-    protected static final int TASK_TYPE_RESIZE_VFS = 2;
+    public static final int TASK_TYPE_RESIZE_VFS = 2;
     public static final String CACHE_SIZE = "cache_size";
     public static final String DATA_SIZE = "data_size";
     public static final String SYSTEM_SIZE = "system_size";
     public static final String FOLDER_PATH = "folder_path";
     public static final String VS_DESC = "vs_desc";
     public static final String ICON_ID = "icon_id";
-    protected static final String TAG = "VibhinnaService";
     public static final String ACTION_TASK_QUEUE_UPDATED = "com.binoy.vibhinna.action.ACTION_TASK_QUEUE_UPDATED";
-    protected static final String ACTION_VFS_LIST_UPDATED = "com.binoy.vibhinna.action.ACTION_VFS_LIST_UPDATED";
-    protected static final String FORMAT_CACHE = "format_cache";
-    protected static final String FORMAT_DATA = "format_data";
-    protected static final String FORMAT_SYSTEM = "format_system";
+    public static final String ACTION_VFS_LIST_UPDATED = "com.binoy.vibhinna.action.ACTION_VFS_LIST_UPDATED";
+    public static final String FORMAT_CACHE = "format_cache";
+    public static final String FORMAT_DATA = "format_data";
+    public static final String FORMAT_SYSTEM = "format_system";
     private static ContentResolver mResolver;
     private static Notification mNotification;
 
@@ -60,7 +59,7 @@ public class VibhinnaService extends CustomIntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onHandleIntent(Intent intent) {
         mResolver = this.getContentResolver();
         mContext = this;
         notificationManager = (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
@@ -107,7 +106,7 @@ public class VibhinnaService extends CustomIntentService {
         }
 
         class CreateVFSTask extends AsyncTask<Object[], Void, Void> {
-            protected Void doInBackground(Object[]... objs) {
+            public Void doInBackground(Object[]... objs) {
 
                 String _id = (Long) objs[0][0] + Constants.EMPTY;
                 String folderPath = MiscMethods.avoidDuplicateFile(new File((String) objs[0][1]))
@@ -248,7 +247,7 @@ public class VibhinnaService extends CustomIntentService {
         class FormatVFSTask extends AsyncTask<Object[], Void, Void> {
 
             @Override
-            protected Void doInBackground(Object[]... objs) {
+            public Void doInBackground(Object[]... objs) {
                 String _id = String.valueOf((Long) objs[0][0]);
                 String mPath = (String) objs[0][1];
                 boolean cacheCheckBool = (Boolean) objs[0][2];
@@ -335,7 +334,7 @@ public class VibhinnaService extends CustomIntentService {
         class ResizeVFSTask extends AsyncTask<Object[], Void, Void> {
 
             @Override
-            protected Void doInBackground(Object[]... objs) {
+            public Void doInBackground(Object[]... objs) {
                 String _id = String.valueOf((Long) objs[0][0]);
                 String mPath = (String) objs[0][1];
                 int cacheSize = (Integer) objs[0][2];

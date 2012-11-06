@@ -25,7 +25,7 @@ public class VibhinnaProvider extends ContentProvider {
     private SQLiteDatabase mDatabase;
     private Context mContext;
 
-    protected static LocalBroadcastManager mLocalBroadcastManager;
+    private static LocalBroadcastManager mLocalBroadcastManager;
 
     public static final String AUTHORITY = "com.binoy.vibhinna.VibhinnaProvider";
     private static final String TAG = "VibhinnaProvider";

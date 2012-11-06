@@ -289,7 +289,7 @@ public class VibhinnaFragment extends SherlockListFragment implements
         class scanTask extends AsyncTask<Void, Void, Void> {
 
             @Override
-            protected Void doInBackground(Void... params) {
+            public Void doInBackground(Void... params) {
                 resolver.query(
                         Uri.parse("content://" + VibhinnaProvider.AUTHORITY + "/"
                                 + VibhinnaProvider.VFS_BASE_PATH + "/scan"), null, null, null, null);
