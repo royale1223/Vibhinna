@@ -47,7 +47,7 @@ public class TasksQueueFragment extends SherlockListFragment implements
         setRetainInstance(true);
         setHasOptionsMenu(true);
         this.setEmptyText("No tasks are available");
-        mContext = getSherlockActivity().getApplicationContext();
+        mContext = getSherlockActivity();
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(mContext);
         mBroadcastReceiver = new BroadcastReceiver() {
             @Override
